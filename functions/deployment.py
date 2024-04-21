@@ -21,6 +21,7 @@ def restore_trigger_doc(
 
 
 def set_ui_version(
+    db: firestore.Client,
     event: Event[DocumentSnapshot],
 ):
     print("Start: setUiVersion")
@@ -30,7 +31,7 @@ def set_ui_version(
     )
     if res.status_code == 200:
         ver = res.json()["version"]
-        doc = event.data
+        doc = db.collection("service").document("conf").get()
         if doc.get("uiVersion") != ver:
             doc.reference.update(
                 {
@@ -44,6 +45,7 @@ def set_ui_version(
 
 
 def create_org(
+    auth_client: auth.Client,
     db: firestore.Client,
     org_id: str,
     org_name: str,
@@ -52,7 +54,7 @@ def create_org(
     password: str,
     name: str,
 ):
-    auth.create_user(uid=uid, email=email, password=password)
+    auth_client.create_user(uid=uid, email=email, password=password)
 
     org_ref = db.collection("orgs").document(org_id)
 
@@ -94,7 +96,7 @@ def create_org(
 
 def upgrade_data(
     db: firestore.Client,
-    auth: auth.Client,
+    auth_client: auth.Client,
 ):
     print("Start: upgrade_data")
 
@@ -123,6 +125,7 @@ def upgrade_data(
         pass
     elif cur_ver == 0:
         create_org(
+            auth_client,
             db,
             "admins",
             "Administrators",
@@ -132,6 +135,7 @@ def upgrade_data(
             "Primary user",
         )
         create_org(
+            auth_client,
             db,
             "test",
             "Test",

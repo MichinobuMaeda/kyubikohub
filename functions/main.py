@@ -37,7 +37,7 @@ def on_deleted_deployment(
     auth_client = auth.Client(admin)
     restore_trigger_doc(event)
     upgrade_data(firestore_client, auth_client)
-    set_ui_version(event)
+    set_ui_version(firestore_client, event)
 
 
 @https_fn.on_call(
