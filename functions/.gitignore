@@ -1,0 +1,5 @@
+venv
+.coverage
+coverage.lcov
+htmlcov
+.env

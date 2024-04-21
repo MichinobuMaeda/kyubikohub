@@ -1,0 +1,25 @@
+{
+  "cSpell.words": [
+    "ARGB",
+    "canonicalized",
+    "dotenv",
+    "Flev",
+    "fpdart",
+    "gserviceaccount",
+    "Kyubiko",
+    "kyubikohub",
+    "LNBW",
+    "mktemp",
+    "NKBCK",
+    "nodoc",
+    "prefs",
+    "pyenv",
+    "QFVJ",
+    "sublist",
+    "uids",
+    "venv"
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.19.5",
+  "python.createEnvironment.trigger": "off",
+  "files.trimTrailingWhitespace": true
+}

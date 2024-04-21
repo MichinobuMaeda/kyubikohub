@@ -1,0 +1,45 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function getAccount(org) {
+      return get(/databases/$(database)/documents/orgs/$(org)/accounts/$(request.auth.uid));
+    }
+    function isActiveAccount(org) {
+      return getAccount(org).data.get('deletedAt', null) == null;
+    }
+    function isAdmin() {
+      return isActiveAccount("admins");
+    }
+    function isManager(org) {
+      return isActiveAccount(org) && getAccount(org).data.user in get(/databases/$(database)/documents/orgs/$(org)/groups/managers).data.users;
+    }
+    match /service/conf {
+      allow update: if isAdmin();
+      allow read: if true;
+    }
+    match /orgs/{org} {
+      allow read: if isActiveAccount(org);
+      allow update: if isManager(org);
+      allow read, create, update: if isAdmin();
+      allow delete: if org != "admins" && isAdmin();
+    }
+    match /orgs/{org}/accounts/{account} {
+      allow read: if request.auth.uid == account;
+      allow read: if isManager(org);
+      allow read, write: if request.auth.uid != account && isManager(org);
+    }
+    match /orgs/{org}/users/{user} {
+      allow read: if isActiveAccount(org);
+      allow read, update: if isActiveAccount(org) && getAccount(org).data.user == user;
+      allow read, update: if isManager(org);
+      allow create, delete: if getAccount(org).data.user != user && isManager(org);
+    }
+    match /orgs/{org}/groups/{group} {
+      allow read: if isActiveAccount(org);
+      allow read, update: if group == "managers" && isManager(org);
+      allow read, write: if group != "managers" && isManager(org);
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

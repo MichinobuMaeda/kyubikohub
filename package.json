@@ -1,0 +1,29 @@
+{
+  "name": "kyubikohub",
+  "version": "1.0.0",
+  "description": "Test tools",
+  "scripts": {
+    "test:functions": "cd functions && coverage run --omit='test/*.py' -m unittest -v test/test_* && coverage lcov && coverage html && cd ..",
+    "test:ui": "fvm flutter test --coverage",
+    "test:data": "curl -d '{\"data\":{}}' -H 'Content-Type: application/json' http://127.0.0.1:5001/kyubikohub/asia-northeast2/generate_test_data",
+    "test:firestore": "npx firebase emulators:exec --only auth,functions,firestore 'npm run test:data && npx jest test/firestore' > test_firestore.log",
+    "test": "npm run test:functions && npm run test:firestore && npm run test:ui",
+    "start": "npx firebase emulators:exec --only auth,functions,firestore,storage --ui 'npm run test:data && fvm flutter run -d chrome --web-port=3000'",
+    "build_runner": "dart run build_runner watch"
+  },
+  "author": "Michinobu Maeda",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MichinobuMaeda/kyubikohub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MichinobuMaeda/kyubikohub/issues"
+  },
+  "homepage": "https://github.com/MichinobuMaeda/kyubikohub#readme",
+  "devDependencies": {
+    "firebase": "^10.10.0",
+    "firebase-tools": "^12.7.0",
+    "jest": "^29.7.0"
+  }
+}
