@@ -134,6 +134,13 @@ Set secrets
 - FIREBASE_API_KEY_KYUBIKOHUB
 - FUNCTIONS_ENV_KYUBIKOHUB
 
+```bash
+gcloud config set project kyubikohub
+gcloud functions add-invoker-policy-binding on_deployment_deleted \
+      --region="asia-northeast2" \
+      --member="serviceAccount:[Project ID]-compute@developer.gserviceaccount.com"
+```
+
 <https://console.cloud.google.com/>
 
 - Select a project: kyubikohub

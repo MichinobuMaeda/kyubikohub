@@ -30,7 +30,7 @@ admin = initialize_app()
     region="asia-northeast2",
     document="service/deployment",
 )
-def on_deleted_deployment(
+def on_deployment_deleted(
     event: Event[DocumentSnapshot | None],
 ) -> None:  # pragma: no cover
     firestore_client = firestore.client(admin)
