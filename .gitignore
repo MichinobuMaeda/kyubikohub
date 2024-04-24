@@ -1,4 +1,5 @@
 # Project-specific
+/deployment_params.json
 
 # FVM Version Cache
 .fvm/

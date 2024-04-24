@@ -1,9 +1,4 @@
 from firebase_functions import https_fn
-from firebase_functions.firestore_fn import (
-    on_document_deleted,
-    Event,
-    DocumentSnapshot,
-)
 from firebase_admin import (
     initialize_app,
     firestore,
@@ -17,7 +12,7 @@ from pathlib import Path
 sys.path.insert(0, Path(__file__).parent.as_posix())
 
 from deployment import (
-    restore_trigger_doc,
+    get_handle,
     upgrade_data,
     set_ui_version,
 )
@@ -26,32 +21,30 @@ from test.data import set_test_data
 admin = initialize_app()
 
 
-@on_document_deleted(
-    region="asia-northeast2",
-    document="service/deployment",
-)
-def on_deployment_deleted(
-    event: Event[DocumentSnapshot | None],
-) -> None:  # pragma: no cover
-    firestore_client = firestore.client(admin)
-    auth_client = auth.Client(admin)
-    restore_trigger_doc(event)
-    upgrade_data(firestore_client, auth_client)
-    set_ui_version(firestore_client, event)
-
-
 @https_fn.on_call(
     region="asia-northeast2",
+    secrets=["DEPLOYMENT_KEY"],
 )
-def generate_test_data(
-    _: https_fn.CallableRequest,
+def deployment(
+    req: https_fn.CallableRequest,
 ) -> any:  # pragma: no cover
-    print(f"TEST : {os.environ.get('TEST')}")
-
-    if os.environ.get("TEST") != "Y":
+    if os.environ.get("DEPLOYMENT_KEY") != req.data["DEPLOYMENT_KEY"]:
+        print("Error: DEPLOYMENT_KEY")
         return
 
     firestore_client = firestore.client(admin)
+
+    if not get_handle(firestore_client):
+        print("Error: get_handle()")
+        return
+
+    test = os.environ.get("DEPLOYMENT_KEY") == "test"
+    print(f"test: {test}")
+
     auth_client = auth.Client(admin)
-    upgrade_data(firestore_client, auth_client)
-    set_test_data(firestore_client, auth_client)
+    upgrade_data(firestore_client, auth_client, req.data)
+
+    if test:
+        set_test_data(firestore_client, auth_client)
+    else:
+        set_ui_version(firestore_client, os.environ.get("GCLOUD_PROJECT"))

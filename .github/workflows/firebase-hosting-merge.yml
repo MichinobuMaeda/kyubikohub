@@ -91,10 +91,8 @@ jobs:
       - run: flutter test --coverage
 
       - if: steps.filter.outputs.functions == 'true'
-        name: Set secretes to .env
-        run: |
-          echo '${{ secrets.FUNCTIONS_ENV_KYUBIKOHUB }}' \
-          | sed -e 's/\//\r\n/g' > functions/.env
+        name: Get deployment params
+        run: echo '${{ secrets.DEPLOYMENT_PARAMS }}' > deployment_params.json
       - if: steps.filter.outputs.functions == 'true'
         name: Deploy Functions
         run: npx firebase deploy --only functions --force
@@ -114,7 +112,12 @@ jobs:
           channelId: live
           projectId: kyubikohub
       - name: Trigger system update job
-        run: npx firebase firestore:delete service/deployment --force
+        run: |
+          npx firebase firestore:delete service/deployment --force && \
+          curl -X POST \
+          https://asia-northeast2-kyubikohub.cloudfunctions.net/deployment \
+          -H 'Content-Type: application/json' \
+          -d @deployment_params.json
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:

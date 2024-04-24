@@ -1,33 +1,30 @@
 from datetime import datetime
+import time
 from firebase_admin import auth
-from firebase_functions.firestore_fn import Event, DocumentSnapshot
 from google.cloud import firestore
-import os
 import requests
 
 
-def restore_trigger_doc(
-    event: Event[DocumentSnapshot],
-):
-    print("Start: restoreTriggerDoc")
-    ref = event.data.reference
-    ref.set(
-        {
-            "createdAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-    print(f"restored doc: {ref.path}")
-    print("End  : restoreTriggerDoc")
+def get_handle(
+    db: firestore.Client,
+) -> bool:
+    doc = db.collection("service").document("deployment").get()
+    if doc.exists:
+        return False
+    ts = datetime.now().isoformat()
+    doc.reference.set({"ts": ts})
+    time.sleep(1)
+    doc = db.collection("service").document("deployment").get()
+    return doc.exists and doc.get("ts") == ts
 
 
 def set_ui_version(
     db: firestore.Client,
-    event: Event[DocumentSnapshot],
+    project: str,
 ):
     print("Start: setUiVersion")
     res = requests.get(
-        f"https://{event.project}.web.app/version.json"
-        f"?check={datetime.now().timestamp()}"
+        f"https://{project}.web.app/version.json" f"?check={datetime.now().timestamp()}"
     )
     if res.status_code == 200:
         ver = res.json()["version"]
@@ -97,6 +94,7 @@ def create_org(
 def upgrade_data(
     db: firestore.Client,
     auth_client: auth.Client,
+    data: dict,
 ):
     print("Start: upgrade_data")
 
@@ -129,9 +127,9 @@ def upgrade_data(
             db,
             "admins",
             "Administrators",
-            os.environ.get("PRIMARY_USER_ID"),
-            os.environ.get("PRIMARY_USER_EMAIL"),
-            os.environ.get("PRIMARY_USER_PASSWORD"),
+            data["PRIMARY_USER_ID"],
+            data["PRIMARY_USER_EMAIL"],
+            data["PRIMARY_USER_PASSWORD"],
             "Primary user",
         )
         create_org(
@@ -139,9 +137,9 @@ def upgrade_data(
             db,
             "test",
             "Test",
-            os.environ.get("TEST_MANAGER_ID"),
-            os.environ.get("TEST_MANAGER_EMAIL"),
-            os.environ.get("TEST_MANAGER_PASSWORD"),
+            data["TEST_MANAGER_ID"],
+            data["TEST_MANAGER_EMAIL"],
+            data["TEST_MANAGER_PASSWORD"],
             "Manager",
         )
 

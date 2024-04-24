@@ -1,0 +1,11 @@
+{
+  "data": {
+    "DEPLOYMENT_KEY": "test",
+    "PRIMARY_USER_ID": "primary_id",
+    "PRIMARY_USER_EMAIL": "primary@example.com",
+    "PRIMARY_USER_PASSWORD": "password",
+    "TEST_MANAGER_ID": "manager_id",
+    "TEST_MANAGER_EMAIL": "manager@example.com",
+    "TEST_MANAGER_PASSWORD": "password"
+  }
+}
