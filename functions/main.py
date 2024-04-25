@@ -12,7 +12,7 @@ from pathlib import Path
 sys.path.insert(0, Path(__file__).parent.as_posix())
 
 from deployment import (
-    get_handle,
+    get_deployment_handle,
     upgrade_data,
     set_ui_version,
 )
@@ -33,15 +33,15 @@ def deployment(
         return
 
     firestore_client = firestore.client(admin)
+    auth_client = auth.Client(admin)
 
-    if not get_handle(firestore_client):
+    if not get_deployment_handle(firestore_client):
         print("Error: get_handle()")
         return
 
     test = os.environ.get("DEPLOYMENT_KEY") == "test"
     print(f"test: {test}")
 
-    auth_client = auth.Client(admin)
     upgrade_data(firestore_client, auth_client, req.data)
 
     if test:
