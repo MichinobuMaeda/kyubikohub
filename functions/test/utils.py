@@ -1,3 +1,16 @@
+from datetime import datetime
+
+
+class MockUserRecord:
+    def __init__(self, uid: str | None):
+        self.uid = datetime.now().isoformat() if uid is None else uid
+
+
+class MockAuth:
+    def create_user(self, uid: str | None, email: str, password: str | None):
+        return MockUserRecord(uid)
+
+
 class MockDocSnap:
     def __init__(self):
         self.reference = None
@@ -14,6 +27,7 @@ class MockDocRef:
         self.path = path
         self.snap = MockDocSnap()
         self.snap.reference = self
+        self.col_refs = dict()
 
     def get(self):
         return self.snap
@@ -25,6 +39,22 @@ class MockDocRef:
     def update(self, data: dict):
         if self.snap.exists:
             self.snap.data = {**self.snap.data, **data}
+
+    def collection(self, id: str):
+        return self.col_refs[id]
+
+    def set_doc(
+        self,
+        collection: str,
+        doc: str,
+        data: dict | None,
+    ) -> MockDocSnap:
+        col_ref = MockCollectionRef()
+        col_ref.db = self
+        col_ref.id = collection
+        doc_snap = col_ref.set_doc(doc, data)
+        self.col_refs[collection] = col_ref
+        return doc_snap
 
 
 class MockCollectionRef:

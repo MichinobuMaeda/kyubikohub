@@ -154,3 +154,4 @@ gcloud functions add-invoker-policy-binding on_deployment_deleted \
                 - Firebase Rules Admin
                 - Service Account User
                 - Storage Admin
+                - Secret Manager Viewer

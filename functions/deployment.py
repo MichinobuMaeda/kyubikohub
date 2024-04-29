@@ -3,9 +3,11 @@ import time
 from firebase_admin import auth
 from google.cloud import firestore
 import requests
+from admin import create_org
+from test.data import set_test_data
 
 
-def get_deployment_handle(
+def _get_deployment_handle(
     db: firestore.Client,
 ) -> bool:
     print("Start: get_deployment_handle")
@@ -24,7 +26,7 @@ def get_deployment_handle(
     return True
 
 
-def set_ui_version(
+def _set_ui_version(
     db: firestore.Client,
     project: str,
 ):
@@ -51,84 +53,34 @@ def set_ui_version(
     print("End  : setUiVersion")
 
 
-def create_org(
-    auth_client: auth.Client,
-    db: firestore.Client,
-    org_id: str,
-    org_name: str,
-    uid: str,
-    email: str,
-    password: str,
-    name: str,
-):
-    print(f"Info  : create orgs/{org_id} with manager {uid} {email}")
-
-    auth_client.create_user(uid=uid, email=email, password=password)
-
-    org_ref = db.collection("orgs").document(org_id)
-
-    org_ref.set(
-        {
-            "name": org_name,
-            "accounts": [uid],
-            "createdAt": firestore.SERVER_TIMESTAMP,
-            "updatedAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-
-    (_, user_doc) = org_ref.collection("users").add(
-        {
-            "name": name,
-            "email": email,
-            "createdAt": firestore.SERVER_TIMESTAMP,
-            "updatedAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-
-    org_ref.collection("accounts").document(uid).set(
-        {
-            "user": user_doc.id,
-            "createdAt": firestore.SERVER_TIMESTAMP,
-            "updatedAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-
-    org_ref.collection("groups").document("managers").set(
-        {
-            "name": "Managers",
-            "users": [user_doc.id],
-            "createdAt": firestore.SERVER_TIMESTAMP,
-            "updatedAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-
-def upgrade_data_v1(
+def _upgrade_data_v1(
     db: firestore.Client,
     auth_client: auth.Client,
     data: dict,
 ):
     create_org(
-        auth_client,
-        db,
-        "admins",
-        "Administrators",
-        data["PRIMARY_USER_ID"],
-        data["PRIMARY_USER_EMAIL"],
-        data["PRIMARY_USER_PASSWORD"],
-        "Primary user",
+        auth_client=auth_client,
+        db=db,
+        org_id="admins",
+        org_name="Administrators",
+        uid=data["PRIMARY_USER_ID"],
+        email=data["PRIMARY_USER_EMAIL"],
+        password=data["PRIMARY_USER_PASSWORD"],
+        name="Primary user",
     )
     create_org(
-        auth_client,
-        db,
-        "test",
-        "Test",
-        data["TEST_MANAGER_ID"],
-        data["TEST_MANAGER_EMAIL"],
-        data["TEST_MANAGER_PASSWORD"],
-        "Manager",
+        auth_client=auth_client,
+        db=db,
+        org_id="test",
+        org_name="Test",
+        uid=data["TEST_MANAGER_ID"],
+        email=data["TEST_MANAGER_EMAIL"],
+        password=data["TEST_MANAGER_PASSWORD"],
+        name="Manager",
     )
 
-def set_data_version(conf_ref, ver: int):
+
+def _set_data_version(conf_ref, ver: int):
     conf_ref.update(
         {
             "dataVersion": ver,
@@ -137,7 +89,8 @@ def set_data_version(conf_ref, ver: int):
         }
     )
 
-def upgrade_data(
+
+def _upgrade_data(
     db: firestore.Client,
     auth_client: auth.Client,
     data: dict,
@@ -169,7 +122,28 @@ def upgrade_data(
         print(f"Info  : upgrade {cur_ver} to {new_ver}")
 
         if cur_ver < 1:
-            upgrade_data_v1(db, auth_client, data)
-            set_data_version(conf_ref, 1)
+            _upgrade_data_v1(db=db, auth_client=auth_client, data=data)
+            _set_data_version(conf_ref, 1)
 
     print("End  : upgrade_data")
+
+def deploy(
+    db: firestore.Client,
+    auth_client: auth.Client,
+    deployment_key: str,
+    project_id: str,
+    data: dict,
+):
+    if not _get_deployment_handle(db):
+        print("Error: get_handle()")
+        return
+
+    test = deployment_key == "test"
+    print(f"test: {test}")
+
+    _upgrade_data(db=db, auth_client=auth_client, data=data)
+
+    if test:
+        set_test_data(db=db, auth_client=auth_client)
+    else:
+        _set_ui_version(db=db, project_id=project_id)

@@ -11,12 +11,7 @@ from pathlib import Path
 # https://github.com/firebase/firebase-functions-python/pull/12
 sys.path.insert(0, Path(__file__).parent.as_posix())
 
-from deployment import (
-    get_deployment_handle,
-    upgrade_data,
-    set_ui_version,
-)
-from test.data import set_test_data
+from deployment import deploy
 
 admin = initialize_app()
 
@@ -28,23 +23,11 @@ admin = initialize_app()
 def deployment(
     req: https_fn.CallableRequest,
 ) -> any:  # pragma: no cover
-    if os.environ.get("DEPLOYMENT_KEY") != req.data["DEPLOYMENT_KEY"]:
-        print("Error: DEPLOYMENT_KEY")
-        return
-
-    firestore_client = firestore.client(admin)
-    auth_client = auth.Client(admin)
-
-    if not get_deployment_handle(firestore_client):
-        print("Error: get_handle()")
-        return
-
-    test = os.environ.get("DEPLOYMENT_KEY") == "test"
-    print(f"test: {test}")
-
-    upgrade_data(firestore_client, auth_client, req.data)
-
-    if test:
-        set_test_data(firestore_client, auth_client)
-    else:
-        set_ui_version(firestore_client, os.environ.get("GCLOUD_PROJECT"))
+    if os.environ.get("DEPLOYMENT_KEY") == req.data["DEPLOYMENT_KEY"]:
+        deploy(
+            auth_client=auth.Client(admin),
+            db=firestore.client(admin),
+            deployment_key=os.environ.get("DEPLOYMENT_KEY"),
+            project_id=os.environ.get("GCLOUD_PROJECT"),
+            data=req.data
+        )

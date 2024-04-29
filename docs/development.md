@@ -4,9 +4,9 @@
 
 ## 前提
 
-- nvm
-- fvm
-- pyenv
+- nvm または `.nvmrc` に記載したバージョンの Node.js
+- fvm または `.fvmrc` に記載したバージョンの flutter
+- pyenv または `.python-version` に記載したバージョンの python
 - Java >= 11
 - curl
 - genhtml (optional)

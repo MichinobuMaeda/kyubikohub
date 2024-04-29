@@ -5,6 +5,7 @@
     "dotenv",
     "Flev",
     "fpdart",
+    "fvmrc",
     "genhtml",
     "gserviceaccount",
     "htmlcov",
