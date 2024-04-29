@@ -2,7 +2,7 @@ from google.cloud import firestore
 from firebase_admin import auth
 
 
-def set_test_data(db: firestore.Client, auth: auth.Client):
+def set_test_data(db: firestore.Client, auth_client: auth.Client):
     print("Start: set_test_data")
 
     db.collection("service").document("conf").update(
@@ -89,12 +89,12 @@ def set_test_data(db: firestore.Client, auth: auth.Client):
         }
     )
 
-    auth.create_user(
+    auth_client.create_user(
         uid="user01_id",
         email="user01@example.com",
         password="password",
     )
-    auth.create_user(
+    auth_client.create_user(
         uid="user02_id",
         email="user02@example.com",
         password="password",
