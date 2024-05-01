@@ -14,8 +14,7 @@ part 'conf_repository.freezed.dart';
 class Conf with _$Conf {
   const factory Conf({
     required String? uiVersion,
-    required String? guide,
-    required String? policy,
+    required String? desc,
   }) = _Conf;
 }
 
@@ -30,8 +29,7 @@ class ConfRepository extends _$ConfRepository {
           Success(
             Conf(
               uiVersion: getStringValue(doc, "uiVersion"),
-              guide: getStringValue(doc, "guide"),
-              policy: getStringValue(doc, "policy"),
+              desc: getStringValue(doc, "desc"),
             ),
           ),
         );

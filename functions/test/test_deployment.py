@@ -229,7 +229,7 @@ class TestMain(unittest.TestCase):
             {
                 "dataVersion": 0,
                 "uiVersion": "",
-                "policy": "## Privacy policy",
+                "desc": "## Privacy policy",
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }

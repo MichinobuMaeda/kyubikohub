@@ -55,9 +55,9 @@ class SiteRepository extends _$SiteRepository {
           Success(
             Site(
               id: id!,
-              name: getStringValue(doc, "name") ?? '-',
-              guide: getStringValue(doc, "guide") ?? '',
-              policy: getStringValue(doc, "policy") ?? '',
+              name: getStringValue(doc, 'name') ?? '-',
+              guide: getStringValue(doc, 'guide') ?? '',
+              policy: getStringValue(doc, 'policy') ?? '',
             ),
           ),
         );

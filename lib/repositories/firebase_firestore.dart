@@ -79,7 +79,7 @@ Stream<List<User>> users(UsersRef ref) => ref.watch(myAccountProvider).when(
                     .map(
                       (doc) => User(
                         id: doc.id,
-                        name: getStringValue(doc, "name") ?? '',
+                        name: getStringValue(doc, 'name') ?? '',
                       ),
                     )
                     .toList(),

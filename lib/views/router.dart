@@ -1,11 +1,10 @@
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../repositories/site_repository.dart';
-import '../providers/data_state.dart';
-import 'about_app/screen_about_app.dart';
-import 'home/screen_home.dart';
-import 'about_site/screen_about_site.dart';
+import 'navigation.dart';
+import 'about/about_screen.dart';
 
 Future<void> onSiteChange(WidgetRef ref, GoRouterState state) async {
   final site = state.pathParameters['site'];
@@ -16,46 +15,46 @@ Future<void> onSiteChange(WidgetRef ref, GoRouterState state) async {
 
 GoRouter router(WidgetRef ref) {
   return GoRouter(
-    initialLocation: ref.watch(siteRepositoryProvider).when(
-          loading: () => '/',
-          error: (error, stackTrace) => '/',
-          data: (site) => switch (site) {
-            Loading() => '/',
-            Error() => '/',
-            Success() => "/${site.data.id}",
-          },
-        ),
     routes: [
-      GoRoute(
-        path: '/',
-        pageBuilder: (context, state) => NoTransitionPage(
-          key: state.pageKey,
-          child: const ScreenAboutApp(),
-        ),
-      ),
-      GoRoute(
-        path: '/:site',
-        pageBuilder: (context, state) {
-          onSiteChange(ref, state);
-          return NoTransitionPage(
-            key: state.pageKey,
-            child: const ScreenHome(),
-          );
+      ShellRoute(
+        builder: (context, state, child) {
+          return Navigation(child: child);
+          // return Navigation(child: const About(appTop: true));
         },
-      ),
-      GoRoute(
-        path: '/:site/about',
-        pageBuilder: (context, state) {
-          return NoTransitionPage(
-            key: state.pageKey,
-            child: const ScreenAboutSite(),
-          );
-        },
-      ),
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) {
+              return const AboutScreen(appTop: true);
+            },
+          ),
+          GoRoute(
+            path: '/:site',
+            builder: (context, state) {
+              onSiteChange(ref, state);
+              return Text('path: /${state.pathParameters['site']}');
+            },
+          ),
+          GoRoute(
+            path: '/:site/settings',
+            builder: (context, state) {
+              onSiteChange(ref, state);
+              return Text('path: /${state.pathParameters['site']}/settings');
+            },
+          ),
+          GoRoute(
+            path: '/:site/about',
+            builder: (context, state) {
+              onSiteChange(ref, state);
+              return const AboutScreen(appTop: false);
+            },
+          ),
+        ],
+      )
     ],
     errorPageBuilder: (context, state) => NoTransitionPage(
       key: state.pageKey,
-      child: const ScreenAboutApp(),
+      child: const Navigation(child: Text('Routing error')),
     ),
   );
 }

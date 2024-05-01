@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const String appTitle = "Kyubiko Hub";
 
-// UI version replaced with 'version' in pubspec.yaml
+// !!!!! DON"T EDIT !!!!! UI version replaced with 'version' in pubspec.yaml
 const String version = 'for test';
 
 // Licenses to be added manually
@@ -48,36 +50,11 @@ const textTheme = TextTheme(
   bodyLarge: TextStyle(fontSize: 20),
 );
 
-// const buttonStyle = ButtonStyle(
-//   textStyle: MaterialStatePropertyAll<TextStyle>(
-//     TextStyle(fontSize: 20, fontFamily: defaultFontFamily),
-//   ),
-// );
-
-const edgeInsetsInnerScrollPane = EdgeInsets.symmetric(
-  vertical: 4,
-  horizontal: 16,
-);
-
-const edgeInsetsInnerScrollPaneWithRightSpace = EdgeInsets.fromLTRB(
-  16, // left
-  4, // top
-  48, // right
-  4, // bottom
-);
-
-const scrollPaneHeightNarrow = 128.0;
-const scrollPaneHeightWide = 256.0;
-
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
   fontFamily: defaultFontFamily,
   useMaterial3: true,
   textTheme: textTheme,
-//   elevatedButtonTheme: const ElevatedButtonThemeData(style: buttonStyle),
-//   filledButtonTheme: const FilledButtonThemeData(style: buttonStyle),
-//   outlinedButtonTheme: const OutlinedButtonThemeData(style: buttonStyle),
-//   textButtonTheme: const TextButtonThemeData(style: buttonStyle),
 );
 
 final darkTheme = theme.copyWith(
@@ -86,3 +63,27 @@ final darkTheme = theme.copyWith(
     brightness: Brightness.dark,
   ),
 );
+
+const tabIconMargin = 4.0;
+
+const aboutLogoAreaSize = 144.0;
+const aboutLogoAreaPadding = 16.0;
+
+void onTapLink(String text, String? href, String? title) {
+  if (href != null) {
+    launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);
+  }
+}
+
+MarkdownStyleSheet markdownStyleSheet(BuildContext context) =>
+    MarkdownStyleSheet(
+      p: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h1: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h2: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h3: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h4: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h5: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      h6: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      code: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      a: TextStyle(color: linkColor(context)),
+    );

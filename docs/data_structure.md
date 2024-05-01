@@ -24,7 +24,7 @@ classDiagram
     class Conf
     Conf : +Integer dataVersion
     Conf : +String uiVersion
-    Conf : +String policy
+    Conf : +String desc
 ```
 
 - `dataVersion`: このアプリのデータのバージョン。配置時に設定する。
@@ -41,6 +41,7 @@ classDiagram
     class Org
     Org : +String id
     Org : +String name
+    Org : +String desc
     Org : +collection accounts
     Org : +collection users
     Org : +collection groups

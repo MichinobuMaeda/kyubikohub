@@ -17,8 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Conf {
   String? get uiVersion => throw _privateConstructorUsedError;
-  String? get guide => throw _privateConstructorUsedError;
-  String? get policy => throw _privateConstructorUsedError;
+  String? get desc => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ConfCopyWith<Conf> get copyWith => throw _privateConstructorUsedError;
@@ -29,7 +28,7 @@ abstract class $ConfCopyWith<$Res> {
   factory $ConfCopyWith(Conf value, $Res Function(Conf) then) =
       _$ConfCopyWithImpl<$Res, Conf>;
   @useResult
-  $Res call({String? uiVersion, String? guide, String? policy});
+  $Res call({String? uiVersion, String? desc});
 }
 
 /// @nodoc
@@ -46,21 +45,16 @@ class _$ConfCopyWithImpl<$Res, $Val extends Conf>
   @override
   $Res call({
     Object? uiVersion = freezed,
-    Object? guide = freezed,
-    Object? policy = freezed,
+    Object? desc = freezed,
   }) {
     return _then(_value.copyWith(
       uiVersion: freezed == uiVersion
           ? _value.uiVersion
           : uiVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      guide: freezed == guide
-          ? _value.guide
-          : guide // ignore: cast_nullable_to_non_nullable
-              as String?,
-      policy: freezed == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
+      desc: freezed == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -73,7 +67,7 @@ abstract class _$$ConfImplCopyWith<$Res> implements $ConfCopyWith<$Res> {
       __$$ConfImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? uiVersion, String? guide, String? policy});
+  $Res call({String? uiVersion, String? desc});
 }
 
 /// @nodoc
@@ -87,21 +81,16 @@ class __$$ConfImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uiVersion = freezed,
-    Object? guide = freezed,
-    Object? policy = freezed,
+    Object? desc = freezed,
   }) {
     return _then(_$ConfImpl(
       uiVersion: freezed == uiVersion
           ? _value.uiVersion
           : uiVersion // ignore: cast_nullable_to_non_nullable
               as String?,
-      guide: freezed == guide
-          ? _value.guide
-          : guide // ignore: cast_nullable_to_non_nullable
-              as String?,
-      policy: freezed == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
+      desc: freezed == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -110,19 +99,16 @@ class __$$ConfImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ConfImpl implements _Conf {
-  const _$ConfImpl(
-      {required this.uiVersion, required this.guide, required this.policy});
+  const _$ConfImpl({required this.uiVersion, required this.desc});
 
   @override
   final String? uiVersion;
   @override
-  final String? guide;
-  @override
-  final String? policy;
+  final String? desc;
 
   @override
   String toString() {
-    return 'Conf(uiVersion: $uiVersion, guide: $guide, policy: $policy)';
+    return 'Conf(uiVersion: $uiVersion, desc: $desc)';
   }
 
   @override
@@ -132,12 +118,11 @@ class _$ConfImpl implements _Conf {
             other is _$ConfImpl &&
             (identical(other.uiVersion, uiVersion) ||
                 other.uiVersion == uiVersion) &&
-            (identical(other.guide, guide) || other.guide == guide) &&
-            (identical(other.policy, policy) || other.policy == policy));
+            (identical(other.desc, desc) || other.desc == desc));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, uiVersion, guide, policy);
+  int get hashCode => Object.hash(runtimeType, uiVersion, desc);
 
   @JsonKey(ignore: true)
   @override
@@ -149,15 +134,12 @@ class _$ConfImpl implements _Conf {
 abstract class _Conf implements Conf {
   const factory _Conf(
       {required final String? uiVersion,
-      required final String? guide,
-      required final String? policy}) = _$ConfImpl;
+      required final String? desc}) = _$ConfImpl;
 
   @override
   String? get uiVersion;
   @override
-  String? get guide;
-  @override
-  String? get policy;
+  String? get desc;
   @override
   @JsonKey(ignore: true)
   _$$ConfImplCopyWith<_$ConfImpl> get copyWith =>
