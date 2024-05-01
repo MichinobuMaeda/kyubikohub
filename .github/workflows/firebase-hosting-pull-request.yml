@@ -3,9 +3,16 @@ name: Deploy to Firebase Hosting on PR
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/service-account.json
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Create Service Account key
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KYUBIKOHUB }}' \
+          > $GOOGLE_APPLICATION_CREDENTIALS
+
       - name: Detect modified source
         uses: dorny/paths-filter@v2
         id: filter
