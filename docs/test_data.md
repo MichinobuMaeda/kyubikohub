@@ -6,10 +6,10 @@ Firebase Local Emulator Suite によるテストのために、以下のテス�
 
 ## 概要
 
-- 組織: Administrators
+- サイト: Administrators
     - グループ: Managers
         - メンバー: Primary user
-- 組織: Test
+- サイト: Test
     - グループ: Managers
         - メンバー: Manager
     - グループ: Group 01
@@ -41,7 +41,7 @@ Firebase Local Emulator Suite によるテストのために、以下のテス�
         - dataVersion: 1
         - uiVersion: "for test"
         - policy: "## Privacy policy"
-- collection: `orgs`
+- collection: `sites`
     - doc: `admins`
         - name: "Administrators"
         - collection: `accounts`

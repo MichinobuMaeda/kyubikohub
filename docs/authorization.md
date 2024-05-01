@@ -34,41 +34,41 @@ npm run test:firestore
 
 ### メンバー
 
-組織 `org` のグループ `gid` アカウント `uid` 、ユーザー `user`
+サイト `site` のグループ `gid` アカウント `uid` 、ユーザー `user`
 
 |対象                                   |権限                          |
 |---------------------------------------|------------------------------|
-|Firestore: orgs/`org`                  |read                          |
-|Firestore: orgs/`org`/prefs/profile    |read                          |
-|Firestore: orgs/`org`/accounts/`uid`   |read                          |
-|Firestore: orgs/`org`/users/*          |read                          |
-|Firestore: orgs/`org`/users/`user`     |read, update                  |
-|Firestore: orgs/`org`/groups/*         |read                          |
+|Firestore: sites/`site`                  |read                          |
+|Firestore: sites/`site`/prefs/profile    |read                          |
+|Firestore: sites/`site`/accounts/`uid`   |read                          |
+|Firestore: sites/`site`/users/*          |read                          |
+|Firestore: sites/`site`/users/`user`     |read, update                  |
+|Firestore: sites/`site`/groups/*         |read                          |
 
-### 組織管理者
+### サイト管理者
 
-組織 `org` のグループ managers のアカウント `uid` 、ユーザー `user`
+サイト `site` のグループ managers のアカウント `uid` 、ユーザー `user`
 
 |対象                                   |権限                          |
 |---------------------------------------|------------------------------|
-|Firestore: orgs/`org`                  |read, update                  |
-|Firestore: orgs/`org`/prefs/profile    |read, update                  |
-|Firestore: orgs/`org`/prefs/*          |read, update                  |
-|Firestore: orgs/`org`/accounts/!`uid`  |read, update, create, delete  |
-|Firestore: orgs/`org`/users/`user`     |read, update                  |
-|Firestore: orgs/`org`/users/*          |read, update, create, delete  |
-|Firestore: orgs/`org`/groups/managers  |read, update                  |
-|Firestore: orgs/`org`/groups/!managers |read, update, create, delete  |
+|Firestore: sites/`site`                  |read, update                  |
+|Firestore: sites/`site`/prefs/profile    |read, update                  |
+|Firestore: sites/`site`/prefs/*          |read, update                  |
+|Firestore: sites/`site`/accounts/!`uid`  |read, update, create, delete  |
+|Firestore: sites/`site`/users/`user`     |read, update                  |
+|Firestore: sites/`site`/users/*          |read, update, create, delete  |
+|Firestore: sites/`site`/groups/managers  |read, update                  |
+|Firestore: sites/`site`/groups/!managers |read, update, create, delete  |
 
 ### システム管理者
 
-組織 admins のメンバー `uid`
+サイト admins のメンバー `uid`
 
 |対象                                   |権限                          |
 |---------------------------------------|------------------------------|
 |Firestore: service/conf                |read, update                  |
-|Firestore: orgs/admins                 |read, update                  |
-|Firestore: orgs/!admins                |read, update, create, delete  |
+|Firestore: sites/admins                 |read, update                  |
+|Firestore: sites/!admins                |read, update, create, delete  |
 
 ## 検討事項
 

@@ -31,10 +31,10 @@ classDiagram
 - `uiVersion`: このアプリのUIのバージョン。配置時に設定し、UIのアップデートの要否の判定に用いる。
 - `policy`: このアプリのプライバシーポリシーとして、システム管理者が設定する。
 
-## collection: `orgs`
+## collection: `sites`
 
-このアプリを利用する組織。
-組織の配下にその組織の利用者やグループを持つ。
+このアプリを利用するサイト。
+サイトの配下にそのサイトの利用者やグループを持つ。
 
 ```mermaid
 classDiagram
@@ -48,12 +48,12 @@ classDiagram
 
 `id: admins` にはこのアプリを管理する特権を持つメンバー「システム管理者」を格納する。
 
-## collection: `orgs/[id]/accounts`
+## collection: `sites/[id]/accounts`
 
-組織のメンバーのアカウント。
+サイトのメンバーのアカウント。
 通常、アプリのUIからは見えない属性を持つ。
-1人のメンバーが組織内の複数のアカウントを持つことができる。
-1人のメンバーが異なる組織のアカウントを持つことができる。
+1人のメンバーがサイト内の複数のアカウントを持つことができる。
+1人のメンバーが異なるサイトのアカウントを持つことができる。
 
 ```mermaid
 classDiagram
@@ -63,14 +63,14 @@ classDiagram
 ```
 
 - `id`: Firebase Authentication の `uid` と同じもの。
-- `user`: 組織のユーザの `id` 。
+- `user`: サイトのユーザの `id` 。
 
-## collection: `orgs/[id]/users`
+## collection: `sites/[id]/users`
 
-組織のユーザ。
-組織内に共有する属性を持つ。
-1人のメンバーは、組織内では1個のユーザで表現される前提。
-1人のメンバーが、異なる組織のユーザとなることができる。
+サイトのユーザ。
+サイト内に共有する属性を持つ。
+1人のメンバーは、サイト内では1個のユーザで表現される前提。
+1人のメンバーが、異なるサイトのユーザとなることができる。
 
 ```mermaid
 classDiagram
@@ -80,9 +80,9 @@ classDiagram
     User : +String email
 ```
 
-## collection: `orgs/[id]/groups`
+## collection: `sites/[id]/groups`
 
-組織のグループ。
+サイトのグループ。
 
 ```mermaid
 classDiagram
@@ -94,7 +94,7 @@ classDiagram
 
 - `users`: グループに所属するユーザの `id` の配列。
 
-`id: managers` にはその組織を管理する特権を持つメンバー「組織管理者」を格納する。
+`id: managers` にはそのサイトを管理する特権を持つメンバー「サイト管理者」を格納する。
 
 ## 検討事項
 

@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AuthUser {
-  bool get loaded => throw _privateConstructorUsedError;
-  String? get uid => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +29,7 @@ abstract class $AuthUserCopyWith<$Res> {
   factory $AuthUserCopyWith(AuthUser value, $Res Function(AuthUser) then) =
       _$AuthUserCopyWithImpl<$Res, AuthUser>;
   @useResult
-  $Res call({bool loaded, String? uid, String? email});
+  $Res call({String uid, String? email});
 }
 
 /// @nodoc
@@ -46,19 +45,14 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loaded = null,
-    Object? uid = freezed,
+    Object? uid = null,
     Object? email = freezed,
   }) {
     return _then(_value.copyWith(
-      loaded: null == loaded
-          ? _value.loaded
-          : loaded // ignore: cast_nullable_to_non_nullable
-              as bool,
-      uid: freezed == uid
+      uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -75,7 +69,7 @@ abstract class _$$AuthUserImplCopyWith<$Res>
       __$$AuthUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool loaded, String? uid, String? email});
+  $Res call({String uid, String? email});
 }
 
 /// @nodoc
@@ -89,19 +83,14 @@ class __$$AuthUserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? loaded = null,
-    Object? uid = freezed,
+    Object? uid = null,
     Object? email = freezed,
   }) {
     return _then(_$AuthUserImpl(
-      loaded: null == loaded
-          ? _value.loaded
-          : loaded // ignore: cast_nullable_to_non_nullable
-              as bool,
-      uid: freezed == uid
+      uid: null == uid
           ? _value.uid
           : uid // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -113,19 +102,16 @@ class __$$AuthUserImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthUserImpl implements _AuthUser {
-  const _$AuthUserImpl(
-      {required this.loaded, required this.uid, required this.email});
+  const _$AuthUserImpl({required this.uid, required this.email});
 
   @override
-  final bool loaded;
-  @override
-  final String? uid;
+  final String uid;
   @override
   final String? email;
 
   @override
   String toString() {
-    return 'AuthUser(loaded: $loaded, uid: $uid, email: $email)';
+    return 'AuthUser(uid: $uid, email: $email)';
   }
 
   @override
@@ -133,13 +119,12 @@ class _$AuthUserImpl implements _AuthUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthUserImpl &&
-            (identical(other.loaded, loaded) || other.loaded == loaded) &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, loaded, uid, email);
+  int get hashCode => Object.hash(runtimeType, uid, email);
 
   @JsonKey(ignore: true)
   @override
@@ -150,14 +135,11 @@ class _$AuthUserImpl implements _AuthUser {
 
 abstract class _AuthUser implements AuthUser {
   const factory _AuthUser(
-      {required final bool loaded,
-      required final String? uid,
+      {required final String uid,
       required final String? email}) = _$AuthUserImpl;
 
   @override
-  bool get loaded;
-  @override
-  String? get uid;
+  String get uid;
   @override
   String? get email;
   @override

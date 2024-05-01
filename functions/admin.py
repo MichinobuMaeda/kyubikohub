@@ -2,17 +2,17 @@ from firebase_admin import auth
 from google.cloud import firestore
 
 
-def create_org(
+def create_site(
     auth_client: auth.Client,
     db: firestore.Client,
-    org_id: str,
-    org_name: str,
+    site_id: str,
+    site_name: str,
     email: str,
     name: str,
     password: str=None,
     uid: str=None,
 ):
-    print(f"Info  : create orgs/{org_id} with manager {uid} {email}")
+    print(f"Info  : create sites/{site_id} with manager {uid} {email}")
 
     if uid is None:
         user = auth_client.create_user(email=email, password=password)
@@ -20,17 +20,17 @@ def create_org(
     else:
         auth_client.create_user(uid=uid, email=email, password=password)
 
-    org_ref = db.collection("orgs").document(org_id)
+    site_ref = db.collection("sites").document(site_id)
 
-    org_ref.set(
+    site_ref.set(
         {
-            "name": org_name,
+            "name": site_name,
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }
     )
 
-    (_, user_doc) = org_ref.collection("users").add(
+    (_, user_doc) = site_ref.collection("users").add(
         {
             "name": name,
             "email": email,
@@ -39,7 +39,7 @@ def create_org(
         }
     )
 
-    org_ref.collection("accounts").document(uid).set(
+    site_ref.collection("accounts").document(uid).set(
         {
             "user": user_doc.id,
             "createdAt": firestore.SERVER_TIMESTAMP,
@@ -47,7 +47,7 @@ def create_org(
         }
     )
 
-    org_ref.collection("groups").document("managers").set(
+    site_ref.collection("groups").document("managers").set(
         {
             "name": "Managers",
             "users": [user_doc.id],

@@ -3,7 +3,7 @@ import time
 from firebase_admin import auth
 from google.cloud import firestore
 import requests
-from admin import create_org
+from admin import create_site
 from test.data import set_test_data
 
 
@@ -58,21 +58,21 @@ def _upgrade_data_v1(
     auth_client: auth.Client,
     data: dict,
 ):
-    create_org(
+    create_site(
         auth_client=auth_client,
         db=db,
-        org_id="admins",
-        org_name="Administrators",
+        site_id="admins",
+        site_name="Administrators",
         uid=data["PRIMARY_USER_ID"],
         email=data["PRIMARY_USER_EMAIL"],
         password=data["PRIMARY_USER_PASSWORD"],
         name="Primary user",
     )
-    create_org(
+    create_site(
         auth_client=auth_client,
         db=db,
-        org_id="test",
-        org_name="Test",
+        site_id="test",
+        site_name="Test",
         uid=data["TEST_MANAGER_ID"],
         email=data["TEST_MANAGER_EMAIL"],
         password=data["TEST_MANAGER_PASSWORD"],

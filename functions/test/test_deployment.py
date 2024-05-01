@@ -140,10 +140,10 @@ class TestMain(unittest.TestCase):
         assert url in requests_get_mock.call_args[0][0]
         snap.reference.update.assert_not_called()
 
-    @patch("deployment.create_org")
+    @patch("deployment.create_site")
     def test_upgrade_data_v1(
         self,
-        mock_create_org,
+        mock_create_site,
     ):
         # Prepare
         auth_client = MockAuth()
@@ -161,13 +161,13 @@ class TestMain(unittest.TestCase):
         _upgrade_data_v1(auth_client=auth_client, db=db, data=data)
 
         # Check
-        mock_create_org.assert_has_calls(
+        mock_create_site.assert_has_calls(
             [
                 call(
                     auth_client=auth_client,
                     db=db,
-                    org_id="admins",
-                    org_name="Administrators",
+                    site_id="admins",
+                    site_name="Administrators",
                     uid="primary_user_id",
                     email="primary_user_email",
                     password="primary_user_password",
@@ -176,8 +176,8 @@ class TestMain(unittest.TestCase):
                 call(
                     auth_client=auth_client,
                     db=db,
-                    org_id="test",
-                    org_name="Test",
+                    site_id="test",
+                    site_name="Test",
                     uid="test_manager_id",
                     email="test_manager_email",
                     password="test_manager_password",

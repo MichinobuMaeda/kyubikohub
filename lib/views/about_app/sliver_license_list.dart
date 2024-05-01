@@ -19,7 +19,7 @@ class SliverLicenseList extends HookConsumerWidget {
       Success() => SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) => Container(
-              padding: edgeInsetsInnerScrollPane,
+              padding: edgeInsetsInnerScrollPaneWithRightSpace,
               color: stripedBackground(context, index),
               height: scrollPaneHeightNarrow,
               child: SingleChildScrollView(

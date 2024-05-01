@@ -19,14 +19,13 @@ const assetImageLogo = AssetImage('assets/images/logo-192.png');
 
 // Firebase
 const FirebaseOptions firebaseOptions = FirebaseOptions(
-  apiKey: 'FIREBASE_API_KEY',
-  authDomain: "kyubikohub.firebaseapp.com",
-  projectId: "kyubikohub",
-  storageBucket: "kyubikohub.appspot.com",
-  messagingSenderId: "114575052714",
-  appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
-  measurementId: "G-8VLR54KLH9"
-);
+    apiKey: 'FIREBASE_API_KEY',
+    authDomain: "kyubikohub.firebaseapp.com",
+    projectId: "kyubikohub",
+    storageBucket: "kyubikohub.appspot.com",
+    messagingSenderId: "114575052714",
+    appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
+    measurementId: "G-8VLR54KLH9");
 const String webRecaptchaSiteKey = '6LdNMMApAAAAACl1rU-RlsVwWBqOW8jnbUYmY8CR';
 
 // Style
@@ -58,6 +57,13 @@ const textTheme = TextTheme(
 const edgeInsetsInnerScrollPane = EdgeInsets.symmetric(
   vertical: 4,
   horizontal: 16,
+);
+
+const edgeInsetsInnerScrollPaneWithRightSpace = EdgeInsets.fromLTRB(
+  16, // left
+  4, // top
+  48, // right
+  4, // bottom
 );
 
 const scrollPaneHeightNarrow = 128.0;

@@ -6,21 +6,7 @@ part of 'firebase_firestore.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$confHash() => r'096a265b9fd326ff8dfc4f9df98def4f6d4945fd';
-
-/// See also [conf].
-@ProviderFor(conf)
-final confProvider = StreamProvider<Conf>.internal(
-  conf,
-  name: r'confProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$confHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef ConfRef = StreamProviderRef<Conf>;
-String _$myAccountHash() => r'52d6f7bde05edd60a2f923faa84e5d9be5a11b17';
+String _$myAccountHash() => r'2b804f7f5e32cb09a90c3735dfceca8b8863b0ba';
 
 /// See also [myAccount].
 @ProviderFor(myAccount)
@@ -34,7 +20,7 @@ final myAccountProvider = StreamProvider<Account>.internal(
 );
 
 typedef MyAccountRef = StreamProviderRef<Account>;
-String _$usersHash() => r'cfaa6fb2a1bb97867e8d49e57d1b1d43c8446c2b';
+String _$usersHash() => r'3a61d03c64e657e4a4f61c063554d96bd9f6b94c';
 
 /// See also [users].
 @ProviderFor(users)

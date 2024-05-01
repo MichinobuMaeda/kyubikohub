@@ -12,7 +12,7 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
         }
     )
 
-    test_ref = db.collection("orgs").document("test")
+    test_ref = db.collection("sites").document("test")
     accounts_ref = test_ref.collection("accounts")
     users_ref = test_ref.collection("users")
     groups_ref = test_ref.collection("groups")
@@ -100,7 +100,7 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
         password="password",
     )
 
-    db.collection("orgs").document("admins").collection("groups").document(
+    db.collection("sites").document("admins").collection("groups").document(
         "to_delete"
     ).set(
         {
@@ -110,7 +110,7 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
         }
     )
 
-    db.collection("orgs").document("to_delete").set(
+    db.collection("sites").document("to_delete").set(
         {
             "name": "Org to be deleted",
             "createdAt": firestore.SERVER_TIMESTAMP,
