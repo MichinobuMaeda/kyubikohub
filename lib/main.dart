@@ -15,7 +15,6 @@ import 'views/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';
-import 'repositories/org_repository.dart';
 import 'config.dart';
 import 'platforms.dart';
 
@@ -54,11 +53,7 @@ void main() async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (isTest) {
-    await prefs.remove('org');
-  }
-  final org = prefs.getString('org');
-  if (org != null && org.isNotEmpty) {
-    orgStream.add(org);
+    await prefs.remove('site');
   }
 
   debugPrint("Show Widgets.");

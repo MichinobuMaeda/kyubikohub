@@ -7,7 +7,7 @@ import 'data_state.dart';
 part 'license_entries_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-DataState licenseEntry(LicenseEntryRef ref) =>
+DataState<List<LicenseEntry>> licenseEntry(LicenseEntryRef ref) =>
     ref.watch(licenseRepositoryProvider).when(
           data: (data) => Success(data
               .map((entry) => LicenseEntry(

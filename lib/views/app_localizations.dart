@@ -31,16 +31,18 @@ class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[Locale('ja')];
 
   String get title => appTitle;
-  String get login => "ログイン";
-  String get home => "ホーム";
-  String get aboutThisApp => "このアプリについて";
-  String get privacyPolicy => "プライバシーポリシー";
-  String get licenses => "ライセンス";
-  String get defaultLoadingMessage => "データ受信中 ...";
-  String get defaultErrorMessage => "エラー";
-  String get updateThisApp => "アプリを更新する";
-  String get adminPrivRequired => "管理者権限が必要です。";
-  String get copyright => "© 2024 Michinobu Maeda";
+  String get login => 'ログイン';
+  String get home => 'ホーム';
+  String get settings => '設定';
+  String get information => '情報';
+  String get guidance => 'ご案内';
+  String get aboutTheApp => 'アプリについて';
+  String get version => 'バージョン';
+  String get licenses => 'ライセンス';
+  String get defaultLoadingMessage => 'データ受信中 ...';
+  String get defaultErrorMessage => 'エラー';
+  String get updateThisApp => 'アプリを更新する';
+  String get adminPrivRequired => '管理者権限が必要です。';
 }
 
 class _AppLocalizationsDelegate

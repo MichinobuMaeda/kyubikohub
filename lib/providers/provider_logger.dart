@@ -1,10 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'data_state.dart';
+
 const maxLength = 512;
 
 String valueToString(Object? value) {
-  final str = (value is AsyncValue) ? '${value.value}' : '$value';
+  final val = value is AsyncValue ? value.value : value;
+  final data = val is Success ? val.data : val;
+  final str = "$data";
   return str.length > maxLength ? str.substring(0, maxLength) : str;
 }
 

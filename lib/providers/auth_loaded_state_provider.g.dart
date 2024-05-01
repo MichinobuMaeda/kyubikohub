@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'org_repository.dart';
+part of 'auth_loaded_state_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$orgRepositoryHash() => r'4b23f43af7f69009823d633ea8c9e89cf75036f3';
+String _$authLoadedStateHash() => r'5505142fe2b042bb3aaa534aaf9942f23855d665';
 
-/// See also [orgRepository].
-@ProviderFor(orgRepository)
-final orgRepositoryProvider = StreamProvider<String>.internal(
-  orgRepository,
-  name: r'orgRepositoryProvider',
+/// See also [authLoadedState].
+@ProviderFor(authLoadedState)
+final authLoadedStateProvider = AutoDisposeFutureProvider<bool>.internal(
+  authLoadedState,
+  name: r'authLoadedStateProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$orgRepositoryHash,
+      : _$authLoadedStateHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef OrgRepositoryRef = StreamProviderRef<String>;
+typedef AuthLoadedStateRef = AutoDisposeFutureProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

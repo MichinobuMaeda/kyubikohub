@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_loading_state_provider.dart';
+part of 'site_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authLoadingStateHash() => r'9ca0c063f4c2ef5a363041036a7bdb63a6f49d07';
+String _$siteRepositoryHash() => r'af6ae9f72f43edb33f01fe46087e041f513a07a4';
 
-/// See also [authLoadingState].
-@ProviderFor(authLoadingState)
-final authLoadingStateProvider = AutoDisposeFutureProvider<bool>.internal(
-  authLoadingState,
-  name: r'authLoadingStateProvider',
+/// See also [SiteRepository].
+@ProviderFor(SiteRepository)
+final siteRepositoryProvider =
+    AsyncNotifierProvider<SiteRepository, DataState<Site>>.internal(
+  SiteRepository.new,
+  name: r'siteRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authLoadingStateHash,
+      : _$siteRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef AuthLoadingStateRef = AutoDisposeFutureProviderRef<bool>;
+typedef _$SiteRepository = AsyncNotifier<DataState<Site>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
