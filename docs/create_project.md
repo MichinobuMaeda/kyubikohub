@@ -137,11 +137,22 @@ Set secrets
 - FUNCTIONS_ENV_KYUBIKOHUB
 
 ```bash
-gcloud config set project kyubikohub
-gcloud functions add-invoker-policy-binding on_deployment_deleted \
-      --region="asia-northeast2" \
-      --member="serviceAccount:[Project ID]-compute@developer.gserviceaccount.com"
+npx firebase functions:secrets:set DEPLOYMENT_KEY
+npx firebase deploy -- only functions
 ```
+
+- Copy `test/deployment_params.json` to a work file.
+- Set values
+    - `DEPLOYMENT_KEY`: "[secret value of DEPLOYMENT_KEY]",
+    - `PRIMARY_USER_ID`: null
+    - `PRIMARY_USER_EMAIL`: "[email address #1 for production]",
+    - `PRIMARY_USER_PASSWORD`: "[password #1 for production]",
+    - `TEST_MANAGER_ID`: null,
+    - `TEST_MANAGER_EMAIL`: "[email address #2 for production]",
+    - `TEST_MANAGER_PASSWORD`: "[password #2 for production]"
+- Delete spaces.
+- Delete line breaks and make it into one line.
+- Set it as the secret value of `DEPLOYMENT_PARAMS`.
 
 <https://console.cloud.google.com/>
 
@@ -155,3 +166,10 @@ gcloud functions add-invoker-policy-binding on_deployment_deleted \
                 - Service Account User
                 - Storage Admin
                 - Secret Manager Viewer
+
+<https://stackoverflow.com/questions/75514653/firebase-action-hosting-deploy-fails-with-requesterror-resource-not-accessible>
+
+1. On you your github repo click settings
+2. Click actions and then General
+3. Look for Workflow Permission section
+4. Choose the first option 'Read and write permission' and then the checkbox 'Allow GitHub Actions to create and approve pull requests' Please see attached file for your reference

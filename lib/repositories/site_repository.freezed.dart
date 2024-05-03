@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$Site {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get guide => throw _privateConstructorUsedError;
-  String get policy => throw _privateConstructorUsedError;
+  String get desc => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SiteCopyWith<Site> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +29,7 @@ abstract class $SiteCopyWith<$Res> {
   factory $SiteCopyWith(Site value, $Res Function(Site) then) =
       _$SiteCopyWithImpl<$Res, Site>;
   @useResult
-  $Res call({String id, String name, String guide, String policy});
+  $Res call({String id, String name, String desc});
 }
 
 /// @nodoc
@@ -48,8 +47,7 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? guide = null,
-    Object? policy = null,
+    Object? desc = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -60,13 +58,9 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      guide: null == guide
-          ? _value.guide
-          : guide // ignore: cast_nullable_to_non_nullable
-              as String,
-      policy: null == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -79,7 +73,7 @@ abstract class _$$SiteImplCopyWith<$Res> implements $SiteCopyWith<$Res> {
       __$$SiteImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String guide, String policy});
+  $Res call({String id, String name, String desc});
 }
 
 /// @nodoc
@@ -94,8 +88,7 @@ class __$$SiteImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
-    Object? guide = null,
-    Object? policy = null,
+    Object? desc = null,
   }) {
     return _then(_$SiteImpl(
       id: null == id
@@ -106,13 +99,9 @@ class __$$SiteImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      guide: null == guide
-          ? _value.guide
-          : guide // ignore: cast_nullable_to_non_nullable
-              as String,
-      policy: null == policy
-          ? _value.policy
-          : policy // ignore: cast_nullable_to_non_nullable
+      desc: null == desc
+          ? _value.desc
+          : desc // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -121,24 +110,18 @@ class __$$SiteImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SiteImpl implements _Site {
-  const _$SiteImpl(
-      {required this.id,
-      required this.name,
-      required this.guide,
-      required this.policy});
+  const _$SiteImpl({required this.id, required this.name, required this.desc});
 
   @override
   final String id;
   @override
   final String name;
   @override
-  final String guide;
-  @override
-  final String policy;
+  final String desc;
 
   @override
   String toString() {
-    return 'Site(id: $id, name: $name, guide: $guide, policy: $policy)';
+    return 'Site(id: $id, name: $name, desc: $desc)';
   }
 
   @override
@@ -148,12 +131,11 @@ class _$SiteImpl implements _Site {
             other is _$SiteImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.guide, guide) || other.guide == guide) &&
-            (identical(other.policy, policy) || other.policy == policy));
+            (identical(other.desc, desc) || other.desc == desc));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, guide, policy);
+  int get hashCode => Object.hash(runtimeType, id, name, desc);
 
   @JsonKey(ignore: true)
   @override
@@ -166,17 +148,14 @@ abstract class _Site implements Site {
   const factory _Site(
       {required final String id,
       required final String name,
-      required final String guide,
-      required final String policy}) = _$SiteImpl;
+      required final String desc}) = _$SiteImpl;
 
   @override
   String get id;
   @override
   String get name;
   @override
-  String get guide;
-  @override
-  String get policy;
+  String get desc;
   @override
   @JsonKey(ignore: true)
   _$$SiteImplCopyWith<_$SiteImpl> get copyWith =>

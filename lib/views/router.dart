@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../repositories/site_repository.dart';
 import 'navigation.dart';
+import 'auth/guard_login.dart';
+import 'home/home_screen.dart';
+import 'settings/settings_screen.dart';
 import 'about/about_screen.dart';
 
 Future<void> onSiteChange(WidgetRef ref, GoRouterState state) async {
@@ -18,43 +20,41 @@ GoRouter router(WidgetRef ref) {
     routes: [
       ShellRoute(
         builder: (context, state, child) {
-          return Navigation(child: child);
-          // return Navigation(child: const About(appTop: true));
+          return Navigation(state: state, child: child);
         },
         routes: [
           GoRoute(
             path: '/',
             builder: (context, state) {
-              return const AboutScreen(appTop: true);
+              return const AboutScreen();
             },
           ),
           GoRoute(
             path: '/:site',
             builder: (context, state) {
               onSiteChange(ref, state);
-              return Text('path: /${state.pathParameters['site']}');
+              return const GuardLogin(child: HomeScreen());
             },
           ),
           GoRoute(
             path: '/:site/settings',
             builder: (context, state) {
               onSiteChange(ref, state);
-              return Text('path: /${state.pathParameters['site']}/settings');
+              return const GuardLogin(child: SettingsScreen());
             },
           ),
           GoRoute(
             path: '/:site/about',
             builder: (context, state) {
               onSiteChange(ref, state);
-              return const AboutScreen(appTop: false);
+              return const AboutScreen();
             },
           ),
         ],
       )
     ],
-    errorPageBuilder: (context, state) => NoTransitionPage(
-      key: state.pageKey,
-      child: const Navigation(child: Text('Routing error')),
-    ),
+    errorBuilder: (context, state) {
+      return const AboutScreen();
+    },
   );
 }

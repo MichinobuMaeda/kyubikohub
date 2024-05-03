@@ -6,7 +6,7 @@ part of 'firebase_firestore.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myAccountHash() => r'2b804f7f5e32cb09a90c3735dfceca8b8863b0ba';
+String _$myAccountHash() => r'dffb5e9815f140b512c97a2a0de79eff8d1fb942';
 
 /// See also [myAccount].
 @ProviderFor(myAccount)
@@ -20,7 +20,7 @@ final myAccountProvider = StreamProvider<Account>.internal(
 );
 
 typedef MyAccountRef = StreamProviderRef<Account>;
-String _$usersHash() => r'3a61d03c64e657e4a4f61c063554d96bd9f6b94c';
+String _$usersHash() => r'e41b14795a8870e84ba5273c23020036928034ae';
 
 /// See also [users].
 @ProviderFor(users)

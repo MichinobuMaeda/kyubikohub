@@ -32,6 +32,8 @@ class AppLocalizations {
 
   String get title => appTitle;
   String get login => 'ログイン';
+  String get copy => 'コピー';
+  String get close => '閉じる';
   String get home => 'ホーム';
   String get settings => '設定';
   String get information => '情報';
@@ -43,6 +45,10 @@ class AppLocalizations {
   String get defaultErrorMessage => 'エラー';
   String get updateThisApp => 'アプリを更新する';
   String get adminPrivRequired => '管理者権限が必要です。';
+  String get siteId => 'サイトID';
+  String get forUsers => '利用者はこちらから。';
+  String get askAdminSiteId => 'サイトIDはサイト管理者に問い合わせてください。';
+  String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
 }
 
 class _AppLocalizationsDelegate

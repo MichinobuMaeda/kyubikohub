@@ -16,62 +16,64 @@ class Site with _$Site {
   const factory Site({
     required String id,
     required String name,
-    required String guide,
-    required String policy,
+    required String desc,
   }) = _Site;
 }
 
 @Riverpod(keepAlive: true)
 class SiteRepository extends _$SiteRepository {
   StreamSubscription? _sub;
-  String? id;
+  String? _id;
+  SharedPreferences? _prefs;
 
   @override
-  Future<DataState<Site>> build() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('site');
-    if (id != null) {
-      listen();
-    }
+  DataState<Site> build() {
+    initState();
     return Loading();
   }
 
-  Future<void> onSiteChange(String id) async {
-    if (this.id != id) {
-      await cancel();
-      this.id = id;
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('site', id);
-      listen();
+  @visibleForTesting
+  Future<void> initState() async {
+    _prefs = _prefs ?? await SharedPreferences.getInstance();
+    final id = _prefs?.getString('site');
+    if (id != null) {
+      onSiteChange(id);
     }
   }
 
   @visibleForTesting
-  Future<void> listen() async {
-    final ref = FirebaseFirestore.instance.collection('sites').doc(id);
-    _sub = ref.snapshots().listen(
-      (doc) {
-        state = AsyncData(
-          Success(
-            Site(
-              id: id!,
-              name: getStringValue(doc, 'name') ?? '-',
-              guide: getStringValue(doc, 'guide') ?? '',
-              policy: getStringValue(doc, 'policy') ?? '',
-            ),
-          ),
-        );
-      },
-      onError: (error, stackTrace) {
-        state = AsyncData(Error(error, stackTrace));
-      },
-    );
+  Future<void> saveSiteId(String id) async {
+    _prefs = _prefs ?? await SharedPreferences.getInstance();
+    _prefs?.setString('site', id);
   }
 
-  @visibleForTesting
-  Future<void> cancel() async {
-    await _sub?.cancel();
-    _sub = null;
-    state = AsyncData(Loading());
+  Future<void> onSiteChange(String id) async {
+    if (_id != id) {
+      final ref = FirebaseFirestore.instance.collection('sites').doc(id);
+      final doc = await ref.get();
+      if (doc.exists) {
+        await _sub?.cancel();
+        _sub = ref.snapshots().listen(
+          (doc) {
+            if (doc.exists) {
+              state = Success(
+                Site(
+                  id: id,
+                  name: getStringValue(doc, 'name') ?? '-',
+                  desc: getStringValue(doc, 'desc') ?? '',
+                ),
+              );
+              _id = id;
+              saveSiteId(id);
+            } else {
+              state = Loading();
+            }
+          },
+          onError: (error, stackTrace) {
+            state = Error(error, stackTrace);
+          },
+        );
+      }
+    }
   }
 }

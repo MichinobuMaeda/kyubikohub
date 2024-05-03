@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
+import '../../repositories/site_repository.dart';
+import '../../providers/data_state.dart';
 import '../app_localizations.dart';
 import 'guidance_page.dart';
 import 'about_app_page.dart';
@@ -20,14 +22,18 @@ class TabItem {
 }
 
 class AboutScreen extends HookConsumerWidget {
-  final bool appTop;
-  const AboutScreen({super.key, required this.appTop});
+  const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
+    final site = ref.watch(siteRepositoryProvider);
+    final bool isSite = switch (site) {
+      Loading() || Error() => false,
+      Success() => true,
+    };
     final tabItems = [
-      if (!appTop)
+      if (isSite)
         TabItem(
           Icons.support_agent,
           t.guidance,
@@ -49,22 +55,21 @@ class AboutScreen extends HookConsumerWidget {
       initialIndex: 0,
       length: tabItems.length,
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: TabBar(
           isScrollable: true,
           tabs: tabItems
               .map((item) => Tab(
                     child: Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: tabIconMargin),
-                        child: Icon(item.icon),
-                      ),
+                      Icon(item.icon),
+                      const SizedBox(width: tabIconMargin),
                       Text(item.label),
                     ]),
                   ))
               .toList(),
         ),
         body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
+          // physics: const NeverScrollableScrollPhysics(),
           children: tabItems.map((item) => item.page).toList(),
         ),
       ),

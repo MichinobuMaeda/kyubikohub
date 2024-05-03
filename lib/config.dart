@@ -45,16 +45,16 @@ Color linkColor(BuildContext context) =>
         : Colors.lightBlue.shade300;
 
 const textTheme = TextTheme(
-  bodySmall: TextStyle(fontSize: 14),
-  bodyMedium: TextStyle(fontSize: 18),
-  bodyLarge: TextStyle(fontSize: 20),
-);
+    // bodySmall: TextStyle(fontSize: 14),
+    // bodyMedium: TextStyle(fontSize: 18),
+    // bodyLarge: TextStyle(fontSize: 20),
+    );
 
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
   fontFamily: defaultFontFamily,
   useMaterial3: true,
-  textTheme: textTheme,
+  // textTheme: textTheme,
 );
 
 final darkTheme = theme.copyWith(
@@ -62,12 +62,19 @@ final darkTheme = theme.copyWith(
     seedColor: seedColor,
     brightness: Brightness.dark,
   ),
+  // textTheme: textTheme,
 );
 
+const buttonGap = 12.0;
 const tabIconMargin = 4.0;
+const iconButtonTransformVerticalOffset = Offset(0, -40);
+const cardItemPadding = EdgeInsets.all(8.0);
+const imagePadding = EdgeInsets.all(16.0);
 
-const aboutLogoAreaSize = 144.0;
-const aboutLogoAreaPadding = 16.0;
+const aboutLogoAreaSize = 84.0;
+
+const licenseListTitleMaxLines = 2;
+const licenseListBodyMaxLines = 3;
 
 void onTapLink(String text, String? href, String? title) {
   if (href != null) {

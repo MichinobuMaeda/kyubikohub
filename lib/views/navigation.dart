@@ -11,123 +11,111 @@ class NavItem {
   final Widget selectedIcon;
   final String label;
   final String path;
-  final bool enabled;
 
   const NavItem({
     required this.icon,
     required this.selectedIcon,
     required this.label,
     required this.path,
-    required this.enabled,
   });
-}
-
-List<NavItem> navItems(BuildContext context) {
-  final t = AppLocalizations.of(context)!;
-
-  return [
-    NavItem(
-      icon: const Icon(Icons.home_outlined),
-      selectedIcon: const Icon(Icons.home),
-      label: t.home,
-      path: '',
-      enabled: true,
-    ),
-    NavItem(
-      icon: const Icon(Icons.settings_outlined),
-      selectedIcon: const Icon(Icons.settings),
-      label: t.settings,
-      path: '/settings',
-      enabled: true,
-    ),
-    NavItem(
-      icon: const Icon(Icons.info_outlined),
-      selectedIcon: const Icon(Icons.info),
-      label: t.information,
-      path: '/about',
-      enabled: true,
-    ),
-  ];
 }
 
 class Navigation extends HookConsumerWidget {
   final Widget child;
-  const Navigation({super.key, required this.child});
+  final GoRouterState state;
+  const Navigation({super.key, required this.state, required this.child});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final site = ref.watch(siteRepositoryProvider);
+    final String? siteId = switch (site) {
+      Loading() => null,
+      Error() => null,
+      Success() => site.data.id,
+    };
+
+    final navItems = [
+      NavItem(
+        icon: const Icon(Icons.home_outlined),
+        selectedIcon: const Icon(Icons.home),
+        label: t.home,
+        path: '',
+      ),
+      NavItem(
+        icon: const Icon(Icons.settings_outlined),
+        selectedIcon: const Icon(Icons.settings),
+        label: t.settings,
+        path: '/settings',
+      ),
+      NavItem(
+        icon: const Icon(Icons.info_outlined),
+        selectedIcon: const Icon(Icons.info),
+        label: t.information,
+        path: '/about',
+      ),
+    ];
+
+    final selectedIndex = pathToIndex(siteId, state.uri.path, navItems);
 
     return Scaffold(
       body: Row(
         children: [
-          if (landscape)
-            ref.watch(siteRepositoryProvider).when(
-                  loading: () => const SizedBox.shrink(),
-                  error: (error, stackTrace) => const SizedBox.shrink(),
-                  data: (site) => switch (site) {
-                    Loading() => const SizedBox.shrink(),
-                    Error() => const SizedBox.shrink(),
-                    Success() => NavigationRail(
-                        labelType: NavigationRailLabelType.all,
-                        selectedIndex: 0,
-                        destinations: [
-                          ...navItems(context).map(
-                            (item) => NavigationRailDestination(
-                              icon: item.icon,
-                              selectedIcon: item.selectedIcon,
-                              label: Text(
-                                item.label,
-                                overflow: TextOverflow.fade,
-                              ),
-                              disabled: !item.enabled,
-                            ),
-                          ),
-                        ],
-                        onDestinationSelected: (index) {
-                          final items = navItems(context);
-                          if (0 <= index && index < items.length) {
-                            context.go('/${site.data.id}${items[index].path}');
-                          }
-                        },
-                      ),
-                  },
+          if (siteId != null && landscape)
+            NavigationRail(
+              labelType: NavigationRailLabelType.all,
+              selectedIndex: selectedIndex,
+              destinations: [
+                ...navItems.map(
+                  (item) => NavigationRailDestination(
+                    icon: item.icon,
+                    selectedIcon: item.selectedIcon,
+                    label: Text(
+                      item.label,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
                 ),
+              ],
+              onDestinationSelected: (index) {
+                context.go('/$siteId${navItems[index].path}');
+              },
+            ),
           Expanded(child: child),
         ],
       ),
-      bottomNavigationBar: landscape
+      bottomNavigationBar: (siteId == null || landscape)
           ? null
-          : ref.watch(siteRepositoryProvider).when(
-                loading: () => null,
-                error: (error, stackTrace) => null,
-                data: (site) => switch (site) {
-                  Loading() => null,
-                  Error() => null,
-                  Success() => NavigationBar(
-                      labelBehavior:
-                          NavigationDestinationLabelBehavior.alwaysShow,
-                      selectedIndex: 0,
-                      destinations: [
-                        ...navItems(context).map(
-                          (item) => NavigationDestination(
-                            icon: item.icon,
-                            selectedIcon: item.selectedIcon,
-                            label: item.label,
-                            enabled: item.enabled,
-                          ),
-                        ),
-                      ],
-                      onDestinationSelected: (index) {
-                        final items = navItems(context);
-                        if (0 <= index && index < items.length) {
-                          context.go('/${site.data.id}${items[index].path}');
-                        }
-                      },
-                    ),
-                },
-              ),
+          : NavigationBar(
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+              selectedIndex: selectedIndex ?? navItems.length - 1,
+              destinations: [
+                ...navItems.map(
+                  (item) => NavigationDestination(
+                    icon: item.icon,
+                    selectedIcon: item.selectedIcon,
+                    label: item.label,
+                  ),
+                ),
+              ],
+              onDestinationSelected: (index) {
+                context.go('/$siteId${navItems[index].path}');
+              },
+            ),
     );
+  }
+
+  int? pathToIndex(String? siteId, String path, List<NavItem> navItems) {
+    if (siteId != null) {
+      for (int index = 0; index < navItems.length; ++index) {
+        if (path == "/$siteId${navItems[index].path}") {
+          return index;
+        }
+      }
+    }
+
+    return null;
   }
 }
