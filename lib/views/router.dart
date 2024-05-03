@@ -2,20 +2,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../repositories/site_repository.dart';
-import 'navigation.dart';
-import 'auth/guard_login.dart';
 import 'home/home_screen.dart';
-import 'settings/settings_screen.dart';
-import 'about/about_screen.dart';
-
-Future<void> onSiteChange(WidgetRef ref, GoRouterState state) async {
-  final site = state.pathParameters['site'];
-  if (site != null && site.isNotEmpty) {
-    ref.read(siteRepositoryProvider.notifier).onSiteChange(site);
-  }
-}
+import 'about/about_site_screen.dart';
+import 'me/me_screen.dart';
+import 'navigation.dart';
+import 'guard_site.dart';
 
 GoRouter router(WidgetRef ref) {
+  final siteRepository = ref.read(siteRepositoryProvider.notifier);
+
+  Future<void> onSiteChange(GoRouterState state) =>
+      siteRepository.onSiteChange(state.pathParameters['site']);
+
   return GoRouter(
     routes: [
       ShellRoute(
@@ -26,35 +24,35 @@ GoRouter router(WidgetRef ref) {
           GoRoute(
             path: '/',
             builder: (context, state) {
-              return const AboutScreen();
+              return const GuardSite(child: AboutSiteScreen());
             },
           ),
           GoRoute(
-            path: '/:site',
+            path: '/:site$pathHome',
             builder: (context, state) {
-              onSiteChange(ref, state);
-              return const GuardLogin(child: HomeScreen());
+              onSiteChange(state);
+              return const GuardSite(child: HomeScreen());
             },
           ),
           GoRoute(
-            path: '/:site/settings',
+            path: '/:site$pathMe',
             builder: (context, state) {
-              onSiteChange(ref, state);
-              return const GuardLogin(child: SettingsScreen());
+              onSiteChange(state);
+              return const GuardSite(child: MeScreen());
             },
           ),
           GoRoute(
-            path: '/:site/about',
+            path: '/:site$pathAbout',
             builder: (context, state) {
-              onSiteChange(ref, state);
-              return const AboutScreen();
+              onSiteChange(state);
+              return const GuardSite(child: AboutSiteScreen());
             },
           ),
         ],
       )
     ],
     errorBuilder: (context, state) {
-      return const AboutScreen();
+      return const GuardSite(child: AboutSiteScreen());
     },
   );
 }

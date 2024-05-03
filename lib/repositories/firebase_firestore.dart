@@ -41,32 +41,30 @@ DocumentReference<Map<String, dynamic>> siteRef(String id) =>
 @Riverpod(keepAlive: true)
 Stream<Account> myAccount(MyAccountRef ref) {
   final site = ref.watch(siteRepositoryProvider);
-  return ref.watch(firebaseAuthRepositoryProvider).when(
-        data: (authUser) => switch (authUser) {
-          Loading() => const Stream.empty(),
-          Error() => const Stream.empty(),
-          Success() => authUser.data == null
-              ? const Stream.empty()
-              : switch (site) {
-                  Loading() => const Stream.empty(),
-                  Error() => const Stream.empty(),
-                  Success() => siteRef(site.data.id)
-                      .collection('accounts')
-                      .doc(authUser.data!.uid)
-                      .snapshots()
-                      .where((doc) => doc.exists)
-                      .where((doc) => !isDeleted(doc))
-                      .map(
-                        (doc) => Account(
-                          site: site.data.id,
-                          user: doc.get('user'),
-                        ),
-                      ),
-                },
-        },
-        error: (error, stackTrace) => const Stream.empty(),
-        loading: () => const Stream.empty(),
-      );
+  final authUser = ref.watch(firebaseAuthRepositoryProvider);
+
+  return switch (authUser) {
+    Loading() => const Stream.empty(),
+    Error() => const Stream.empty(),
+    Success() => authUser.data == null
+        ? const Stream.empty()
+        : switch (site) {
+            Loading() => const Stream.empty(),
+            Error() => const Stream.empty(),
+            Success() => siteRef(site.data.id)
+                .collection('accounts')
+                .doc(authUser.data!.uid)
+                .snapshots()
+                .where((doc) => doc.exists)
+                .where((doc) => !isDeleted(doc))
+                .map(
+                  (doc) => Account(
+                    site: site.data.id,
+                    user: doc.get('user'),
+                  ),
+                ),
+          },
+  };
 }
 
 @Riverpod(keepAlive: true)

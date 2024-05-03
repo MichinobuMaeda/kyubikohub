@@ -66,7 +66,7 @@ final darkTheme = theme.copyWith(
 );
 
 const buttonGap = 12.0;
-const tabIconMargin = 4.0;
+const iconTextGap = 4.0;
 const iconButtonTransformVerticalOffset = Offset(0, -40);
 const cardItemPadding = EdgeInsets.all(8.0);
 const imagePadding = EdgeInsets.all(16.0);

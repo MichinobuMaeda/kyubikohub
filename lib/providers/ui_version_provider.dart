@@ -8,14 +8,10 @@ part 'ui_version_provider.g.dart';
 @Riverpod(keepAlive: true)
 DataState<String> uiVersion(UiVersionRef ref) => ref.watch(
       confRepositoryProvider.select(
-        (selected) => selected.when(
-          data: (data) => switch (data) {
+        (data) => switch (data) {
             Loading() => Loading(),
             Error() => Error(data.error, data.stackTrace),
             Success() => Success(data.data.uiVersion!),
           },
-          error: (error, stack) => Error(error, stack),
-          loading: () => Loading(),
         ),
-      ),
     );

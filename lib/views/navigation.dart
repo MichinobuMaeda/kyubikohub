@@ -2,23 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../models/nav_item.dart';
 import '../providers/data_state.dart';
 import '../repositories/site_repository.dart';
+import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
 
-class NavItem {
-  final Widget icon;
-  final Widget selectedIcon;
-  final String label;
-  final String path;
-
-  const NavItem({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-    required this.path,
-  });
-}
+const pathHome = '';
+const pathMe = '/me';
+const pathAbout = '/about';
 
 class Navigation extends HookConsumerWidget {
   final Widget child;
@@ -32,33 +24,43 @@ class Navigation extends HookConsumerWidget {
         MediaQuery.of(context).orientation == Orientation.landscape;
     final site = ref.watch(siteRepositoryProvider);
     final String? siteId = switch (site) {
-      Loading() => null,
-      Error() => null,
+      Loading() || Error() => null,
       Success() => site.data.id,
     };
 
     final navItems = [
       NavItem(
-        icon: const Icon(Icons.home_outlined),
-        selectedIcon: const Icon(Icons.home),
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home,
         label: t.home,
-        path: '',
+        path: pathHome,
       ),
       NavItem(
-        icon: const Icon(Icons.settings_outlined),
-        selectedIcon: const Icon(Icons.settings),
-        label: t.settings,
-        path: '/settings',
+        icon: Icons.account_circle_outlined,
+        selectedIcon: Icons.account_circle,
+        label: t.me,
+        path: pathMe,
       ),
       NavItem(
-        icon: const Icon(Icons.info_outlined),
-        selectedIcon: const Icon(Icons.info),
-        label: t.information,
-        path: '/about',
+        icon: Icons.info_outlined,
+        selectedIcon: Icons.info,
+        label: t.about,
+        path: pathAbout,
       ),
     ];
 
-    final selectedIndex = pathToIndex(siteId, state.uri.path, navItems);
+    String itemPath(int index) => '/$siteId${navItems[index].path}';
+
+    final selectedIndex = () {
+      if (siteId != null && siteId.isNotEmpty) {
+        for (int index = 0; index < navItems.length; ++index) {
+          if (state.uri.path == itemPath(index)) {
+            return index;
+          }
+        }
+      }
+      return navItems.length - 1;
+    }();
 
     return Scaffold(
       body: Row(
@@ -70,8 +72,8 @@ class Navigation extends HookConsumerWidget {
               destinations: [
                 ...navItems.map(
                   (item) => NavigationRailDestination(
-                    icon: item.icon,
-                    selectedIcon: item.selectedIcon,
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.selectedIcon),
                     label: Text(
                       item.label,
                       overflow: TextOverflow.fade,
@@ -80,42 +82,37 @@ class Navigation extends HookConsumerWidget {
                 ),
               ],
               onDestinationSelected: (index) {
-                context.go('/$siteId${navItems[index].path}');
+                context.go(itemPath(index));
               },
             ),
-          Expanded(child: child),
+          Expanded(
+            child: Column(
+              children: [
+                const UpdateAppMessage(),
+                Expanded(child: child),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: (siteId == null || landscape)
           ? null
           : NavigationBar(
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-              selectedIndex: selectedIndex ?? navItems.length - 1,
+              selectedIndex: selectedIndex,
               destinations: [
                 ...navItems.map(
                   (item) => NavigationDestination(
-                    icon: item.icon,
-                    selectedIcon: item.selectedIcon,
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.selectedIcon),
                     label: item.label,
                   ),
                 ),
               ],
               onDestinationSelected: (index) {
-                context.go('/$siteId${navItems[index].path}');
+                context.go(itemPath(index));
               },
             ),
     );
-  }
-
-  int? pathToIndex(String? siteId, String path, List<NavItem> navItems) {
-    if (siteId != null) {
-      for (int index = 0; index < navItems.length; ++index) {
-        if (path == "/$siteId${navItems[index].path}") {
-          return index;
-        }
-      }
-    }
-
-    return null;
   }
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
 import '../../repositories/site_repository.dart';
 import '../../providers/about_app_provider.dart';
 import '../../providers/data_state.dart';
+import '../me/go_site.dart';
 import '../app_localizations.dart';
 
 class AboutAppPage extends HookConsumerWidget {
@@ -24,8 +23,6 @@ class AboutAppPage extends HookConsumerWidget {
       Success() => true,
     };
 
-    final selectedSite = useState<String?>(null);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,49 +32,9 @@ class AboutAppPage extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Flexible(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 384.0),
-                        child: Text(
-                          "${t.forUsers}\n${t.askAdminSiteId}",
-                          maxLines: 8,
-                          overflow: TextOverflow.fade,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onBackground,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: buttonGap),
-                    SizedBox(
-                      width: 96.0,
-                      child: TextField(
-                        onChanged: (value) {
-                          selectedSite.value = value;
-                        },
-                        textInputAction: TextInputAction.go,
-                        onSubmitted: (value) {
-                          context.go('/$value');
-                        },
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                        decoration: InputDecoration(
-                          label: Text(t.siteId),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward),
-                      color: Theme.of(context).colorScheme.onBackground,
-                      onPressed: () {
-                        context.go('/${selectedSite.value}');
-                      },
-                    ),
-                  ],
+                GoSite(
+                  message: "${t.forUsers}\n${t.askAdminSiteId}",
+                  messageWidth: 384.0,
                 ),
               ],
             ),

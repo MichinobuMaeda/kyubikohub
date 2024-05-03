@@ -8,16 +8,10 @@ part 'about_app_provider.g.dart';
 @Riverpod(keepAlive: true)
 DataState<String> aboutApp(AboutAppRef ref) => ref.watch(
       confRepositoryProvider.select(
-        (selected) => selected.when(
-          data: (data) => switch (data) {
-            Loading() => Loading(),
-            Error() => Error(data.error, data.stackTrace),
-            Success() => Success(
-                data.data.desc ?? '',
-              ),
-          },
-          error: (error, stack) => Error(error, stack),
-          loading: () => Loading(),
-        ),
+        (data) => switch (data) {
+          Loading() => Loading(),
+          Error() => Error(data.error, data.stackTrace),
+          Success() => Success(data.data.desc ?? ''),
+        },
       ),
     );

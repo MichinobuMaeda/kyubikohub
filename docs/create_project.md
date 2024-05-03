@@ -91,7 +91,7 @@ Emulators: Set up local emulators for Firebase products
 ? Set up automatic deployment to your site's live channel when a PR is merged? Yes
 ? What is the name of the GitHub branch associated with your site's live channel? main
 i  Action required: Visit this URL to revoke authorization for the Firebase CLI GitHub OAuth App:
-https://github.com/settings/connections/applications/89cf50f02ac6aaed3484
+https://github.com/me/connections/applications/89cf50f02ac6aaed3484
 ? What file should be used for Storage Rules? storage.rules
 ? Which Firebase emulators do you want to set up? Press Space to select emulators, then Enter to confirm your choices. Authentication Emulator, Functions Emulator, Firestore Emulator, Storage Emulator
 ? Which port do you want to use for the auth emulator? 9099
@@ -129,7 +129,7 @@ Set site key to `webRecaptchaSiteKey` in `lib/config.dart`.
         - Firestore database
             - add `service/deployment` with timestamp field `createdAt`
 
-<https://github.com/MichinobuMaeda/curkyubikohubuviho/settings/secrets/actions>
+<https://github.com/MichinobuMaeda/curkyubikohubuviho/me/secrets/actions>
 
 Set secrets
 

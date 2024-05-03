@@ -109,7 +109,7 @@ class __$$SiteImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SiteImpl implements _Site {
+class _$SiteImpl with DiagnosticableTreeMixin implements _Site {
   const _$SiteImpl({required this.id, required this.name, required this.desc});
 
   @override
@@ -120,8 +120,18 @@ class _$SiteImpl implements _Site {
   final String desc;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Site(id: $id, name: $name, desc: $desc)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Site'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('desc', desc));
   }
 
   @override

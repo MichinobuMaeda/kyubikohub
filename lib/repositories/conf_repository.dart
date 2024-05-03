@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,16 +19,14 @@ class Conf with _$Conf {
 @Riverpod(keepAlive: true)
 class ConfRepository extends _$ConfRepository {
   @override
-  Future<DataState<Conf>> build() async {
+  DataState<Conf> build() {
     final ref = FirebaseFirestore.instance.collection('service').doc('conf');
     ref.snapshots().listen(
       (doc) {
-        state = AsyncData(
-          Success(
-            Conf(
-              uiVersion: getStringValue(doc, "uiVersion"),
-              desc: getStringValue(doc, "desc"),
-            ),
+        state = Success(
+          Conf(
+            uiVersion: getStringValue(doc, "uiVersion"),
+            desc: getStringValue(doc, "desc"),
           ),
         );
       },

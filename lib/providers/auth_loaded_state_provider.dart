@@ -6,8 +6,8 @@ import 'data_state.dart';
 part 'auth_loaded_state_provider.g.dart';
 
 @riverpod
-Future<bool> authLoadedState(AuthLoadedStateRef ref) => ref.watch(
-      firebaseAuthRepositoryProvider.selectAsync(
+bool authLoadedState(AuthLoadedStateRef ref) => ref.watch(
+      firebaseAuthRepositoryProvider.select(
         (authUser) => authUser is Success,
       ),
     );

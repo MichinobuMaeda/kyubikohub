@@ -8,6 +8,35 @@ import 'package:intl/intl.dart' as intl;
 import '../../config.dart';
 
 class AppLocalizations {
+  String get title => appTitle;
+  // Nav Items
+  String get home => 'ホーム';
+  String get me => '設定';
+  String get about => '情報';
+  // Tab Items
+  String get myAccount => 'アカウントの設定';
+  String get preferences => 'アプリの設定';
+  String get guidance => 'ご案内';
+  String get aboutTheApp => 'アプリについて';
+  String get licenses => 'ライセンス';
+  // Actions
+  String get login => 'ログイン';
+  String get copy => 'コピー';
+  String get update => '更新';
+  String get save => '保存';
+  String get close => '閉じる';
+
+  String get version => 'バージョン';
+  String get defaultLoadingMessage => 'データ受信中 ...';
+  String get defaultErrorMessage => 'エラー';
+  String get updateThisApp => 'アプリを更新してください';
+  String get adminPrivRequired => '管理者権限が必要です。';
+  String get siteId => 'サイトID';
+  String get forUsers => '利用者はこちらから。';
+  String get changeSite => 'サイトの移動。';
+  String get askAdminSiteId => 'サイトIDはサイト管理者に問い合わせてください。';
+  String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
+
   AppLocalizations() : localeName = intl.Intl.canonicalizedLocale('ja');
 
   final String localeName;
@@ -29,26 +58,6 @@ class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[Locale('ja')];
-
-  String get title => appTitle;
-  String get login => 'ログイン';
-  String get copy => 'コピー';
-  String get close => '閉じる';
-  String get home => 'ホーム';
-  String get settings => '設定';
-  String get information => '情報';
-  String get guidance => 'ご案内';
-  String get aboutTheApp => 'アプリについて';
-  String get version => 'バージョン';
-  String get licenses => 'ライセンス';
-  String get defaultLoadingMessage => 'データ受信中 ...';
-  String get defaultErrorMessage => 'エラー';
-  String get updateThisApp => 'アプリを更新する';
-  String get adminPrivRequired => '管理者権限が必要です。';
-  String get siteId => 'サイトID';
-  String get forUsers => '利用者はこちらから。';
-  String get askAdminSiteId => 'サイトIDはサイト管理者に問い合わせてください。';
-  String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
 }
 
 class _AppLocalizationsDelegate

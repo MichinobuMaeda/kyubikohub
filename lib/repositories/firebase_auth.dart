@@ -18,21 +18,19 @@ class AuthUser with _$AuthUser {
 @Riverpod(keepAlive: true)
 class FirebaseAuthRepository extends _$FirebaseAuthRepository {
   @override
-  Future<DataState<AuthUser?>> build() async {
+  DataState<AuthUser?> build() {
     FirebaseAuth.instance.authStateChanges().listen(
       (user) {
-        state = AsyncData(
-          Success(
-            user == null
-                ? null
-                : AuthUser(
-                    uid: user.uid,
-                    email: user.email,
-                  ),
-          ),
+        state = Success(
+          user == null
+              ? null
+              : AuthUser(
+                  uid: user.uid,
+                  email: user.email,
+                ),
         );
       },
-      onError:(error, stackTrace)=> Error(error, stackTrace),
+      onError: (error, stackTrace) => Error(error, stackTrace),
     );
     return Loading();
   }
