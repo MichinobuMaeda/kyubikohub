@@ -14,8 +14,9 @@ class AppLocalizations {
   String get me => '設定';
   String get about => '情報';
   // Tab Items
-  String get myAccount => 'アカウントの設定';
+  String get notices => 'お知らせ';
   String get preferences => 'アプリの設定';
+  String get myAccount => 'アカウントの設定';
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
   String get licenses => 'ライセンス';

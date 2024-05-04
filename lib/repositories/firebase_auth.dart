@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../providers/data_state.dart';
+import '../models/data_state.dart';
 
 part 'firebase_auth.g.dart';
 part 'firebase_auth.freezed.dart';
@@ -22,7 +22,7 @@ class FirebaseAuthRepository extends _$FirebaseAuthRepository {
     FirebaseAuth.instance.authStateChanges().listen(
       (user) {
         state = Success(
-          user == null
+          data: user == null
               ? null
               : AuthUser(
                   uid: user.uid,
@@ -30,8 +30,11 @@ class FirebaseAuthRepository extends _$FirebaseAuthRepository {
                 ),
         );
       },
-      onError: (error, stackTrace) => Error(error, stackTrace),
+      onError: (error, stackTrace) => Error(
+        error: error,
+        stackTrace: stackTrace,
+      ),
     );
-    return Loading();
+    return const Loading();
   }
 }

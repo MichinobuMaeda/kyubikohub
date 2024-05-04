@@ -6,7 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../config.dart';
 import '../../repositories/site_repository.dart';
 import '../../providers/about_app_provider.dart';
-import '../../providers/data_state.dart';
+import '../../models/data_state.dart';
 import '../me/go_site.dart';
 import '../app_localizations.dart';
 

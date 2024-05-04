@@ -3,60 +3,51 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/nav_item.dart';
-import '../providers/data_state.dart';
-import '../repositories/site_repository.dart';
 import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
 
-const pathHome = '';
-const pathMe = '/me';
-const pathAbout = '/about';
-
 class Navigation extends HookConsumerWidget {
   final Widget child;
-  final GoRouterState state;
-  const Navigation({super.key, required this.state, required this.child});
+  final String? site;
+  final NavPath? navPath;
+  const Navigation({
+    super.key,
+    required this.site,
+    required this.navPath,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final site = ref.watch(siteRepositoryProvider);
-    final String? siteId = switch (site) {
-      Loading() || Error() => null,
-      Success() => site.data.id,
-    };
 
     final navItems = [
       NavItem(
         icon: Icons.home_outlined,
         selectedIcon: Icons.home,
         label: t.home,
-        path: pathHome,
+        navPath: NavPath.home,
       ),
       NavItem(
         icon: Icons.account_circle_outlined,
         selectedIcon: Icons.account_circle,
         label: t.me,
-        path: pathMe,
+        navPath: NavPath.me,
       ),
       NavItem(
         icon: Icons.info_outlined,
         selectedIcon: Icons.info,
         label: t.about,
-        path: pathAbout,
+        navPath: NavPath.about,
       ),
     ];
 
-    String itemPath(int index) => '/$siteId${navItems[index].path}';
-
     final selectedIndex = () {
-      if (siteId != null && siteId.isNotEmpty) {
-        for (int index = 0; index < navItems.length; ++index) {
-          if (state.uri.path == itemPath(index)) {
-            return index;
-          }
+      for (int index = 0; index < navItems.length; ++index) {
+        if (navPath == navItems[index].navPath) {
+          return index;
         }
       }
       return navItems.length - 1;
@@ -65,7 +56,7 @@ class Navigation extends HookConsumerWidget {
     return Scaffold(
       body: Row(
         children: [
-          if (siteId != null && landscape)
+          if (site != null && landscape)
             NavigationRail(
               labelType: NavigationRailLabelType.all,
               selectedIndex: selectedIndex,
@@ -82,7 +73,10 @@ class Navigation extends HookConsumerWidget {
                 ),
               ],
               onDestinationSelected: (index) {
-                context.go(itemPath(index));
+                context.goNamed(
+                  navItems[index].navPath.name,
+                  pathParameters: {'site': site!},
+                );
               },
             ),
           Expanded(
@@ -95,7 +89,7 @@ class Navigation extends HookConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar: (siteId == null || landscape)
+      bottomNavigationBar: (site == null || landscape)
           ? null
           : NavigationBar(
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
@@ -110,7 +104,10 @@ class Navigation extends HookConsumerWidget {
                 ),
               ],
               onDestinationSelected: (index) {
-                context.go(itemPath(index));
+                context.goNamed(
+                  navItems[index].navPath.name,
+                  pathParameters: {'site': site!},
+                );
               },
             ),
     );

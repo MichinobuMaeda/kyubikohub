@@ -19,7 +19,7 @@ mixin _$NavItem {
   IconData get icon => throw _privateConstructorUsedError;
   IconData get selectedIcon => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
-  String get path => throw _privateConstructorUsedError;
+  NavPath get navPath => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavItemCopyWith<NavItem> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +30,8 @@ abstract class $NavItemCopyWith<$Res> {
   factory $NavItemCopyWith(NavItem value, $Res Function(NavItem) then) =
       _$NavItemCopyWithImpl<$Res, NavItem>;
   @useResult
-  $Res call({IconData icon, IconData selectedIcon, String label, String path});
+  $Res call(
+      {IconData icon, IconData selectedIcon, String label, NavPath navPath});
 }
 
 /// @nodoc
@@ -49,7 +50,7 @@ class _$NavItemCopyWithImpl<$Res, $Val extends NavItem>
     Object? icon = null,
     Object? selectedIcon = null,
     Object? label = null,
-    Object? path = null,
+    Object? navPath = null,
   }) {
     return _then(_value.copyWith(
       icon: null == icon
@@ -64,10 +65,10 @@ class _$NavItemCopyWithImpl<$Res, $Val extends NavItem>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      path: null == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String,
+      navPath: null == navPath
+          ? _value.navPath
+          : navPath // ignore: cast_nullable_to_non_nullable
+              as NavPath,
     ) as $Val);
   }
 }
@@ -79,7 +80,8 @@ abstract class _$$NavItemImplCopyWith<$Res> implements $NavItemCopyWith<$Res> {
       __$$NavItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({IconData icon, IconData selectedIcon, String label, String path});
+  $Res call(
+      {IconData icon, IconData selectedIcon, String label, NavPath navPath});
 }
 
 /// @nodoc
@@ -96,7 +98,7 @@ class __$$NavItemImplCopyWithImpl<$Res>
     Object? icon = null,
     Object? selectedIcon = null,
     Object? label = null,
-    Object? path = null,
+    Object? navPath = null,
   }) {
     return _then(_$NavItemImpl(
       icon: null == icon
@@ -111,10 +113,10 @@ class __$$NavItemImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String,
-      path: null == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String,
+      navPath: null == navPath
+          ? _value.navPath
+          : navPath // ignore: cast_nullable_to_non_nullable
+              as NavPath,
     ));
   }
 }
@@ -126,7 +128,7 @@ class _$NavItemImpl implements _NavItem {
       {required this.icon,
       required this.selectedIcon,
       required this.label,
-      required this.path});
+      required this.navPath});
 
   @override
   final IconData icon;
@@ -135,11 +137,11 @@ class _$NavItemImpl implements _NavItem {
   @override
   final String label;
   @override
-  final String path;
+  final NavPath navPath;
 
   @override
   String toString() {
-    return 'NavItem(icon: $icon, selectedIcon: $selectedIcon, label: $label, path: $path)';
+    return 'NavItem(icon: $icon, selectedIcon: $selectedIcon, label: $label, navPath: $navPath)';
   }
 
   @override
@@ -151,11 +153,12 @@ class _$NavItemImpl implements _NavItem {
             (identical(other.selectedIcon, selectedIcon) ||
                 other.selectedIcon == selectedIcon) &&
             (identical(other.label, label) || other.label == label) &&
-            (identical(other.path, path) || other.path == path));
+            (identical(other.navPath, navPath) || other.navPath == navPath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, icon, selectedIcon, label, path);
+  int get hashCode =>
+      Object.hash(runtimeType, icon, selectedIcon, label, navPath);
 
   @JsonKey(ignore: true)
   @override
@@ -169,7 +172,7 @@ abstract class _NavItem implements NavItem {
       {required final IconData icon,
       required final IconData selectedIcon,
       required final String label,
-      required final String path}) = _$NavItemImpl;
+      required final NavPath navPath}) = _$NavItemImpl;
 
   @override
   IconData get icon;
@@ -178,7 +181,7 @@ abstract class _NavItem implements NavItem {
   @override
   String get label;
   @override
-  String get path;
+  NavPath get navPath;
   @override
   @JsonKey(ignore: true)
   _$$NavItemImplCopyWith<_$NavItemImpl> get copyWith =>

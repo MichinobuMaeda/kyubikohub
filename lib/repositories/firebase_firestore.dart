@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/user.dart';
-import '../providers/data_state.dart';
+import '../models/data_state.dart';
 import 'firebase_auth.dart';
 import 'site_repository.dart';
 

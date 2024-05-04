@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../providers/update_app_provider.dart';
 import '../../providers/ui_version_provider.dart';
-import '../../providers/data_state.dart';
+import '../../models/data_state.dart';
 import '../app_localizations.dart';
 
 class UpdateAppMessage extends HookConsumerWidget {

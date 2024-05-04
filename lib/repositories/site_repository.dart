@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_firestore.dart';
-import '../providers/data_state.dart';
+import '../models/data_state.dart';
 
 part 'site_repository.g.dart';
 part 'site_repository.freezed.dart';
@@ -16,7 +16,9 @@ class Site with _$Site {
   const factory Site({
     required String id,
     required String name,
-    required String desc,
+    required String forGuests,
+    required String forMembers,
+    required String forMangers,
   }) = _Site;
 }
 
@@ -24,18 +26,21 @@ class Site with _$Site {
 class SiteRepository extends _$SiteRepository {
   StreamSubscription? _sub;
   String? _id;
-  SharedPreferences? _prefs;
+  SharedPreferences? _localStorage;
 
   @override
   DataState<Site> build() {
     initState();
-    return Loading();
+    return const Loading();
   }
 
   @visibleForTesting
+  Future<SharedPreferences> getLocalStorage() async =>
+      _localStorage ?? await SharedPreferences.getInstance();
+
+  @visibleForTesting
   Future<void> initState() async {
-    _prefs = _prefs ?? await SharedPreferences.getInstance();
-    final id = _prefs!.getString('site');
+    final id = (await getLocalStorage()).getString('site');
     if (id == null) {
       return;
     }
@@ -44,8 +49,30 @@ class SiteRepository extends _$SiteRepository {
 
   @visibleForTesting
   Future<void> saveSiteId(String id) async {
-    _prefs = _prefs ?? await SharedPreferences.getInstance();
-    _prefs!.setString('site', id);
+    (await getLocalStorage()).setString('site', id);
+  }
+
+  void setSite(DocumentSnapshot<Map<String, dynamic>> doc) {
+    final site = Success(
+      data: Site(
+        id: doc.id,
+        name: getStringValue(doc, 'name') ?? '-',
+        forGuests: getStringValue(doc, 'forGuests') ?? '',
+        forMembers: getStringValue(doc, 'forMembers') ?? '',
+        forMangers: getStringValue(doc, 'forMangers') ?? '',
+      ),
+    );
+
+    if (state == site) {
+      return;
+    }
+
+    state = site;
+
+    if (_id != doc.id) {
+      _id = doc.id;
+      saveSiteId(doc.id);
+    }
   }
 
   Future<void> onSiteChange(String? id) async {
@@ -60,25 +87,19 @@ class SiteRepository extends _$SiteRepository {
       return;
     }
 
+    setSite(doc);
+
     await _sub?.cancel();
     _sub = ref.snapshots().listen(
       (doc) {
         if (doc.exists) {
-          state = Success(
-            Site(
-              id: id,
-              name: getStringValue(doc, 'name') ?? '-',
-              desc: getStringValue(doc, 'desc') ?? '',
-            ),
-          );
-          _id = id;
-          saveSiteId(id);
+          setSite(doc);
         } else {
           state = Loading();
         }
       },
       onError: (error, stackTrace) {
-        state = Error(error, stackTrace);
+        state = Error(error: error, stackTrace: stackTrace);
       },
     );
   }

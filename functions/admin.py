@@ -25,7 +25,9 @@ def create_site(
     site_ref.set(
         {
             "name": site_name,
-            "desc": "## Guide",
+            "forGuests": "## For guests",
+            "forMembers": "## For members",
+            "forMangers": "## For managers",
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }

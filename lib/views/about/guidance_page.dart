@@ -5,7 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
 import '../../repositories/site_repository.dart';
-import '../../providers/data_state.dart';
+import '../../models/data_state.dart';
 import '../app_localizations.dart';
 
 class GuidancePage extends HookConsumerWidget {
@@ -53,13 +53,13 @@ class GuidancePage extends HookConsumerWidget {
                         ClipboardData(text: '''
 # ${site.data.name}
 
-${site.data.desc}
+${site.data.forGuests}
 '''),
                       ),
                     ),
                     Expanded(
                       child: Markdown(
-                        data: site.data.desc,
+                        data: site.data.forGuests,
                         onTapLink: onTapLink,
                         padding: cardItemPadding,
                         styleSheet: markdownStyleSheet(context),

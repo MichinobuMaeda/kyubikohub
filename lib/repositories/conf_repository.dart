@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../providers/data_state.dart';
+import '../models/data_state.dart';
 import 'firebase_firestore.dart';
 
 part 'conf_repository.g.dart';
@@ -24,14 +24,17 @@ class ConfRepository extends _$ConfRepository {
     ref.snapshots().listen(
       (doc) {
         state = Success(
-          Conf(
+          data: Conf(
             uiVersion: getStringValue(doc, "uiVersion"),
             desc: getStringValue(doc, "desc"),
           ),
         );
       },
-      onError: (error, stackTrace) => Error(error, stackTrace),
+      onError: (error, stackTrace) => Error(
+        error: error,
+        stackTrace: stackTrace,
+      ),
     );
-    return Loading();
+    return const Loading();
   }
 }

@@ -6,7 +6,7 @@ import '../../utils.dart';
 import 'package:kyubikohub/config.dart';
 import 'package:kyubikohub/views/app_localizations.dart';
 import 'package:kyubikohub/providers/about_app_provider.dart';
-import 'package:kyubikohub/providers/data_state.dart';
+import 'package:kyubikohub/models/data_state.dart';
 import 'package:kyubikohub/views/about/about_app_page.dart';
 
 void main() {
@@ -18,7 +18,7 @@ void main() {
       const testDescription = 'Test data';
       final overrides = [
         aboutAppProvider.overrideWith(
-          (ref) => Success(testDescription),
+          (ref) => const Success(data: testDescription),
         ),
       ];
 

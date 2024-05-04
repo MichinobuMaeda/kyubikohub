@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'data_state.dart';
+import '../models/data_state.dart';
 
 const maxLength = 512;
 
