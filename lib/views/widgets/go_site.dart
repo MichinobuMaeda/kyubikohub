@@ -51,7 +51,7 @@ class GoSite extends HookConsumerWidget {
             },
             textInputAction: TextInputAction.go,
             onSubmitted: (value) {
-              context.go('/$value');
+              context.go('/${value.trim()}');
             },
             style: TextStyle(
               color: Theme.of(context).colorScheme.onBackground,
@@ -65,7 +65,7 @@ class GoSite extends HookConsumerWidget {
           icon: const Icon(Icons.arrow_forward),
           color: Theme.of(context).colorScheme.onBackground,
           onPressed: () {
-            context.go('/${selectedSite.value}');
+            context.go('/${selectedSite.value?.trim()}');
           },
         ),
       ],

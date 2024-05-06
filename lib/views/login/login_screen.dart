@@ -21,7 +21,7 @@ class LoginScreen extends HookConsumerWidget {
         TabItem(
           icon: Icons.login,
           label: t.login,
-          page: LoginPage(),
+          page: const LoginPage(),
         ),
         TabItem(
           icon: Icons.support_agent,

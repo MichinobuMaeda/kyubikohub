@@ -91,7 +91,7 @@ class Navigation extends HookConsumerWidget {
                 Expanded(
                   child: site == null || isMember
                       ? child
-                      : LoginScreen(),
+                      : const LoginScreen(),
                 ),
               ],
             ),

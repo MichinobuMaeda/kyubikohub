@@ -32,9 +32,12 @@ class LicenseListPage extends HookConsumerWidget {
                     entry.title,
                     maxLines: licenseListTitleMaxLines,
                   ),
-                  subtitle: BodyText(
-                    entry.body,
-                    maxLines: licenseListBodyMaxLines,
+                  subtitle: ColoredBox(
+                    color: Theme.of(context).colorScheme.background,
+                    child: BodyText(
+                      entry.body,
+                      maxLines: licenseListBodyMaxLines,
+                    ),
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.more_horiz),
