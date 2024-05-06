@@ -28,11 +28,11 @@ def _get_deployment_handle(
 
 def _set_ui_version(
     db: firestore.Client,
-    project: str,
+    project_id: str,
 ):
     print("Start: setUiVersion")
     res = requests.get(
-        f"https://{project}.web.app/version.json" f"?check={datetime.now().timestamp()}"
+        f"https://{project_id}.web.app/version.json" f"?check={datetime.now().timestamp()}"
     )
     if res.status_code == 200:
         ver = res.json()["version"]
