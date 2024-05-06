@@ -32,11 +32,14 @@ class GoSite extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: titleLarge),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 Text(
                   message,
                   maxLines: 8,
-                  style: bodyMedium,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

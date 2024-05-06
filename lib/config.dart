@@ -39,62 +39,60 @@ const seedColor = Color.fromARGB(255, 85, 107, 47);
 const defaultFontFamily = fontNameNotoSans;
 const monospaceFontFamily = 'monospace';
 const baseSize = 16.0;
-final ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: seedColor);
 Color linkColor(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? Colors.blue.shade800
         : Colors.lightBlue.shade300;
 
 // Style -- relative settings
-final bodySmall = TextStyle(
-  fontSize: baseSize * 0.9,
-  fontWeight: FontWeight.normal,
-  color: colorScheme.onBackground,
-);
-final bodyMedium = bodySmall.copyWith(fontSize: baseSize);
-final bodyLarge = bodyMedium.copyWith(fontSize: baseSize * 1.1);
-final titleSmall = bodyMedium.copyWith(
-  fontSize: baseSize * 1.2,
-  color: colorScheme.primary,
-);
-final titleMedium = titleSmall.copyWith(fontSize: baseSize * 1.4);
-final titleLarge = titleSmall.copyWith(fontSize: baseSize * 1.6);
+ThemeData themeData(Brightness brightness) {
+  final ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: brightness,
+  );
+  final bodySmall = TextStyle(
+    fontSize: baseSize * 0.9,
+    fontWeight: FontWeight.normal,
+    color: colorScheme.onBackground,
+  );
+  final bodyMedium = bodySmall.copyWith(fontSize: baseSize);
+  final bodyLarge = bodyMedium.copyWith(fontSize: baseSize * 1.1);
+  final titleSmall = bodyMedium.copyWith(
+    fontSize: baseSize * 1.2,
+    color: colorScheme.primary,
+  );
+  final titleMedium = titleSmall.copyWith(fontSize: baseSize * 1.4);
+  final titleLarge = titleSmall.copyWith(fontSize: baseSize * 1.6);
+
+  return ThemeData(
+    colorScheme: colorScheme,
+    fontFamily: defaultFontFamily,
+    useMaterial3: true,
+    textTheme: TextTheme(
+      bodySmall: bodySmall,
+      bodyMedium: bodyMedium,
+      bodyLarge: bodyLarge,
+      titleSmall: titleSmall,
+      titleMedium: titleMedium,
+      titleLarge: titleLarge,
+    ),
+    tabBarTheme: TabBarTheme(
+      labelStyle: bodyMedium,
+      unselectedLabelStyle: bodyMedium,
+    ),
+    listTileTheme: ListTileThemeData(
+      tileColor: colorScheme.background,
+      titleTextStyle: titleSmall,
+      subtitleTextStyle: bodyMedium,
+    ),
+  );
+}
 
 const buttonGap = baseSize * 0.75;
 const iconTextGap = baseSize * 0.25;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
-
-ThemeData lightTheme = ThemeData(
-  colorScheme: colorScheme,
-  fontFamily: defaultFontFamily,
-  useMaterial3: true,
-  textTheme: TextTheme(
-    bodySmall: bodySmall,
-    bodyMedium: bodyMedium,
-    bodyLarge: bodyLarge,
-    titleSmall: titleSmall,
-    titleMedium: titleMedium,
-    titleLarge: titleLarge,
-  ),
-  tabBarTheme: TabBarTheme(
-    labelStyle: bodyMedium,
-    unselectedLabelStyle: bodyMedium,
-  ),
-  listTileTheme: ListTileThemeData(
-    tileColor: colorScheme.background,
-    titleTextStyle: titleSmall,
-    subtitleTextStyle: bodyMedium,
-  ),
-);
-
-ThemeData darkTheme = lightTheme.copyWith(
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: seedColor,
-    brightness: Brightness.dark,
-  ),
-);
 
 void onTapLink(String text, String? href, String? title) {
   if (href != null && href.trim().isNotEmpty) {
@@ -105,21 +103,23 @@ void onTapLink(String text, String? href, String? title) {
   }
 }
 
-MarkdownStyleSheet markdownStyleSheet(BuildContext context) =>
-    MarkdownStyleSheet(
-      p: bodyMedium,
-      h1: titleLarge.copyWith(fontSize: baseSize * 2.0),
-      h2: titleLarge,
-      h3: titleMedium,
-      h4: titleSmall,
-      h5: titleSmall.copyWith(
-        fontSize: bodyLarge.fontSize,
-        fontWeight: FontWeight.bold,
-      ),
-      h6: titleSmall.copyWith(
-        fontSize: bodyMedium.fontSize,
-        fontWeight: FontWeight.bold,
-      ),
-      code: bodyMedium.copyWith(fontFamily: monospaceFontFamily),
-      a: bodyMedium.copyWith(color: linkColor(context)),
-    );
+MarkdownStyleSheet markdownStyleSheet(BuildContext context) {
+  final textTheme = Theme.of(context).textTheme;
+  return MarkdownStyleSheet(
+    p: textTheme.bodyMedium,
+    h1: textTheme.titleLarge?.copyWith(fontSize: baseSize * 2.0),
+    h2: textTheme.titleLarge,
+    h3: textTheme.titleMedium,
+    h4: textTheme.titleSmall,
+    h5: textTheme.titleSmall?.copyWith(
+      fontSize: textTheme.bodyLarge?.fontSize,
+      fontWeight: FontWeight.bold,
+    ),
+    h6: textTheme.titleSmall?.copyWith(
+      fontSize: textTheme.bodyMedium?.fontSize,
+      fontWeight: FontWeight.bold,
+    ),
+    code: textTheme.bodyMedium?.copyWith(fontFamily: monospaceFontFamily),
+    a: textTheme.bodyMedium?.copyWith(color: linkColor(context)),
+  );
+}

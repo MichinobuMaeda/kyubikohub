@@ -78,8 +78,8 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp.router(
         title: appTitle,
-        theme: lightTheme,
-        darkTheme: darkTheme,
+        theme: themeData(Brightness.light),
+        darkTheme: themeData(Brightness.dark),
         themeMode: themeMode,
         localizationsDelegates: const [
           AppLocalizations.delegate,

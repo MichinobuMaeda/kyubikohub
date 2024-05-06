@@ -52,8 +52,14 @@ class AboutAppPage extends HookConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(appTitle, style: titleLarge),
-                  Text('${t.version}: $version', style: bodyMedium,),
+                  Text(
+                    appTitle,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '${t.version}: $version',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ],
               ),
             ],

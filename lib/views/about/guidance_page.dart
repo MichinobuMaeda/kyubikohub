@@ -27,7 +27,10 @@ class GuidancePage extends HookConsumerWidget {
                 children: [
                   Padding(
                     padding: cardItemPadding,
-                    child: Text(site.data.name, style: titleLarge),
+                    child: Text(
+                      site.data.name,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   ),
                 ],
               ),

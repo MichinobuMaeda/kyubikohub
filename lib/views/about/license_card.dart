@@ -25,7 +25,7 @@ class LicenseCard extends HookConsumerWidget {
                   child: Text(
                     title,
                     maxLines: 8,
-                    style: titleSmall,
+                    style: Theme.of(context).textTheme.titleSmall,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -54,7 +54,7 @@ class LicenseCard extends HookConsumerWidget {
                   child: Text(
                     body,
                     maxLines: 1000,
-                    style: bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

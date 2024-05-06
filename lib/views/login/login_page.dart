@@ -36,7 +36,7 @@ class LoginPage extends HookConsumerWidget {
           padding: cardItemPadding,
           child: Text(
             t.loginSite(site: site is Success<Site> ? site.data.name : ''),
-            style: bodyMedium,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
         Padding(
@@ -54,11 +54,17 @@ class LoginPage extends HookConsumerWidget {
             children: [
               Padding(
                 padding: cardItemPadding,
-                child: Text(t.selectLoginMethod, style: bodyMedium),
+                child: Text(
+                  t.selectLoginMethod,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               ...loginMethods.map(
                 (item) => RadioListTile(
-                  title: Text(item.title, style: bodyLarge),
+                  title: Text(
+                    item.title,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   value: item.value,
                   groupValue: loginMethod.value,
                   onChanged: (value) {
