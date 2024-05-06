@@ -29,10 +29,22 @@ class UpdateAppMessage extends HookConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(child: BodyText(t.updateThisApp)),
+                  Flexible(
+                    child: Text(
+                      t.updateThisApp,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onErrorContainer,
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: buttonGap),
-                  OutlinedButton(
+                  FilledButton(
                     onPressed: updateApp,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      foregroundColor:
+                          Theme.of(context).colorScheme.onError,
+                    ),
                     child: Row(
                       children: [
                         const Icon(Icons.refresh),

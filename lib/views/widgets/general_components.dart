@@ -15,6 +15,7 @@ class SectionTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: Theme.of(context).textTheme.titleMedium?.fontSize,
             color: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).colorScheme.background,
           ),
         ),
       );
@@ -35,6 +36,7 @@ class ListTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: Theme.of(context).textTheme.titleSmall?.fontSize,
             color: Theme.of(context).colorScheme.primary,
+            backgroundColor: Theme.of(context).colorScheme.background,
           ),
         ),
       );
@@ -53,6 +55,7 @@ class BodyText extends StatelessWidget {
         style: TextStyle(
           fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.onBackground,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
       );
 }
@@ -70,6 +73,7 @@ class BodyLargeText extends StatelessWidget {
         style: TextStyle(
           fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
           color: Theme.of(context).colorScheme.onBackground,
+          backgroundColor: Theme.of(context).colorScheme.background,
         ),
       );
 }
