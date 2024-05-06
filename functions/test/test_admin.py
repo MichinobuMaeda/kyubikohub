@@ -50,9 +50,9 @@ class TestMain(unittest.TestCase):
         site_snap.reference.set.assert_called_once_with(
             {
                 "name": "Org Name",
-                "forGuests": "## For guests",
-                "forMembers": "## For members",
-                "forMangers": "## For managers",
+                "forGuests": "## はじめての皆さん",
+                "forMembers": "## メンバーの皆さん",
+                "forMangers": "## サイト管理者の皆さん",
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
@@ -123,9 +123,9 @@ class TestMain(unittest.TestCase):
         site_snap.reference.set.assert_called_once_with(
             {
                 "name": "Org Name",
-                "forGuests": "## For guests",
-                "forMembers": "## For members",
-                "forMangers": "## For managers",
+                "forGuests": "## はじめての皆さん",
+                "forMembers": "## メンバーの皆さん",
+                "forMangers": "## サイト管理者の皆さん",
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
