@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'data_state.dart';
+import '../models/data_state.dart';
 
 const maxLength = 512;
 
@@ -20,8 +20,8 @@ class ProviderLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     debugPrint(
-      '   added: [${provider.name}]'
-      ' ${valueToString(value)}',
+      '''
+   added: [${provider.name}] ${valueToString(value)}''',
     );
   }
 
@@ -33,9 +33,9 @@ class ProviderLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     debugPrint(
-      ' updated: [${provider.name}]'
-      ' ${valueToString(previousValue)}'
-      ' --> ${valueToString(newValue)}',
+      '''
+ updated: [${provider.name}] ${valueToString(previousValue)}'
+  --> ${valueToString(newValue)}''',
     );
   }
 
@@ -45,7 +45,8 @@ class ProviderLogger extends ProviderObserver {
     ProviderContainer container,
   ) {
     debugPrint(
-      ' disposed: [${provider.name}]',
+      '''
+disposed: [${provider.name}]''',
     );
   }
 }

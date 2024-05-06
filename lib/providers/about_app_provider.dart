@@ -1,23 +1,21 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repositories/conf_repository.dart';
-import 'data_state.dart';
+import '../models/data_state.dart';
 
 part 'about_app_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-DataState<String> aboutApp(AboutAppRef ref) => ref.watch(
-      confRepositoryProvider.select(
-        (selected) => selected.when(
-          data: (data) => switch (data) {
-            Loading() => Loading(),
-            Error() => Error(data.error, data.stackTrace),
-            Success() => Success(
-                data.data.desc ?? '',
-              ),
-          },
-          error: (error, stack) => Error(error, stack),
-          loading: () => Loading(),
-        ),
-      ),
-    );
+DataState<String> aboutApp(AboutAppRef ref) =>
+    ref.watch(confRepositoryProvider).when(
+          data: (conf) => conf == null
+              ? const Loading()
+              : Success(
+                  data: conf.desc ?? '',
+                ),
+          error: (error, stackTrace) => Error(
+            error: error,
+            stackTrace: stackTrace,
+          ),
+          loading: () => const Loading(),
+        );

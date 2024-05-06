@@ -91,7 +91,7 @@ Emulators: Set up local emulators for Firebase products
 ? Set up automatic deployment to your site's live channel when a PR is merged? Yes
 ? What is the name of the GitHub branch associated with your site's live channel? main
 i  Action required: Visit this URL to revoke authorization for the Firebase CLI GitHub OAuth App:
-https://github.com/settings/connections/applications/89cf50f02ac6aaed3484
+https://github.com/me/connections/applications/89cf50f02ac6aaed3484
 ? What file should be used for Storage Rules? storage.rules
 ? Which Firebase emulators do you want to set up? Press Space to select emulators, then Enter to confirm your choices. Authentication Emulator, Functions Emulator, Firestore Emulator, Storage Emulator
 ? Which port do you want to use for the auth emulator? 9099
@@ -129,7 +129,7 @@ Set site key to `webRecaptchaSiteKey` in `lib/config.dart`.
         - Firestore database
             - add `service/deployment` with timestamp field `createdAt`
 
-<https://github.com/MichinobuMaeda/curkyubikohubuviho/settings/secrets/actions>
+<https://github.com/MichinobuMaeda/curkyubikohubuviho/me/secrets/actions>
 
 Set secrets
 
@@ -137,11 +137,22 @@ Set secrets
 - FUNCTIONS_ENV_KYUBIKOHUB
 
 ```bash
-gcloud config set project kyubikohub
-gcloud functions add-invoker-policy-binding on_deployment_deleted \
-      --region="asia-northeast2" \
-      --member="serviceAccount:[Project ID]-compute@developer.gserviceaccount.com"
+npx firebase functions:secrets:set DEPLOYMENT_KEY
+npx firebase deploy -- only functions
 ```
+
+- Copy `test/deployment_params.json` to a work file.
+- Set values
+    - `DEPLOYMENT_KEY`: "[secret value of DEPLOYMENT_KEY]",
+    - `PRIMARY_USER_ID`: null
+    - `PRIMARY_USER_EMAIL`: "[email address #1 for production]",
+    - `PRIMARY_USER_PASSWORD`: "[password #1 for production]",
+    - `TEST_MANAGER_ID`: null,
+    - `TEST_MANAGER_EMAIL`: "[email address #2 for production]",
+    - `TEST_MANAGER_PASSWORD`: "[password #2 for production]"
+- Delete spaces.
+- Delete line breaks and make it into one line.
+- Set it as the secret value of `DEPLOYMENT_PARAMS`.
 
 <https://console.cloud.google.com/>
 
@@ -155,3 +166,10 @@ gcloud functions add-invoker-policy-binding on_deployment_deleted \
                 - Service Account User
                 - Storage Admin
                 - Secret Manager Viewer
+
+<https://stackoverflow.com/questions/75514653/firebase-action-hosting-deploy-fails-with-requesterror-resource-not-accessible>
+
+1. On you your github repo click settings
+2. Click actions and then General
+3. Look for Workflow Permission section
+4. Choose the first option 'Read and write permission' and then the checkbox 'Allow GitHub Actions to create and approve pull requests' Please see attached file for your reference

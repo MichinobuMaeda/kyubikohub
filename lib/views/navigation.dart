@@ -2,132 +2,123 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../providers/data_state.dart';
-import '../repositories/site_repository.dart';
+import '../models/nav_item.dart';
+import '../models/data_state.dart';
+import '../repositories/account_repository.dart';
+import 'login/login_screen.dart';
+import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
-
-class NavItem {
-  final Widget icon;
-  final Widget selectedIcon;
-  final String label;
-  final String path;
-  final bool enabled;
-
-  const NavItem({
-    required this.icon,
-    required this.selectedIcon,
-    required this.label,
-    required this.path,
-    required this.enabled,
-  });
-}
-
-List<NavItem> navItems(BuildContext context) {
-  final t = AppLocalizations.of(context)!;
-
-  return [
-    NavItem(
-      icon: const Icon(Icons.home_outlined),
-      selectedIcon: const Icon(Icons.home),
-      label: t.home,
-      path: '',
-      enabled: true,
-    ),
-    NavItem(
-      icon: const Icon(Icons.settings_outlined),
-      selectedIcon: const Icon(Icons.settings),
-      label: t.settings,
-      path: '/settings',
-      enabled: true,
-    ),
-    NavItem(
-      icon: const Icon(Icons.info_outlined),
-      selectedIcon: const Icon(Icons.info),
-      label: t.information,
-      path: '/about',
-      enabled: true,
-    ),
-  ];
-}
 
 class Navigation extends HookConsumerWidget {
   final Widget child;
-  const Navigation({super.key, required this.child});
+  final String? site;
+  final NavPath? navPath;
+  const Navigation({
+    super.key,
+    required this.site,
+    required this.navPath,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final isMember = ref.watch(accountRepositoryProvider) is Success;
+    final showNav = site != null && isMember;
+
+    final navItems = [
+      NavItem(
+        icon: Icons.home_outlined,
+        selectedIcon: Icons.home,
+        label: t.home,
+        navPath: NavPath.home,
+      ),
+      NavItem(
+        icon: Icons.account_circle_outlined,
+        selectedIcon: Icons.account_circle,
+        label: t.me,
+        navPath: NavPath.me,
+      ),
+      NavItem(
+        icon: Icons.info_outlined,
+        selectedIcon: Icons.info,
+        label: t.about,
+        navPath: NavPath.about,
+      ),
+    ];
+
+    final selectedIndex = () {
+      for (int index = 0; index < navItems.length; ++index) {
+        if (navPath == navItems[index].navPath) {
+          return index;
+        }
+      }
+      return navItems.length - 1;
+    }();
 
     return Scaffold(
       body: Row(
         children: [
-          if (landscape)
-            ref.watch(siteRepositoryProvider).when(
-                  loading: () => const SizedBox.shrink(),
-                  error: (error, stackTrace) => const SizedBox.shrink(),
-                  data: (site) => switch (site) {
-                    Loading() => const SizedBox.shrink(),
-                    Error() => const SizedBox.shrink(),
-                    Success() => NavigationRail(
-                        labelType: NavigationRailLabelType.all,
-                        selectedIndex: 0,
-                        destinations: [
-                          ...navItems(context).map(
-                            (item) => NavigationRailDestination(
-                              icon: item.icon,
-                              selectedIcon: item.selectedIcon,
-                              label: Text(
-                                item.label,
-                                overflow: TextOverflow.fade,
-                              ),
-                              disabled: !item.enabled,
-                            ),
-                          ),
-                        ],
-                        onDestinationSelected: (index) {
-                          final items = navItems(context);
-                          if (0 <= index && index < items.length) {
-                            context.go('/${site.data.id}${items[index].path}');
-                          }
-                        },
-                      ),
-                  },
+          if (showNav && landscape)
+            NavigationRail(
+              labelType: NavigationRailLabelType.all,
+              selectedIndex: selectedIndex,
+              destinations: [
+                ...navItems.map(
+                  (item) => NavigationRailDestination(
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.selectedIcon),
+                    label: Text(
+                      item.label,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
                 ),
-          Expanded(child: child),
+              ],
+              onDestinationSelected: (index) {
+                context.goNamed(
+                  navItems[index].navPath.name,
+                  pathParameters: {'site': site ?? ''},
+                );
+              },
+            ),
+          Expanded(
+            child: Column(
+              children: [
+                const UpdateAppMessage(),
+                Expanded(
+                  child: site == null || isMember
+                      ? child
+                      : const LoginScreen(),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
-      bottomNavigationBar: landscape
+      bottomNavigationBar: (!showNav || landscape)
           ? null
-          : ref.watch(siteRepositoryProvider).when(
-                loading: () => null,
-                error: (error, stackTrace) => null,
-                data: (site) => switch (site) {
-                  Loading() => null,
-                  Error() => null,
-                  Success() => NavigationBar(
-                      labelBehavior:
-                          NavigationDestinationLabelBehavior.alwaysShow,
-                      selectedIndex: 0,
-                      destinations: [
-                        ...navItems(context).map(
-                          (item) => NavigationDestination(
-                            icon: item.icon,
-                            selectedIcon: item.selectedIcon,
-                            label: item.label,
-                            enabled: item.enabled,
-                          ),
-                        ),
-                      ],
-                      onDestinationSelected: (index) {
-                        final items = navItems(context);
-                        if (0 <= index && index < items.length) {
-                          context.go('/${site.data.id}${items[index].path}');
-                        }
-                      },
-                    ),
-                },
-              ),
+          : NavigationBar(
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+              selectedIndex: selectedIndex,
+              destinations: [
+                ...navItems.map(
+                  (item) => NavigationDestination(
+                    icon: Icon(item.icon),
+                    selectedIcon: Icon(item.selectedIcon),
+                    label: item.label,
+                  ),
+                ),
+              ],
+              onDestinationSelected: (index) {
+                context.goNamed(
+                  navItems[index].navPath.name,
+                  pathParameters: {'site': site ?? ''},
+                );
+              },
+            ),
     );
   }
 }
