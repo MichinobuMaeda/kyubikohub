@@ -9,7 +9,6 @@ import '../../providers/about_app_provider.dart';
 import '../../models/data_state.dart';
 import '../widgets/go_site.dart';
 import '../app_localizations.dart';
-import '../widgets/general_components.dart';
 
 class AboutAppPage extends HookConsumerWidget {
   const AboutAppPage({super.key});
@@ -41,8 +40,8 @@ class AboutAppPage extends HookConsumerWidget {
           child: Row(
             children: [
               const SizedBox(
-                height: aboutLogoAreaSize,
-                width: aboutLogoAreaSize,
+                height: baseSize * 6,
+                width: baseSize * 6,
                 child: Center(
                   child: Padding(
                     padding: imagePadding,
@@ -53,8 +52,8 @@ class AboutAppPage extends HookConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SectionTitle(appTitle),
-                  BodyText('${t.version}: $version'),
+                  Text(appTitle, style: titleLarge),
+                  Text('${t.version}: $version', style: bodyMedium,),
                 ],
               ),
             ],

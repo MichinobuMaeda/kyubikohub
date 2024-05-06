@@ -78,7 +78,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) => MaterialApp.router(
         title: appTitle,
-        theme: theme,
+        theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: themeMode,
         localizationsDelegates: const [
@@ -87,7 +87,7 @@ class MyApp extends HookConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        locale: const Locale('ja'),
+        locale:  const Locale('ja'),
         supportedLocales: const [
           Locale('ja'),
         ],

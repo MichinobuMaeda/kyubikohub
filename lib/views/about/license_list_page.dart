@@ -3,9 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../config.dart';
 import '../../models/license.dart';
-import '../widgets/general_components.dart';
 import 'license_card.dart';
 
 class LicenseListPage extends HookConsumerWidget {
@@ -28,13 +26,15 @@ class LicenseListPage extends HookConsumerWidget {
               )
               .map(
                 (entry) => ListTile(
-                  title: ListTitle(
+                  title: Text(
                     entry.title,
-                    maxLines: licenseListTitleMaxLines,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  subtitle: BodyText(
+                  subtitle: Text(
                     entry.body,
-                    maxLines: licenseListBodyMaxLines,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.more_horiz),

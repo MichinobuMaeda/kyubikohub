@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config.dart';
-import '../widgets/general_components.dart';
 import '../app_localizations.dart';
 
 class GoSite extends HookConsumerWidget {
@@ -33,10 +32,12 @@ class GoSite extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SectionTitle(title),
-                BodyText(
+                Text(title, style: titleLarge),
+                Text(
                   message,
                   maxLines: 8,
+                  style: bodyMedium,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

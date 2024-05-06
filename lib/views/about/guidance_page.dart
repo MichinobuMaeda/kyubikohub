@@ -6,7 +6,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../config.dart';
 import '../../repositories/site_repository.dart';
 import '../../models/data_state.dart';
-import '../widgets/general_components.dart';
 import '../app_localizations.dart';
 
 class GuidancePage extends HookConsumerWidget {
@@ -28,8 +27,7 @@ class GuidancePage extends HookConsumerWidget {
                 children: [
                   Padding(
                     padding: cardItemPadding,
-                    child: SectionTitle(
-                      site.data.name),
+                    child: Text(site.data.name, style: titleLarge),
                   ),
                 ],
               ),

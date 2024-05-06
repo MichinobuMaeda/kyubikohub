@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import '../widgets/general_components.dart';
 import '../app_localizations.dart';
 
 class LicenseCard extends HookConsumerWidget {
@@ -23,7 +22,12 @@ class LicenseCard extends HookConsumerWidget {
               Expanded(
                 child: Padding(
                   padding: cardItemPadding,
-                  child: SectionTitle(title),
+                  child: Text(
+                    title,
+                    maxLines: 8,
+                    style: titleSmall,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               IconButton(
@@ -47,7 +51,12 @@ class LicenseCard extends HookConsumerWidget {
                 color: Theme.of(context).colorScheme.background,
                 child: Padding(
                   padding: cardItemPadding,
-                  child: BodyText(body),
+                  child: Text(
+                    body,
+                    maxLines: 1000,
+                    style: bodyMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),

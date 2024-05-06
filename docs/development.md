@@ -84,8 +84,9 @@ $ fvm dart run build_runner watch
 - Functions: `functions/htmlcov/index.html`
 - Flutter: `coverage/index.html`
 
-Flutter (Dart) の静的コードチェック
+Flutter (Dart) の静的コードチェックと自動修正
 
 ```bash
-dart fix --dry-run
+fvm dart fix --dry-run
+fvm dart fix --apply
 ```

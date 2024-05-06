@@ -6,7 +6,6 @@ import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../repositories/site_repository.dart';
 import '../widgets/go_site.dart';
-import '../widgets/general_components.dart';
 import '../app_localizations.dart';
 
 enum LoginMethod { emailLink, password }
@@ -35,8 +34,9 @@ class LoginPage extends HookConsumerWidget {
       children: [
         Padding(
           padding: cardItemPadding,
-          child: BodyText(
+          child: Text(
             t.loginSite(site: site is Success<Site> ? site.data.name : ''),
+            style: bodyMedium,
           ),
         ),
         Padding(
@@ -54,11 +54,11 @@ class LoginPage extends HookConsumerWidget {
             children: [
               Padding(
                 padding: cardItemPadding,
-                child: BodyText(t.selectLoginMethod),
+                child: Text(t.selectLoginMethod, style: bodyMedium),
               ),
               ...loginMethods.map(
                 (item) => RadioListTile(
-                  title: BodyLargeText(item.title),
+                  title: Text(item.title, style: bodyLarge),
                   value: item.value,
                   groupValue: loginMethod.value,
                   onChanged: (value) {
