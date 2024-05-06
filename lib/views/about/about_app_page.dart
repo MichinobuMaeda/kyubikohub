@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -7,8 +8,9 @@ import '../../config.dart';
 import '../../repositories/site_repository.dart';
 import '../../providers/about_app_provider.dart';
 import '../../models/data_state.dart';
-import '../me/go_site.dart';
+import '../widgets/go_site.dart';
 import '../app_localizations.dart';
+import '../widgets/general_components.dart';
 
 class AboutAppPage extends HookConsumerWidget {
   const AboutAppPage({super.key});
@@ -32,10 +34,7 @@ class AboutAppPage extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GoSite(
-                  message: "${t.forUsers}\n${t.askAdminSiteId}",
-                  messageWidth: 384.0,
-                ),
+                GoSite(title: t.moveToSite, message: t.askAdminSiteId),
               ],
             ),
           ),
@@ -55,22 +54,8 @@ class AboutAppPage extends HookConsumerWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    appTitle,
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  Text(
-                    '${t.version}: $version',
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
+                  const SectionTitle(appTitle),
+                  BodyText('${t.version}: $version'),
                 ],
               ),
             ],

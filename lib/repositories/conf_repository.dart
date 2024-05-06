@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../models/data_state.dart';
 import 'firebase_firestore.dart';
 
 part 'conf_repository.g.dart';
@@ -16,25 +15,16 @@ class Conf with _$Conf {
   }) = _Conf;
 }
 
+final _confRef = FirebaseFirestore.instance.collection('service').doc('conf');
+
 @Riverpod(keepAlive: true)
-class ConfRepository extends _$ConfRepository {
-  @override
-  DataState<Conf> build() {
-    final ref = FirebaseFirestore.instance.collection('service').doc('conf');
-    ref.snapshots().listen(
-      (doc) {
-        state = Success(
-          data: Conf(
-            uiVersion: getStringValue(doc, "uiVersion"),
-            desc: getStringValue(doc, "desc"),
-          ),
+Stream<Conf?> confRepository(ConfRepositoryRef ref) =>
+    _confRef.snapshots()
+        .map(
+          (doc) => doc.exists
+              ? Conf(
+                  uiVersion: getStringValue(doc, "uiVersion"),
+                  desc: getStringValue(doc, "desc"),
+                )
+              : null,
         );
-      },
-      onError: (error, stackTrace) => Error(
-        error: error,
-        stackTrace: stackTrace,
-      ),
-    );
-    return const Loading();
-  }
-}

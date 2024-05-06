@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/license.dart';
+import '../widgets/general_components.dart';
 import 'license_card.dart';
 
 class LicenseListPage extends HookConsumerWidget {
@@ -27,19 +28,12 @@ class LicenseListPage extends HookConsumerWidget {
               )
               .map(
                 (entry) => ListTile(
-                  title: Text(
+                  title: ListTitle(
                     entry.title,
-                    overflow: TextOverflow.fade,
                     maxLines: licenseListTitleMaxLines,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
-                    ),
                   ),
-                  subtitle: Text(
+                  subtitle: BodyText(
                     entry.body,
-                    overflow: TextOverflow.fade,
                     maxLines: licenseListBodyMaxLines,
                   ),
                   trailing: IconButton(

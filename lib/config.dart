@@ -44,17 +44,26 @@ Color linkColor(BuildContext context) =>
         ? Colors.blue.shade800
         : Colors.lightBlue.shade300;
 
-const textTheme = TextTheme(
-    // bodySmall: TextStyle(fontSize: 14),
-    // bodyMedium: TextStyle(fontSize: 18),
-    // bodyLarge: TextStyle(fontSize: 20),
-    );
-
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: seedColor),
   fontFamily: defaultFontFamily,
   useMaterial3: true,
-  // textTheme: textTheme,
+  textTheme: const TextTheme(
+    bodySmall: TextStyle(fontSize: 14),
+    bodyMedium: TextStyle(fontSize: 16),
+    bodyLarge: TextStyle(fontSize: 18),
+    titleSmall: TextStyle(fontSize: 20),
+    titleMedium: TextStyle(fontSize: 24),
+    titleLarge: TextStyle(fontSize: 28),
+  ),
+  listTileTheme: const ListTileThemeData(
+    titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+    subtitleTextStyle: TextStyle(fontSize: 16),
+  ),
+  tabBarTheme: const TabBarTheme(
+    labelStyle: TextStyle(fontSize: 16),
+    unselectedLabelStyle: TextStyle(fontSize: 16),
+  ),
 );
 
 final darkTheme = theme.copyWith(
@@ -62,16 +71,15 @@ final darkTheme = theme.copyWith(
     seedColor: seedColor,
     brightness: Brightness.dark,
   ),
-  // textTheme: textTheme,
 );
 
 const buttonGap = 12.0;
 const iconTextGap = 4.0;
 const iconButtonTransformVerticalOffset = Offset(0, -40);
-const cardItemPadding = EdgeInsets.all(8.0);
+const cardItemPadding = EdgeInsets.all(12.0);
 const imagePadding = EdgeInsets.all(16.0);
 
-const aboutLogoAreaSize = 84.0;
+const aboutLogoAreaSize = 96.0;
 
 const licenseListTitleMaxLines = 2;
 const licenseListBodyMaxLines = 3;

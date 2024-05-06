@@ -3,6 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/nav_item.dart';
+import '../models/data_state.dart';
+import '../repositories/account_repository.dart';
+import 'login/login_screen.dart';
 import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
 
@@ -22,6 +25,8 @@ class Navigation extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    final isMember = ref.watch(accountRepositoryProvider) is Success;
+    final showNav = site != null && isMember;
 
     final navItems = [
       NavItem(
@@ -56,7 +61,7 @@ class Navigation extends HookConsumerWidget {
     return Scaffold(
       body: Row(
         children: [
-          if (site != null && landscape)
+          if (showNav && landscape)
             NavigationRail(
               labelType: NavigationRailLabelType.all,
               selectedIndex: selectedIndex,
@@ -75,7 +80,7 @@ class Navigation extends HookConsumerWidget {
               onDestinationSelected: (index) {
                 context.goNamed(
                   navItems[index].navPath.name,
-                  pathParameters: {'site': site!},
+                  pathParameters: {'site': site ?? ''},
                 );
               },
             ),
@@ -83,13 +88,17 @@ class Navigation extends HookConsumerWidget {
             child: Column(
               children: [
                 const UpdateAppMessage(),
-                Expanded(child: child),
+                Expanded(
+                  child: site == null || isMember
+                      ? child
+                      : LoginScreen(),
+                ),
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: (site == null || landscape)
+      bottomNavigationBar: (!showNav || landscape)
           ? null
           : NavigationBar(
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
@@ -106,7 +115,7 @@ class Navigation extends HookConsumerWidget {
               onDestinationSelected: (index) {
                 context.goNamed(
                   navItems[index].navPath.name,
-                  pathParameters: {'site': site!},
+                  pathParameters: {'site': site ?? ''},
                 );
               },
             ),

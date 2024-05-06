@@ -15,13 +15,14 @@ import 'views/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';
+import 'repositories/local_storage_repository.dart';
 import 'config.dart';
 import 'platforms.dart';
 
 void main() async {
   SharedPreferences.setPrefix('kyubikohub');
   const bool isTest = version == 'for test';
-  debugPrint('Test mode: $isTest');
+  debugPrint('     env: ${isTest ? "test" : "production"}');
 
   debugPrint('Adding licenses manually.');
   for (var entry in licenseAssets) {
@@ -35,7 +36,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  debugPrint('Initializing Firebase.');
+  debugPrint('    info: Initializing Firebase.');
   await Firebase.initializeApp(options: firebaseOptions);
   if (isTest) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
@@ -49,14 +50,14 @@ void main() async {
       // appleProvider: AppleProvider.appAttest,
     );
   }
-  debugPrint("Initialized Firebase.");
+  debugPrint('    info: Initialized Firebase.');
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (isTest) {
     await prefs.remove('site');
   }
 
-  debugPrint("Show Widgets.");
+  debugPrint("    info: Show Widgets.");
   runApp(
     ProviderScope(
       observers: [
@@ -64,6 +65,7 @@ void main() async {
       ],
       overrides: [
         updateAppProvider.overrideWith((ref) => updateAppImpl),
+        localStorageRepositoryProvider.overrideWith((ref) => prefs)
       ],
       child: const MyApp(),
     ),

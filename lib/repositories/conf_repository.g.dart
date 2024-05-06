@@ -6,13 +6,12 @@ part of 'conf_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$confRepositoryHash() => r'79ec6caf45051f47ece58c2c807a996c26044d53';
+String _$confRepositoryHash() => r'5f07a62b3948883968c1d03327fde005c9347054';
 
-/// See also [ConfRepository].
-@ProviderFor(ConfRepository)
-final confRepositoryProvider =
-    NotifierProvider<ConfRepository, DataState<Conf>>.internal(
-  ConfRepository.new,
+/// See also [confRepository].
+@ProviderFor(confRepository)
+final confRepositoryProvider = StreamProvider<Conf?>.internal(
+  confRepository,
   name: r'confRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -21,6 +20,6 @@ final confRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ConfRepository = Notifier<DataState<Conf>>;
+typedef ConfRepositoryRef = StreamProviderRef<Conf?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

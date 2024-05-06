@@ -4,12 +4,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config.dart';
+import '../widgets/general_components.dart';
 import '../app_localizations.dart';
 
 class GoSite extends HookConsumerWidget {
+  final String title;
   final String message;
   final double messageWidth;
-  const GoSite({super.key, required this.message, required this.messageWidth});
+  const GoSite({
+    super.key,
+    required this.title,
+    required this.message,
+    this.messageWidth = 384,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,13 +30,15 @@ class GoSite extends HookConsumerWidget {
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: messageWidth),
-            child: Text(
-              message,
-              maxLines: 8,
-              overflow: TextOverflow.fade,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SectionTitle(title),
+                BodyText(
+                  message,
+                  maxLines: 8,
+                ),
+              ],
             ),
           ),
         ),

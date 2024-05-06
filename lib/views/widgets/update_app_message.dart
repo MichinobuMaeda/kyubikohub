@@ -5,6 +5,7 @@ import '../../config.dart';
 import '../../providers/update_app_provider.dart';
 import '../../providers/ui_version_provider.dart';
 import '../../models/data_state.dart';
+import 'general_components.dart';
 import '../app_localizations.dart';
 
 class UpdateAppMessage extends HookConsumerWidget {
@@ -28,7 +29,7 @@ class UpdateAppMessage extends HookConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(child: Text(t.updateThisApp)),
+                  Flexible(child: BodyText(t.updateThisApp)),
                   const SizedBox(width: buttonGap),
                   OutlinedButton(
                     onPressed: updateApp,

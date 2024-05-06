@@ -6,12 +6,16 @@ import '../models/data_state.dart';
 part 'about_app_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-DataState<String> aboutApp(AboutAppRef ref) => ref.watch(
-      confRepositoryProvider.select(
-        (conf) => switch (conf) {
-          Loading() => const Loading(),
-          Error() => Error(error: conf.error, stackTrace: conf.stackTrace),
-          Success() => Success(data: conf.data.desc ?? ''),
-        },
-      ),
-    );
+DataState<String> aboutApp(AboutAppRef ref) =>
+    ref.watch(confRepositoryProvider).when(
+          data: (conf) => conf == null
+              ? const Loading()
+              : Success(
+                  data: conf.desc ?? '',
+                ),
+          error: (error, stackTrace) => Error(
+            error: error,
+            stackTrace: stackTrace,
+          ),
+          loading: () => const Loading(),
+        );

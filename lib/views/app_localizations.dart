@@ -22,20 +22,25 @@ class AppLocalizations {
   String get licenses => 'ライセンス';
   // Actions
   String get login => 'ログイン';
+  String get logout => 'ログアウト';
   String get copy => 'コピー';
   String get update => '更新';
   String get save => '保存';
   String get close => '閉じる';
 
+  String loginSite({required String site}) => 'サイト「$site」にログインします。';
+  String get selectLoginMethod => 'ログイン方法を選択してください。';
+  String get emailLink => 'ログイン用のリンクをメールで送信';
+  String get password => 'メールアドレスとパスワード';
   String get version => 'バージョン';
   String get defaultLoadingMessage => 'データ受信中 ...';
   String get defaultErrorMessage => 'エラー';
   String get updateThisApp => 'アプリを更新してください';
   String get adminPrivRequired => '管理者権限が必要です。';
   String get siteId => 'サイトID';
-  String get forUsers => '利用者はこちらから。';
-  String get changeSite => 'サイトの移動。';
-  String get askAdminSiteId => 'サイトIDはサイト管理者に問い合わせてください。';
+  String get moveToSite => 'サイトに移動';
+  String get changeSite => 'サイトの変更';
+  String get askAdminSiteId => 'サイトIDがわからない場合はサイト管理者に問い合わせてください。';
   String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
 
   AppLocalizations() : localeName = intl.Intl.canonicalizedLocale('ja');

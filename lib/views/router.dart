@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,9 +46,7 @@ GoRouter router(WidgetRef ref) => GoRouter(
           ],
         ),
       ],
-      redirect: (context, state) async {
-        return await guardSite(state, ref);
-      },
+      redirect: (context, state) => guardSite(state, ref),
     );
 
 String joinPath(String basePath, String subPath) =>

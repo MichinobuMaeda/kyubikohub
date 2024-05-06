@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import 'go_site.dart';
+import '../widgets/go_site.dart';
 import '../app_localizations.dart';
 
 class MyAccountPage extends HookConsumerWidget {
@@ -20,10 +20,7 @@ class MyAccountPage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GoSite(
-                message: "${t.changeSite}\n${t.askAdminSiteId}",
-                messageWidth: 384.0,
-              ),
+              GoSite(title: t.changeSite, message: t.askAdminSiteId),
             ],
           ),
         ),

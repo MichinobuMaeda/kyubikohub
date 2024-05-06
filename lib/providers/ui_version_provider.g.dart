@@ -6,7 +6,7 @@ part of 'ui_version_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$uiVersionHash() => r'22bc9c79c4102881f5e632ab2a172283897a0997';
+String _$uiVersionHash() => r'b7e45c9bfaa67be18e4576a27fe30bb41109393c';
 
 /// See also [uiVersion].
 @ProviderFor(uiVersion)
