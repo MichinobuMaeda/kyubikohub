@@ -37,7 +37,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   debugPrint('    info: Initializing Firebase.');
-  await Firebase.initializeApp(options: firebaseOptions);
+  await Firebase.initializeApp(
+    options: /* isTest ? testFirebaseOptions : */ firebaseOptions,
+  );
   if (isTest) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
@@ -87,7 +89,7 @@ class MyApp extends HookConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        locale:  const Locale('ja'),
+        locale: const Locale('ja'),
         supportedLocales: const [
           Locale('ja'),
         ],

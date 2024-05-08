@@ -5,6 +5,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
 import '../../repositories/site_repository.dart';
+import '../../repositories/account_repository.dart';
 import '../../models/data_state.dart';
 import '../app_localizations.dart';
 
@@ -15,6 +16,18 @@ class GuidancePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
+    final isMember = ref.watch(accountRepositoryProvider) is Success;
+    final guide = site is Success<Site>
+        ? isMember
+            ? '''
+${site.data.forGuests}
+
+${site.data.forMembers}
+'''
+            : '''
+${site.data.forGuests}
+'''
+        : '';
 
     return switch (site) {
       Loading() => Text(t.defaultLoadingMessage),
@@ -48,13 +61,13 @@ class GuidancePage extends HookConsumerWidget {
                         ClipboardData(text: '''
 # ${site.data.name}
 
-${site.data.forGuests}
+$guide
 '''),
                       ),
                     ),
                     Expanded(
                       child: Markdown(
-                        data: site.data.forGuests,
+                        data: guide,
                         onTapLink: onTapLink,
                         padding: cardItemPadding,
                         styleSheet: markdownStyleSheet(context),

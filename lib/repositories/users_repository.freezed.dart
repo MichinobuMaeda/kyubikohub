@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user.dart';
+part of 'users_repository.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
@@ -28,7 +30,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, String? email, DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -46,6 +48,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? email = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -56,6 +60,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -67,7 +79,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name});
+  $Res call({String id, String name, String? email, DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -82,6 +94,8 @@ class __$$UserImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? email = freezed,
+    Object? deletedAt = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -92,6 +106,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -99,16 +121,24 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UserImpl implements _User {
-  const _$UserImpl({required this.id, required this.name});
+  const _$UserImpl(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.deletedAt});
 
   @override
   final String id;
   @override
   final String name;
+  @override
+  final String? email;
+  @override
+  final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name)';
+    return 'User(id: $id, name: $name, email: $email, deletedAt: $deletedAt)';
   }
 
   @override
@@ -117,11 +147,14 @@ class _$UserImpl implements _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, name);
+  int get hashCode => Object.hash(runtimeType, id, name, email, deletedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -131,13 +164,20 @@ class _$UserImpl implements _User {
 }
 
 abstract class _User implements User {
-  const factory _User({required final String id, required final String name}) =
-      _$UserImpl;
+  const factory _User(
+      {required final String id,
+      required final String name,
+      required final String? email,
+      required final DateTime? deletedAt}) = _$UserImpl;
 
   @override
   String get id;
   @override
   String get name;
+  @override
+  String? get email;
+  @override
+  DateTime? get deletedAt;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

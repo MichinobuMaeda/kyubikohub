@@ -1,21 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'firebase_firestore.freezed.dart';
-
-@freezed
-class Account with _$Account {
-  const factory Account({
-    required String site,
-    required String user,
-  }) = _Account;
-}
 
 String? getStringValue(
   DocumentSnapshot<Map<String, dynamic>> doc,
   String key,
 ) =>
-    (doc.exists && doc.data()?.containsKey(key) != null)
+    (doc.exists && doc.data()?.containsKey(key) == true)
         ? doc.data()![key]
         : null;
 
@@ -23,9 +12,23 @@ DateTime? getDateTimeValue(
   DocumentSnapshot<Map<String, dynamic>> doc,
   String key,
 ) =>
-    (doc.exists && doc.data()?.containsKey(key) != null)
-        ? (doc.data()![key] as Timestamp).toDate()
+    (doc.exists && doc.data()?.containsKey(key) == true)
+        ? doc.data()![key] == null
+            ? null
+            : (doc.data()![key] as Timestamp).toDate()
         : null;
+
+List<String> getStringList(
+  DocumentSnapshot<Map<String, dynamic>> doc,
+  String key,
+) =>
+    (doc.exists && doc.data()?.containsKey(key) == true)
+        ? (doc.data()![key] == null)
+            ? []
+            : (doc.data()![key] as List<dynamic>)
+                .map((item) => item.toString())
+                .toList()
+        : [];
 
 bool isDeleted(
   DocumentSnapshot<Map<String, dynamic>> doc,

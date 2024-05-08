@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_firestore.dart';
 import '../models/data_state.dart';
+import 'auth_repository.dart';
+import 'account_repository.dart';
 import 'local_storage_repository.dart';
 
 part 'site_repository.g.dart';
@@ -29,12 +31,6 @@ class SiteRepository extends _$SiteRepository {
 
   @override
   DataState<Site> build() => const Loading();
-
-  @visibleForTesting
-  Future<void> saveSiteId(String id) async {
-    final localStorage = ref.watch(localStorageRepositoryProvider);
-    await localStorage!.setString(LocalStorageKey.site.name, id);
-  }
 
   Future<void> onSiteChange(String? id) async {
     final localStorage = ref.watch(localStorageRepositoryProvider);
@@ -80,7 +76,8 @@ class SiteRepository extends _$SiteRepository {
     );
   }
 
-  void setSite(SharedPreferences localStorage, DocumentSnapshot<Map<String, dynamic>> doc) {
+  void setSite(SharedPreferences localStorage,
+      DocumentSnapshot<Map<String, dynamic>> doc) {
     final site = Success(
       data: Site(
         id: doc.id,
@@ -97,5 +94,13 @@ class SiteRepository extends _$SiteRepository {
 
     state = site;
     localStorage.setString(LocalStorageKey.site.name, doc.id);
+
+    ref.watch(authRepositoryProvider).whenData(
+          (authUser) =>
+              ref.read(accountRepositoryProvider.notifier).onAuthUserChanged(
+                    site.data,
+                    authUser,
+                  ),
+        );
   }
 }

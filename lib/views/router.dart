@@ -73,10 +73,10 @@ Future<String?> guardSite(GoRouterState state, WidgetRef ref) async {
   if (paramSite == site?.data.id) {
     return null;
   } else if (site == null) {
-    debugPrint('Error: redirect to /');
+    debugPrint('    info: redirect to /');
     return '/';
   } else {
-    debugPrint('Error: redirect to /${site.data.id}');
+    debugPrint('    info: redirect to /${site.data.id}');
     return '/${site.data.id}';
   }
 }

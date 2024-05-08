@@ -20,6 +20,13 @@ class AppLocalizations {
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
   String get licenses => 'ライセンス';
+  String get filter => 'フィルター';
+  String get removeFilter => 'フィルター解除';
+  String get users => 'メンバー';
+  String get groups => 'グループ';
+  // Items
+  String get email => 'メールアドレス';
+  String get password => 'パスワード';
   // Actions
   String get login => 'ログイン';
   String get logout => 'ログアウト';
@@ -27,19 +34,27 @@ class AppLocalizations {
   String get update => '更新';
   String get save => '保存';
   String get close => '閉じる';
+  // Errors
+  String get authFailed => '認証に失敗しました。';
+  String get emailRequired => 'メールアドレスを入力してください。';
+  String get passwordRequired => 'パスワードを入力してください。';
+  String get invalidEmail => '正しい書式のメールアドレスを入力してください。';
+  String get userDisabled => 'メールアドレスまたはパスワードが間違っています。';
+  String get userNotFound => 'メールアドレスまたはパスワードが間違っています。';
+  String get wrongPassword => 'メールアドレスまたはパスワードが間違っています。';
 
   String loginSite({required String site}) => 'サイト「$site」にログインします。';
   String get selectLoginMethod => 'ログイン方法を選択してください。';
   String get emailLink => 'ログイン用のリンクをメールで送信';
-  String get password => 'メールアドレスとパスワード';
+  String get emailAndPassword => 'メールアドレスとパスワード';
+  String get whyLogout => '通常、ログアウトの操作は不要です。';
   String get version => 'バージョン';
   String get defaultLoadingMessage => 'データ受信中 ...';
   String get defaultErrorMessage => 'エラー';
   String get updateThisApp => 'アプリを更新してください';
   String get adminPrivRequired => '管理者権限が必要です。';
   String get siteId => 'サイトID';
-  String get moveToSite => 'サイトに移動';
-  String get changeSite => 'サイトの変更';
+  String get selectSite => 'サイトの選択';
   String get askAdminSiteId => 'サイトIDがわからない場合はサイト管理者に問い合わせてください。';
   String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
 

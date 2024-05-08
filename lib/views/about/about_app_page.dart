@@ -7,7 +7,7 @@ import '../../config.dart';
 import '../../repositories/site_repository.dart';
 import '../../providers/about_app_provider.dart';
 import '../../models/data_state.dart';
-import '../widgets/go_site.dart';
+import '../widgets/select_site.dart';
 import '../app_localizations.dart';
 
 class AboutAppPage extends HookConsumerWidget {
@@ -27,14 +27,9 @@ class AboutAppPage extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (!isSite)
-          Padding(
+          const Padding(
             padding: cardItemPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GoSite(title: t.moveToSite, message: t.askAdminSiteId),
-              ],
-            ),
+            child: SelectSite(),
           ),
         Card(
           child: Row(

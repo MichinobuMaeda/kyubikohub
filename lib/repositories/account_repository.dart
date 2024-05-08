@@ -26,23 +26,21 @@ class AccountRepository extends _$AccountRepository {
 
   @override
   DataState<Account> build() {
-    final site = ref.watch(siteRepositoryProvider);
-
-    return switch (site) {
-      Loading() || Error() => const Loading(),
-      Success() => ref.watch(authRepositoryProvider).when(
-            loading: () => const Loading(),
-            error: (error, stackTrace) => Error(
-              error: error,
-              stackTrace: stackTrace,
-            ),
-            data: (authUser) => onAuthUserChanged(site.data, authUser),
-          ),
-    };
+    ref.watch(authRepositoryProvider).whenData(
+      (authUser) {
+        final site = ref.watch(siteRepositoryProvider);
+        if (site is Success) {
+          onAuthUserChanged((site as Success).data, authUser);
+        }
+      },
+    );
+    return const Loading();
   }
 
-  @visibleForTesting
-  DataState<Account> onAuthUserChanged(Site site, AuthUser? authUser) {
+  DataState<Account> onAuthUserChanged(
+    Site site,
+    AuthUser? authUser,
+  ) {
     final siteRef = FirebaseFirestore.instance.collection('sites').doc(site.id);
 
     if (authUser == null) {

@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'site_repository.dart';
+part of 'groups_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$siteRepositoryHash() => r'dcc754e79ebb8fb5e76b4080d2ed0b5ac135de44';
+String _$groupsRepositoryHash() => r'31df9676cbd0b279b91fe034c6d7a4cc9f1ae1de';
 
-/// See also [SiteRepository].
-@ProviderFor(SiteRepository)
-final siteRepositoryProvider =
-    NotifierProvider<SiteRepository, DataState<Site>>.internal(
-  SiteRepository.new,
-  name: r'siteRepositoryProvider',
+/// See also [GroupsRepository].
+@ProviderFor(GroupsRepository)
+final groupsRepositoryProvider =
+    NotifierProvider<GroupsRepository, List<Group>>.internal(
+  GroupsRepository.new,
+  name: r'groupsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$siteRepositoryHash,
+      : _$groupsRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SiteRepository = Notifier<DataState<Site>>;
+typedef _$GroupsRepository = Notifier<List<Group>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

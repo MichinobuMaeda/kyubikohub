@@ -22,16 +22,27 @@ const assetImageLogo = AssetImage('assets/images/logo-192.png');
 
 // Firebase
 const FirebaseOptions firebaseOptions = FirebaseOptions(
-    // !!!!! DON"T EDIT !!!!!
-    // it's to be replaced with a secret of GitHub Actions on deployment.
-    apiKey: 'FIREBASE_API_KEY',
-    authDomain: "kyubikohub.firebaseapp.com",
-    projectId: "kyubikohub",
-    storageBucket: "kyubikohub.appspot.com",
-    messagingSenderId: "114575052714",
-    appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
-    measurementId: "G-8VLR54KLH9");
+  // !!!!! DON"T EDIT !!!!!
+  // it's to be replaced with a secret of GitHub Actions on deployment.
+  apiKey: 'FIREBASE_API_KEY',
+  authDomain: "kyubikohub.firebaseapp.com",
+  projectId: "kyubikohub",
+  storageBucket: "kyubikohub.appspot.com",
+  messagingSenderId: "114575052714",
+  appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
+  measurementId: "G-8VLR54KLH9",
+);
 const String webRecaptchaSiteKey = '6LdNMMApAAAAACl1rU-RlsVwWBqOW8jnbUYmY8CR';
+
+const FirebaseOptions testFirebaseOptions = FirebaseOptions(
+  apiKey: 'test',
+  authDomain: "localhost",
+  projectId: "kyubikohub",
+  storageBucket: "kyubikohub.appspot.com",
+  messagingSenderId: "114575052714",
+  appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
+  measurementId: "G-8VLR54KLH9",
+);
 
 // Style -- key parameters
 const themeMode = ThemeMode.system;
@@ -84,6 +95,16 @@ ThemeData themeData(Brightness brightness) {
       tileColor: colorScheme.background,
       titleTextStyle: titleSmall,
       subtitleTextStyle: bodyMedium,
+    ),
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: colorScheme.surfaceVariant.withAlpha(80),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: colorScheme.onBackground.withAlpha(160),
+        height: 0.5,
+      ),
+      suffixIconColor: colorScheme.onBackground,
     ),
   );
 }
