@@ -20,8 +20,6 @@ class AppLocalizations {
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
   String get licenses => 'ライセンス';
-  String get filter => 'フィルター';
-  String get removeFilter => 'フィルター解除';
   String get users => 'メンバー';
   String get groups => 'グループ';
   // Items

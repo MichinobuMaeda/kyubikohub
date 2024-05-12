@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,12 +20,9 @@ class UsersRepository extends _$UsersRepository {
       siteAccountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
-        if (next is Success<SiteAccount>) {
-          if (prev == next) {
-            // skip
-          } else {
-            listen(next.data.site);
-          }
+        debugPrint('    info: UsersRepository.build next: $next');
+        if (next is Success) {
+          listen((next as Success).data);
         } else {
           cancel();
         }
@@ -33,16 +31,16 @@ class UsersRepository extends _$UsersRepository {
     return [];
   }
 
-  Future<void> listen(String site) async {
+  Future<void> listen(SiteAccount siteAccount) async {
     await _sub?.cancel();
-    FirebaseFirestore.instance
+    _sub = FirebaseFirestore.instance
         .collection('sites')
-        .doc(site)
+        .doc(siteAccount.site)
         .collection('users')
         .snapshots()
         .listen(
       (snap) {
-        final users = List<User>.from(state);
+        final users = List<User>.from((state as List<User>?) ?? []);
         for (var docChange in snap.docChanges) {
           if (docChange.type == DocumentChangeType.modified ||
               docChange.type == DocumentChangeType.removed) {

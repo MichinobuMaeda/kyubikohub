@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/group.dart';
 import '../../providers/users_repository.dart';
-import '../app_localizations.dart';
+import '../widgets/bottom_card.dart';
 import 'user_card.dart';
 
 class GroupCard extends HookConsumerWidget {
@@ -13,81 +13,37 @@ class GroupCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = AppLocalizations.of(context)!;
     final users = ref
         .watch(usersRepositoryProvider)
         .where((user) => group.users.contains(user.id))
         .toList();
 
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: cardItemPadding,
-                  child: Text(
-                    group.name,
-                    maxLines: 8,
-                    style: Theme.of(context).textTheme.titleSmall,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                color: Theme.of(context).colorScheme.onBackground,
-                onPressed: () => Navigator.pop(context),
-              )
-            ],
-          ),
-          Expanded(
-            child: ColoredBox(
-              color: Theme.of(context).colorScheme.background,
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) => ColoredBox(
-                  color: index.isEven
-                      ? Theme.of(context).colorScheme.background
-                      : Theme.of(context).colorScheme.shadow.withAlpha(8),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: baseSize),
-                    child: Row(
-                      children: [
-                        Expanded(child: Text(users[index].name)),
-                        IconButton(
-                          icon: const Icon(Icons.more_horiz),
-                          onPressed: () => showBottomSheet(
-                            context: context,
-                            builder: (context) => UserCard(
-                              user: users[index],
-                            ),
-                          ),
-                        ),
-                      ],
+    return BottomCard(
+      title: group.name,
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index) => ColoredBox(
+          color: index.isEven
+              ? Theme.of(context).colorScheme.background
+              : Theme.of(context).colorScheme.shadow.withAlpha(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: baseSize),
+            child: Row(
+              children: [
+                Expanded(child: Text(users[index].name)),
+                IconButton(
+                  icon: const Icon(Icons.more_horiz),
+                  onPressed: () => showBottomSheet(
+                    context: context,
+                    builder: (context) => UserCard(
+                      user: users[index],
                     ),
                   ),
                 ),
-                itemCount: users.length,
-              ),
+              ],
             ),
           ),
-          const SizedBox(height: 8.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: cardItemPadding,
-                child: TextButton(
-                  child: Text(t.close),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
+        itemCount: users.length,
       ),
     );
   }
