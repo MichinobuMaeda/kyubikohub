@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'site_repository.dart';
+part of 'site.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -141,7 +141,7 @@ class __$$SiteImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SiteImpl with DiagnosticableTreeMixin implements _Site {
+class _$SiteImpl implements _Site {
   const _$SiteImpl(
       {required this.id,
       required this.name,
@@ -161,20 +161,8 @@ class _$SiteImpl with DiagnosticableTreeMixin implements _Site {
   final String forMangers;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'Site(id: $id, name: $name, forGuests: $forGuests, forMembers: $forMembers, forMangers: $forMangers)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'Site'))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('forGuests', forGuests))
-      ..add(DiagnosticsProperty('forMembers', forMembers))
-      ..add(DiagnosticsProperty('forMangers', forMangers));
   }
 
   @override

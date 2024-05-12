@@ -15,7 +15,7 @@ import 'views/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';
-import 'repositories/local_storage_repository.dart';
+import 'providers/local_storage_repository.dart';
 import 'config.dart';
 import 'platforms.dart';
 
@@ -37,9 +37,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   debugPrint('    info: Initializing Firebase.');
-  await Firebase.initializeApp(
-    options: /* isTest ? testFirebaseOptions : */ firebaseOptions,
-  );
+  await Firebase.initializeApp(options: firebaseOptions);
   if (isTest) {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);

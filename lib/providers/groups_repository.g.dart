@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'users_repository.dart';
+part of 'groups_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$usersRepositoryHash() => r'f66cbed964dfd7f59cf8beeec33a6b51f8babc1a';
+String _$groupsRepositoryHash() => r'd53665ea2e8bb3013290d18fec2a461dc7d29dbd';
 
-/// See also [UsersRepository].
-@ProviderFor(UsersRepository)
-final usersRepositoryProvider =
-    NotifierProvider<UsersRepository, List<User>>.internal(
-  UsersRepository.new,
-  name: r'usersRepositoryProvider',
+/// See also [GroupsRepository].
+@ProviderFor(GroupsRepository)
+final groupsRepositoryProvider =
+    NotifierProvider<GroupsRepository, List<Group>>.internal(
+  GroupsRepository.new,
+  name: r'groupsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$usersRepositoryHash,
+      : _$groupsRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UsersRepository = Notifier<List<User>>;
+typedef _$GroupsRepository = Notifier<List<Group>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

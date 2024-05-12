@@ -4,18 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
-import '../../repositories/site_repository.dart';
-import '../../repositories/auth_repository.dart';
+import '../../models/site.dart';
+import '../../providers/site_repository.dart';
+import '../../providers/auth_repository.dart';
 import '../widgets/select_site.dart';
 import '../app_localizations.dart';
-
-enum LoginMethod { emailLink, password }
-
-class LoginMethodItem {
-  final LoginMethod value;
-  final String title;
-  const LoginMethodItem({required this.value, required this.title});
-}
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
@@ -24,11 +17,7 @@ class LoginPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
-    final loginMethods = [
-      LoginMethodItem(value: LoginMethod.emailLink, title: t.emailLink),
-      LoginMethodItem(value: LoginMethod.password, title: t.emailAndPassword),
-    ];
-    final loginMethod = useState(LoginMethod.emailLink);
+    final passwordVisible = useState(false);
     final errorMessage = useState('');
     final email = useState('');
     final password = useState('');
@@ -39,50 +28,28 @@ class LoginPage extends HookConsumerWidget {
         children: [
           Padding(
             padding: cardItemPadding,
-            child: Text(
-              t.loginSite(site: site is Success<Site> ? site.data.name : ''),
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          const Padding(
-            padding: cardItemPadding,
-            child: SelectSite(),
-          ),
-          Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: cardItemPadding,
-                  child: Text(
-                    t.selectLoginMethod,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                Text(
+                  t.loginSite(
+                      site: site is Success<Site> ? site.data.name : ''),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
-                ...loginMethods.map(
-                  (item) => RadioListTile(
-                    title: Text(
-                      item.title,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    value: item.value,
-                    groupValue: loginMethod.value,
-                    onChanged: (value) {
-                      loginMethod.value = value!;
-                    },
-                  ),
-                ),
+                const SizedBox(height: buttonGap),
+                const SelectSite(),
               ],
             ),
           ),
           Padding(
             padding: cardItemPadding,
             child: SizedBox(
-              width: 256.0,
+              width: baseSize * 16,
               child: TextField(
                 onChanged: (value) {
                   email.value = value;
                 },
+                autofocus: true,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
@@ -95,17 +62,25 @@ class LoginPage extends HookConsumerWidget {
           Padding(
             padding: cardItemPadding,
             child: SizedBox(
-              width: 256.0,
+              width: baseSize * 16,
               child: TextField(
                 onChanged: (value) {
                   password.value = value;
                 },
-                obscureText: true,
+                obscureText: !passwordVisible.value,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
                 decoration: InputDecoration(
                   label: Text(t.password),
+                  suffixIcon: IconButton(
+                    icon: Icon(passwordVisible.value
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: () {
+                      passwordVisible.value = !passwordVisible.value;
+                    },
+                  ),
                 ),
               ),
             ),

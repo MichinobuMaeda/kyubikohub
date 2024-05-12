@@ -21,6 +21,10 @@ class Error<T> extends DataState<T> with _$Error<T> {
     required StackTrace stackTrace,
   }) = _Error;
 
+  factory Error.fromError(Error state) {
+    return Error(error: state.error, stackTrace: state.stackTrace);
+  }
+
   String get message => '${error.toString()}\n\n${stackTrace.toString()}';
 }
 

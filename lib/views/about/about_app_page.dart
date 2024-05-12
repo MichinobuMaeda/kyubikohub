@@ -4,9 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
-import '../../repositories/site_repository.dart';
-import '../../providers/about_app_provider.dart';
 import '../../models/data_state.dart';
+import '../../models/conf.dart';
+import '../../providers/site_repository.dart';
+import '../../providers/conf_repository.dart';
 import '../widgets/select_site.dart';
 import '../app_localizations.dart';
 
@@ -16,12 +17,13 @@ class AboutAppPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final about = ref.watch(aboutAppProvider);
+    final about = ref.watch(
+      confRepositoryProvider.select(
+        (conf) => (conf is Success<Conf>) ? conf.data.desc : null,
+      ),
+    );
     final site = ref.watch(siteRepositoryProvider);
-    final bool isSite = switch (site) {
-      Loading() || Error() => false,
-      Success() => true,
-    };
+    final bool isSite = site is Success;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,41 +62,39 @@ class AboutAppPage extends HookConsumerWidget {
             ],
           ),
         ),
-        switch (about) {
-          Loading() => Text(t.defaultLoadingMessage),
-          Error() => Text(about.message),
-          Success() => Expanded(
-              child: Transform.translate(
-                offset: iconButtonTransformVerticalOffset,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.copy),
-                      color: Theme.of(context).colorScheme.outline,
-                      onPressed: () => Clipboard.setData(
-                        ClipboardData(text: '''
+        about == null
+            ? Text(t.defaultLoadingMessage)
+            : Expanded(
+                child: Transform.translate(
+                  offset: iconButtonTransformVerticalOffset,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.copy),
+                        color: Theme.of(context).colorScheme.outline,
+                        onPressed: () => Clipboard.setData(
+                          ClipboardData(text: '''
 # #appTitle
 
 ${t.version}: $version
 
-${about.data}
+$about
 '''),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Markdown(
-                        data: about.data,
-                        onTapLink: onTapLink,
-                        padding: cardItemPadding,
-                        styleSheet: markdownStyleSheet(context),
+                      Expanded(
+                        child: Markdown(
+                          data: about,
+                          onTapLink: onTapLink,
+                          padding: cardItemPadding,
+                          styleSheet: markdownStyleSheet(context),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-        },
       ],
     );
   }

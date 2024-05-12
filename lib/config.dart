@@ -3,11 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const String appTitle = "Kyubiko Hub";
+const String appTitle = 'Kyubiko Hub';
 
 // !!!!! DON"T EDIT !!!!!
 // it's to be replaced with 'version' in pubspec.yaml on deployment.
 const String version = 'for test';
+
+const String adminsSiteId = 'admins';
+const String testSiteId = 'test';
+const String managersGroupId = 'managers';
 
 // Licenses to add manually
 const List<List<String>> licenseAssets = [

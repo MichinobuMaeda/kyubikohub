@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import '../../repositories/groups_repository.dart';
-import '../../repositories/users_repository.dart';
+import '../../models/user.dart';
+import '../../providers/groups_repository.dart';
 import '../app_localizations.dart';
+import 'group_card.dart';
 
 class UserCard extends HookConsumerWidget {
   final User user;
@@ -47,23 +48,30 @@ class UserCard extends HookConsumerWidget {
             child: SingleChildScrollView(
               child: ColoredBox(
                 color: Theme.of(context).colorScheme.background,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: cardItemPadding,
-                      child: Row(
-                        children: [
-                          Text(
-                            t.groups,
-                            style: Theme.of(context).textTheme.titleSmall,
+                child: Padding(
+                  padding: cardItemPadding,
+                  child: Row(
+                    children: groups
+                        .map(
+                          (group) => Padding(
+                            padding: const EdgeInsets.only(right: buttonGap),
+                            child: OutlinedButton(
+                              onPressed: () => showBottomSheet(
+                                context: context,
+                                builder: (context) => GroupCard(group: group),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.people),
+                                  const SizedBox(width: buttonGap),
+                                  Text(group.name),
+                                ],
+                              ),
+                            ),
                           ),
-                          const SizedBox(width: buttonGap),
-                          Text(groups.map((group) => group.name).join(', ')),
-                        ],
-                      ),
-                    ),
-                  ],
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),

@@ -3,8 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/nav_item.dart';
-import '../repositories/site_repository.dart';
-import '../models/data_state.dart';
+import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
 import 'about/about_app_screen.dart';
 import 'about/about_site_screen.dart';
@@ -64,19 +63,16 @@ String joinPath(String basePath, String subPath) =>
 
 Future<String?> guardSite(GoRouterState state, WidgetRef ref) async {
   final paramSite = state.pathParameters['site'];
-  await ref.read(siteRepositoryProvider.notifier).onSiteChange(paramSite);
-  final siteStatus = ref.watch(siteRepositoryProvider);
-  final site = switch (siteStatus) {
-    Loading() || Error() => null,
-    Success() => siteStatus,
-  };
-  if (paramSite == site?.data.id) {
+  final checked = await ref
+      .read(siteParamRepositoryProvider.notifier)
+      .onSiteParamChanged(paramSite);
+  if (paramSite == checked) {
     return null;
-  } else if (site == null) {
+  } else if (checked == null) {
     debugPrint('    info: redirect to /');
     return '/';
   } else {
-    debugPrint('    info: redirect to /${site.data.id}');
-    return '/${site.data.id}';
+    debugPrint('    info: redirect to /$checked');
+    return '/$checked';
   }
 }

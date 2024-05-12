@@ -111,11 +111,11 @@ jobs:
       - name: Trigger system update job
         run: |
           npx firebase firestore:delete service/deployment --force && \
-          echo '${{ secrets.DEPLOYMENT_PARAMS }}' > deployment_params.json && \
+          echo '${{ secrets.DEPLOYMENT_PARAMS }}' > /tmp/deployment_params.json && \
           curl -X POST \
           https://asia-northeast2-kyubikohub.cloudfunctions.net/deployment \
           -H 'Content-Type: application/json' \
-          -d @deployment_params.json
+          -d @/tmp/deployment_params.json
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:

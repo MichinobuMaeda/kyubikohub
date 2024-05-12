@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import '../../providers/update_app_provider.dart';
-import '../../providers/ui_version_provider.dart';
 import '../../models/data_state.dart';
+import '../../models/conf.dart';
+import '../../providers/update_app_provider.dart';
+import '../../providers/conf_repository.dart';
 import '../app_localizations.dart';
 
 class UpdateAppMessage extends HookConsumerWidget {
@@ -14,11 +15,12 @@ class UpdateAppMessage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final updateApp = ref.watch(updateAppProvider);
-    final uiVersion = ref.watch(uiVersionProvider);
-    final toBeUpdate = switch (uiVersion) {
-      Loading() || Error() => false,
-      Success() => uiVersion.data != version,
-    };
+    final uiVersion = ref.watch(
+      confRepositoryProvider.select(
+        (conf) => (conf is Success<Conf>) ? conf.data.uiVersion : null,
+      ),
+    );
+    final toBeUpdate = uiVersion != null && uiVersion != version;
 
     return toBeUpdate
         ? ColoredBox(

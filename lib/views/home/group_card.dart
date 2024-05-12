@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import '../../repositories/groups_repository.dart';
-import '../../repositories/users_repository.dart';
+import '../../models/group.dart';
+import '../../providers/users_repository.dart';
 import '../app_localizations.dart';
 import 'user_card.dart';
 
