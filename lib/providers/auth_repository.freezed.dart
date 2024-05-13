@@ -101,7 +101,7 @@ class __$$AuthUserImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AuthUserImpl implements _AuthUser {
+class _$AuthUserImpl with DiagnosticableTreeMixin implements _AuthUser {
   const _$AuthUserImpl({required this.uid, required this.email});
 
   @override
@@ -110,8 +110,17 @@ class _$AuthUserImpl implements _AuthUser {
   final String? email;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AuthUser(uid: $uid, email: $email)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthUser'))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('email', email));
   }
 
   @override

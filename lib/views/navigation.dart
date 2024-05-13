@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../models/nav_item.dart';
 import '../models/data_state.dart';
-import '../repositories/account_repository.dart';
+import '../providers/account_repository.dart';
 import 'login/login_screen.dart';
 import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
@@ -25,7 +25,7 @@ class Navigation extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final isMember = ref.watch(accountRepositoryProvider) is Success;
+    final isMember = ref.watch(siteAccountRepositoryProvider) is Success;
     final showNav = site != null && isMember;
 
     final navItems = [

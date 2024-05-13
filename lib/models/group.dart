@@ -1,13 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'user.freezed.dart';
+part 'group.freezed.dart';
 
 @freezed
-class User with _$User {
-  const factory User({
+class Group with _$Group {
+  const factory Group({
     required String id,
     required String name,
-    required String? email,
+    required List<String> users,
     required DateTime? deletedAt,
-  }) = _User;
+  }) = _Group;
 }

@@ -3,11 +3,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-const String appTitle = "Kyubiko Hub";
+const String appTitle = 'Kyubiko Hub';
+const String appUrl = 'https://kyubikohub.web.app';
+const String testUrl = 'https://localhost:9099';
+const String supportEmail = 'noreply@kyubikohub.firebaseapp.com';
 
 // !!!!! DON"T EDIT !!!!!
 // it's to be replaced with 'version' in pubspec.yaml on deployment.
 const String version = 'for test';
+
+const String adminsSiteId = 'admins';
+const String testSiteId = 'test';
+const String managersGroupId = 'managers';
 
 // Licenses to add manually
 const List<List<String>> licenseAssets = [
@@ -22,16 +29,27 @@ const assetImageLogo = AssetImage('assets/images/logo-192.png');
 
 // Firebase
 const FirebaseOptions firebaseOptions = FirebaseOptions(
-    // !!!!! DON"T EDIT !!!!!
-    // it's to be replaced with a secret of GitHub Actions on deployment.
-    apiKey: 'FIREBASE_API_KEY',
-    authDomain: "kyubikohub.firebaseapp.com",
-    projectId: "kyubikohub",
-    storageBucket: "kyubikohub.appspot.com",
-    messagingSenderId: "114575052714",
-    appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
-    measurementId: "G-8VLR54KLH9");
+  // !!!!! DON"T EDIT !!!!!
+  // it's to be replaced with a secret of GitHub Actions on deployment.
+  apiKey: 'FIREBASE_API_KEY',
+  authDomain: "kyubikohub.firebaseapp.com",
+  projectId: "kyubikohub",
+  storageBucket: "kyubikohub.appspot.com",
+  messagingSenderId: "114575052714",
+  appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
+  measurementId: "G-8VLR54KLH9",
+);
 const String webRecaptchaSiteKey = '6LdNMMApAAAAACl1rU-RlsVwWBqOW8jnbUYmY8CR';
+
+const FirebaseOptions testFirebaseOptions = FirebaseOptions(
+  apiKey: 'test',
+  authDomain: "localhost",
+  projectId: "kyubikohub",
+  storageBucket: "kyubikohub.appspot.com",
+  messagingSenderId: "114575052714",
+  appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
+  measurementId: "G-8VLR54KLH9",
+);
 
 // Style -- key parameters
 const themeMode = ThemeMode.system;
@@ -84,6 +102,16 @@ ThemeData themeData(Brightness brightness) {
       tileColor: colorScheme.background,
       titleTextStyle: titleSmall,
       subtitleTextStyle: bodyMedium,
+    ),
+    navigationRailTheme: NavigationRailThemeData(
+      backgroundColor: colorScheme.surfaceVariant.withAlpha(80),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      labelStyle: TextStyle(
+        color: colorScheme.onBackground.withAlpha(160),
+        height: 0.5,
+      ),
+      suffixIconColor: colorScheme.onBackground,
     ),
   );
 }

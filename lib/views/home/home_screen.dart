@@ -5,6 +5,7 @@ import '../../models/tab_item.dart';
 import '../app_localizations.dart';
 import '../widgets/tabs_screen.dart';
 import 'notices_page.dart';
+import 'groups_page.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -19,6 +20,11 @@ class HomeScreen extends HookConsumerWidget {
           icon: Icons.notifications,
           label: t.notices,
           page: const NoticesPage(),
+        ),
+        TabItem(
+          icon: Icons.people,
+          label: t.groups,
+          page: const GroupsPage(),
         ),
       ],
     );

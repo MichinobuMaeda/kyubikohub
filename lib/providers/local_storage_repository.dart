@@ -11,7 +11,5 @@ enum LocalStorageKey {
 }
 
 @Riverpod(keepAlive: true)
-SharedPreferences? localStorageRepository(
-  LocalStorageRepositoryRef ref,
-) =>
+SharedPreferences? localStorageRepository(LocalStorageRepositoryRef ref) =>
     null;

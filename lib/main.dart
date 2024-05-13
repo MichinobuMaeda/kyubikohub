@@ -15,7 +15,7 @@ import 'views/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';
-import 'repositories/local_storage_repository.dart';
+import 'providers/local_storage_repository.dart';
 import 'config.dart';
 import 'platforms.dart';
 
@@ -87,7 +87,7 @@ class MyApp extends HookConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        locale:  const Locale('ja'),
+        locale: const Locale('ja'),
         supportedLocales: const [
           Locale('ja'),
         ],

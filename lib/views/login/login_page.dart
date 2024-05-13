@@ -4,17 +4,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
-import '../../repositories/site_repository.dart';
-import '../widgets/go_site.dart';
+import '../../models/site.dart';
+import '../../providers/site_repository.dart';
+import '../../providers/auth_repository.dart';
+import '../../providers/log_repository.dart';
+import '../widgets/select_site.dart';
 import '../app_localizations.dart';
-
-enum LoginMethod { emailLink, password }
-
-class LoginMethodItem {
-  final LoginMethod value;
-  final String title;
-  const LoginMethodItem({required this.value, required this.title});
-}
+import '../widgets/reset_password_card.dart';
+import '../widgets/auth_error_message.dart';
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
@@ -22,60 +19,116 @@ class LoginPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final loginMethod = useState(LoginMethod.emailLink);
-    final loginMethods = [
-      LoginMethodItem(value: LoginMethod.emailLink, title: t.emailLink),
-      LoginMethodItem(value: LoginMethod.password, title: t.password),
-    ];
     final site = ref.watch(siteRepositoryProvider);
+    final passwordVisible = useState(false);
+    final status = useState<String?>(null);
+    final email = useState('');
+    final password = useState('');
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: cardItemPadding,
-          child: Text(
-            t.loginSite(site: site is Success<Site> ? site.data.name : ''),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-        Padding(
-          padding: cardItemPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GoSite(title: t.changeSite, message: t.askAdminSiteId),
-            ],
-          ),
-        ),
-        Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: cardItemPadding,
-                child: Text(
-                  t.selectLoginMethod,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: cardItemPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.loginSite(
+                      site: site is Success<Site> ? site.data.name : ''),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
-              ),
-              ...loginMethods.map(
-                (item) => RadioListTile(
-                  title: Text(
-                    item.title,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  value: item.value,
-                  groupValue: loginMethod.value,
-                  onChanged: (value) {
-                    loginMethod.value = value!;
-                  },
+                const SizedBox(height: buttonGap),
+                const SelectSite(),
+              ],
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: cardItemPadding,
+            child: SizedBox(
+              width: baseSize * 24,
+              child: TextField(
+                onChanged: (value) {
+                  email.value = value;
+                },
+                autofocus: true,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                decoration: InputDecoration(
+                  label: Text(t.email),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: cardItemPadding,
+            child: SizedBox(
+              width: baseSize * 24,
+              child: TextField(
+                onChanged: (value) {
+                  password.value = value;
+                },
+                obscureText: !passwordVisible.value,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+                decoration: InputDecoration(
+                  label: Text(t.password),
+                  suffixIcon: IconButton(
+                    icon: Icon(passwordVisible.value
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: () {
+                      passwordVisible.value = !passwordVisible.value;
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: cardItemPadding,
+            child: FilledButton(
+              child: Text(t.login),
+              onPressed: () async {
+                status.value = await loginWithEmailAndPassword(
+                  email: email.value,
+                  password: password.value,
+                );
+                if (status.value == null) {
+                  logInfo(
+                    site is Success ? (site as Success).data.id : null,
+                    'Login with email: $email',
+                  );
+                } else {
+                  logError(
+                    site is Success ? (site as Success).data.id : null,
+                    'Login with email: $email, error: $status.value',
+                  );
+                }
+              },
+            ),
+          ),
+          AuthErrorMessage(status: status.value),
+          const Divider(),
+          Padding(
+            padding: cardItemPadding,
+            child: FilledButton(
+              child: Text(t.forgetYourPassword),
+              onPressed: () => showBottomSheet(
+                context: context,
+                builder: (context) => ResetPasswordCard(
+                  title: t.forgetYourPassword,
+                  email: email.value,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
