@@ -15,29 +15,21 @@ final colSiteRef = FirebaseFirestore.instance.collection('sites');
 @Riverpod(keepAlive: true)
 class SiteParamRepository extends _$SiteParamRepository {
   @override
-  String? build() {
-    restoreState();
-    return null;
-  }
-
-  @visibleForTesting
-  Future<void> restoreState() async {
-    final localStorage = ref.watch(localStorageRepositoryProvider);
-    final initialId = localStorage!.getString(LocalStorageKey.site.name);
-    if (initialId != null) {
-      final doc = await colSiteRef.doc(initialId).get();
-      if (!isDeleted(doc)) {
-        state = initialId;
-      }
-    }
-  }
+  String? build() => null;
 
   Future<String?> onSiteParamChanged(String? next) async {
+    debugPrint('    info: onSiteParamChanged($next)');
+    final localStorage = ref.read(localStorageRepositoryProvider);
+    if (next == null) {
+      final savedSite = localStorage!.getString(LocalStorageKey.site.name);
+      if (savedSite != null) {
+        return savedSite;
+      }
+    }
     if (state != next && next != null) {
       final doc = await colSiteRef.doc(next).get();
       if (!isDeleted(doc)) {
         state = next;
-        final localStorage = ref.watch(localStorageRepositoryProvider);
         localStorage!.setString(LocalStorageKey.site.name, next);
       }
     }
