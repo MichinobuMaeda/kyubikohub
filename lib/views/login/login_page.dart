@@ -10,6 +10,8 @@ import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
 import '../widgets/select_site.dart';
 import '../app_localizations.dart';
+import '../widgets/reset_password_card.dart';
+import '../widgets/auth_error_message.dart';
 
 class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
@@ -19,7 +21,7 @@ class LoginPage extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
     final passwordVisible = useState(false);
-    final errorMessage = useState('');
+    final status = useState<String?>(null);
     final email = useState('');
     final password = useState('');
 
@@ -42,6 +44,7 @@ class LoginPage extends HookConsumerWidget {
               ],
             ),
           ),
+          const Divider(),
           Padding(
             padding: cardItemPadding,
             child: SizedBox(
@@ -91,11 +94,11 @@ class LoginPage extends HookConsumerWidget {
             child: FilledButton(
               child: Text(t.login),
               onPressed: () async {
-                final message = await loginWithEmailAndPassword(
+                status.value = await loginWithEmailAndPassword(
                   email: email.value,
                   password: password.value,
                 );
-                if (message == null) {
+                if (status.value == null) {
                   logInfo(
                     site is Success ? (site as Success).data.id : null,
                     'Login with email: $email',
@@ -103,43 +106,25 @@ class LoginPage extends HookConsumerWidget {
                 } else {
                   logError(
                     site is Success ? (site as Success).data.id : null,
-                    'Login with email: $email, error: $message',
+                    'Login with email: $email, error: $status.value',
                   );
-                }
-                switch (message) {
-                  case null:
-                    errorMessage.value = '';
-                    break;
-                  case 'email-required':
-                    errorMessage.value = t.emailRequired;
-                    break;
-                  case 'password-required':
-                    errorMessage.value = t.passwordRequired;
-                    break;
-                  case 'invalid-email':
-                    errorMessage.value = t.invalidEmail;
-                    break;
-                  case 'user-disabled':
-                    errorMessage.value = t.userDisabled;
-                    break;
-                  case 'user-not-found':
-                    errorMessage.value = t.userNotFound;
-                    break;
-                  case 'wrong-password':
-                    errorMessage.value = t.wrongPassword;
-                    break;
-                  default:
-                    errorMessage.value = t.authFailed;
-                    break;
                 }
               },
             ),
           ),
+          AuthErrorMessage(status: status.value),
+          const Divider(),
           Padding(
             padding: cardItemPadding,
-            child: Text(
-              errorMessage.value,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            child: FilledButton(
+              child: Text(t.forgetYourPassword),
+              onPressed: () => showBottomSheet(
+                context: context,
+                builder: (context) => ResetPasswordCard(
+                  title: t.forgetYourPassword,
+                  email: email.value,
+                ),
+              ),
             ),
           ),
         ],

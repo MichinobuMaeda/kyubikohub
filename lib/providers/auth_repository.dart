@@ -40,7 +40,7 @@ class AuthRepository extends _$AuthRepository {
   }
 }
 
-Future<String?> loginWithEmailAndPassword({
+Future<String> loginWithEmailAndPassword({
   required String email,
   required String password,
 }) async {
@@ -54,14 +54,14 @@ Future<String?> loginWithEmailAndPassword({
       email: email,
       password: password,
     );
-    return null;
+    return 'ok';
   } catch (e) {
     debugPrint(e.toString());
     return getAuthErrorCode(e);
   }
 }
 
-Future<String?> changePassword({
+Future<String> changePassword({
   required String curPassword,
   required String newPassword,
   required String conPassword,
@@ -91,14 +91,14 @@ Future<String?> changePassword({
   }
   try {
     await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-    return null;
+    return 'ok';
   } catch (e) {
     debugPrint(e.toString());
     return getAuthErrorCode(e);
   }
 }
 
-Future<String?> resetPassword(String? site, String? email) async {
+Future<String> resetPassword(String? site, String? email) async {
   if (site == null || site.isEmpty) {
     return 'site-required';
   }
@@ -112,17 +112,15 @@ Future<String?> resetPassword(String? site, String? email) async {
         url: '${version == "for test" ? testUrl : appUrl}/#/$site',
       ),
     );
-    return null;
+    return 'ok';
   } catch (e) {
     debugPrint(e.toString());
     return getAuthErrorCode(e);
   }
 }
 
-Future<String?> resetMyPassword(String? site) async {
-  final email = FirebaseAuth.instance.currentUser?.email;
-  return resetPassword(site, email);
-}
+Future<String?> resetMyPassword(String? site) =>
+    resetPassword(site, getUserEmail());
 
 bool validatePassword(String password) =>
     password.length >= 8 &&
@@ -136,5 +134,7 @@ String getAuthErrorCode(Object e) => e
     .toString()
     .replaceFirst(RegExp(r'^[^/]*/'), '')
     .replaceFirst(RegExp(r'].*'), '');
+
+String? getUserEmail() => FirebaseAuth.instance.currentUser?.email;
 
 Future<void> logout() => FirebaseAuth.instance.signOut();

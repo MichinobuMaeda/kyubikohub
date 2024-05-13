@@ -7,6 +7,7 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
+import '../widgets/auth_error_message.dart';
 import '../app_localizations.dart';
 
 class ChangePasswordSection extends HookConsumerWidget {
@@ -22,7 +23,7 @@ class ChangePasswordSection extends HookConsumerWidget {
     final curPasswordVisible = useState(false);
     final newPasswordVisible = useState(false);
     final conPasswordVisible = useState(false);
-    final errorMessage = useState<String?>(null);
+    final status = useState<String?>(null);
 
     return Padding(
       padding: cardItemPadding,
@@ -89,12 +90,13 @@ class ChangePasswordSection extends HookConsumerWidget {
             FilledButton(
               child: Text(t.changePassword),
               onPressed: () async {
-                final message = await changePassword(
+                status.value = null;
+                status.value = await changePassword(
                   curPassword: curPassword.value,
                   newPassword: newPassword.value,
                   conPassword: conPassword.value,
                 );
-                if (message == null) {
+                if (status.value == 'ok') {
                   logInfo(
                     site is Success ? (site as Success).data.id : null,
                     'Change password success',
@@ -102,66 +104,12 @@ class ChangePasswordSection extends HookConsumerWidget {
                 } else {
                   logError(
                     site is Success ? (site as Success).data.id : null,
-                    'Change password error: $message',
+                    'Change password error: $status.value',
                   );
-                }
-                switch (message) {
-                  case null:
-                    errorMessage.value = '';
-                    break;
-                  case 'email-required':
-                    errorMessage.value = t.emailRequired;
-                    break;
-                  case 'curPassword-required':
-                    errorMessage.value = t.curPasswordRequired;
-                    break;
-                  case 'newPassword-required':
-                    errorMessage.value = t.newPasswordRequired;
-                    break;
-                  case 'conPassword-required':
-                    errorMessage.value = t.conPasswordRequired;
-                    break;
-                  case 'password-mismatch':
-                    errorMessage.value = t.passwordMismatch;
-                    break;
-                  case 'invalid-email':
-                    errorMessage.value = t.invalidEmail;
-                    break;
-                  case 'user-disabled':
-                    errorMessage.value = t.userDisabled;
-                    break;
-                  case 'user-not-found':
-                    errorMessage.value = t.userNotFound;
-                    break;
-                  case 'wrong-password':
-                    errorMessage.value = t.wrongPassword;
-                    break;
-                  case 'weak-password':
-                    errorMessage.value = t.weakPassword;
-                    break;
-                  default:
-                    errorMessage.value = t.authFailed;
-                    break;
                 }
               },
             ),
-            if (errorMessage.value?.isNotEmpty == true)
-              Padding(
-                padding: cardItemPadding,
-                child: Text(
-                  errorMessage.value ?? t.authFailed,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
-            if (errorMessage.value?.isEmpty == true)
-              Padding(
-                padding: cardItemPadding,
-                child: Text(
-                  t.changedPassword,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.tertiary),
-                ),
-              ),
+            AuthErrorMessage(status: status.value),
           ],
         ),
       ),
