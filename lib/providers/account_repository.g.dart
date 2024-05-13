@@ -38,7 +38,7 @@ final siteAccountRepositoryProvider = Provider<DataState<SiteAccount>>.internal(
 );
 
 typedef SiteAccountRepositoryRef = ProviderRef<DataState<SiteAccount>>;
-String _$accountRepositoryHash() => r'2be84edd9de254427b6a0a7c53369f3e91a3cddf';
+String _$accountRepositoryHash() => r'8d7e1c8414b9949a58bdd3b00556e7feed8da225';
 
 /// See also [AccountRepository].
 @ProviderFor(AccountRepository)

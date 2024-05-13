@@ -7,6 +7,7 @@ import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
+import '../../providers/log_repository.dart';
 import '../widgets/select_site.dart';
 import '../app_localizations.dart';
 
@@ -44,7 +45,7 @@ class LoginPage extends HookConsumerWidget {
           Padding(
             padding: cardItemPadding,
             child: SizedBox(
-              width: baseSize * 16,
+              width: baseSize * 24,
               child: TextField(
                 onChanged: (value) {
                   email.value = value;
@@ -62,7 +63,7 @@ class LoginPage extends HookConsumerWidget {
           Padding(
             padding: cardItemPadding,
             child: SizedBox(
-              width: baseSize * 16,
+              width: baseSize * 24,
               child: TextField(
                 onChanged: (value) {
                   password.value = value;
@@ -94,6 +95,17 @@ class LoginPage extends HookConsumerWidget {
                   email: email.value,
                   password: password.value,
                 );
+                if (message == null) {
+                  logInfo(
+                    site is Success ? (site as Success).data.id : null,
+                    'Login with email: $email',
+                  );
+                } else {
+                  logError(
+                    site is Success ? (site as Success).data.id : null,
+                    'Login with email: $email, error: $message',
+                  );
+                }
                 switch (message) {
                   case null:
                     errorMessage.value = '';

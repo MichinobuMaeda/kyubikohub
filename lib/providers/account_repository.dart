@@ -153,7 +153,7 @@ class AccountRepository extends _$AccountRepository {
   }) async {
     debugPrint('''
     info: accountRepository.cancel(
-            state: $state,
+            state: ${state.runtimeType.toString()},
             next: ${next.runtimeType}
 )''');
     await _sub?.cancel();
@@ -161,6 +161,7 @@ class AccountRepository extends _$AccountRepository {
     if (this.state != state) {
       this.state = state;
     }
+    await Future.delayed(const Duration(milliseconds: 100));
     next();
   }
 }

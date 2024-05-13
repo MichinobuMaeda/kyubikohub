@@ -4,6 +4,9 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const String appTitle = 'Kyubiko Hub';
+const String appUrl = 'https://kyubikohub.web.app';
+const String testUrl = 'https://localhost:9099';
+const String supportEmail = 'noreply@kyubikohub.firebaseapp.com';
 
 // !!!!! DON"T EDIT !!!!!
 // it's to be replaced with 'version' in pubspec.yaml on deployment.

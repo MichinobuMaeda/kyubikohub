@@ -22,6 +22,14 @@ service cloud.firestore {
       allow read, create, update: if isAdmin();
       allow delete: if site != "admins" && isAdmin();
     }
+    match /logs/{log} {
+      allow create: if true;
+      allow read, write: if isAdmin();
+    }
+    match /sites/{site}/logs/{log} {
+      allow create: if true;
+      allow read, write: if isManager(site) || isAdmin();
+    }
     match /sites/{site}/accounts/{account} {
       allow read: if request.auth.uid == account;
       allow read: if isManager(site);

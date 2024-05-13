@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kyubikohub/models/data_state.dart';
 
 import '../../config.dart';
+import '../../providers/log_repository.dart';
+import '../../providers/site_repository.dart';
 import '../app_localizations.dart';
 import 'bottom_card.dart';
 
@@ -14,6 +17,11 @@ class SelectSite extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final selectedSite = useState<String?>(null);
+    final site = ref.watch(siteRepositoryProvider);
+    final oldSite = switch (site) {
+      Loading() || Error() => null,
+      Success() => site.data.id,
+    };
 
     return FilledButton(
       child: Text(t.selectSite),
@@ -37,6 +45,7 @@ class SelectSite extends HookConsumerWidget {
                       autofocus: true,
                       onSubmitted: (value) => goSite(
                         context,
+                        oldSite,
                         value,
                       ),
                       decoration: InputDecoration(
@@ -45,6 +54,7 @@ class SelectSite extends HookConsumerWidget {
                           icon: const Icon(Icons.arrow_forward),
                           onPressed: () => goSite(
                             context,
+                            oldSite,
                             selectedSite.value,
                           ),
                         ),
@@ -68,8 +78,15 @@ class SelectSite extends HookConsumerWidget {
     );
   }
 
-  void goSite(BuildContext context, String? site) {
+  @visibleForTesting
+  void goSite(BuildContext context, String? oldSite, String? newSite,) {
     Navigator.pop(context);
-    context.go('/${site?.trim()}');
+    context.go('/${newSite?.trim()}');
+
+    if (oldSite == null) {
+      logAppInfo('Select site: $newSite');
+    } else {
+      logInfo(oldSite, 'Select site: $newSite');
+    }
   }
 }
