@@ -34,7 +34,7 @@ class LicenseCard extends HookConsumerWidget {
       topActions: [
         IconButton(
           icon: const Icon(Icons.copy),
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
           onPressed: () => Clipboard.setData(
             ClipboardData(text: '$title\n\n$body'),
           ),

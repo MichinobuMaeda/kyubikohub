@@ -15,26 +15,31 @@ class TabsScreen extends HookConsumerWidget {
       initialIndex: 0,
       length: items.length,
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: TabBar(
-          isScrollable: true,
-          tabs: items
-              .map(
-                (item) => Tab(
-                  child: Row(
-                    children: [
-                      Icon(item.icon),
-                      const SizedBox(width: iconTextGap),
-                      Text(item.label),
-                    ],
+        appBar: AppBar(
+          title: const SizedBox.shrink(),
+          toolbarHeight: 0,
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: items
+                .map(
+                  (item) => Tab(
+                    child: Row(
+                      children: [
+                        Icon(item.icon),
+                        const SizedBox(width: iconTextGap),
+                        Text(item.label),
+                      ],
+                    ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
+          ),
         ),
-        body: TabBarView(
-          // physics: const NeverScrollableScrollPhysics(),
-          children: items.map((item) => item.page).toList(),
+        body: ColoredBox(
+          color: Theme.of(context).colorScheme.surface,
+          child: TabBarView(
+            children: items.map((item) => item.page).toList(),
+          ),
         ),
       ),
     );

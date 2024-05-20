@@ -49,14 +49,14 @@ class BottomCard extends HookConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                   onPressed: () => Navigator.pop(context),
                 )
               ],
             ),
             Expanded(
               child: ColoredBox(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 child: body,
               ),
             ),

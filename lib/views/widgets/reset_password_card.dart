@@ -45,7 +45,7 @@ class ResetPasswordCard extends HookConsumerWidget {
                     },
                     autofocus: true,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                     decoration: InputDecoration(
                       label: Text(t.email),

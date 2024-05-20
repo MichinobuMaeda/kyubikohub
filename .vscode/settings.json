@@ -27,7 +27,7 @@
     "uids",
     "venv"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.19.6",
+  "dart.flutterSdkPath": ".fvm/versions/3.22.0",
   "python.createEnvironment.trigger": "off",
   "files.trimTrailingWhitespace": true
 }

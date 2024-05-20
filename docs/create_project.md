@@ -173,3 +173,9 @@ npx firebase deploy -- only functions
 2. Click actions and then General
 3. Look for Workflow Permission section
 4. Choose the first option 'Read and write permission' and then the checkbox 'Allow GitHub Actions to create and approve pull requests' Please see attached file for your reference
+
+For flutter_native_splash
+
+'''bash
+fvm dart run flutter_native_splash:create
+'''

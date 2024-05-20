@@ -1,6 +1,6 @@
 {
-    "name": "kyubikohub",
-    "short_name": "kyubikohub",
+    "name": "Kyubiko Hub",
+    "short_name": "Kyubiko Hub",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#556b2f",

@@ -7,7 +7,7 @@ part of 'site_repository.dart';
 // **************************************************************************
 
 String _$siteParamRepositoryHash() =>
-    r'1bf58baf944f9641e54ca3e3b06f970b0dd05d7b';
+    r'a0b19b65a7693d26c60c4b7118b32cc01b5cb646';
 
 /// See also [SiteParamRepository].
 @ProviderFor(SiteParamRepository)

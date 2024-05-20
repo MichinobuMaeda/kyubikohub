@@ -71,7 +71,7 @@ ThemeData themeData(Brightness brightness) {
   final bodySmall = TextStyle(
     fontSize: baseSize * 0.9,
     fontWeight: FontWeight.normal,
-    color: colorScheme.onBackground,
+    color: colorScheme.onSurface,
   );
   final bodyMedium = bodySmall.copyWith(fontSize: baseSize);
   final bodyLarge = bodyMedium.copyWith(fontSize: baseSize * 1.1);
@@ -99,19 +99,19 @@ ThemeData themeData(Brightness brightness) {
       unselectedLabelStyle: bodyMedium,
     ),
     listTileTheme: ListTileThemeData(
-      tileColor: colorScheme.background,
+      tileColor: colorScheme.onSurface,
       titleTextStyle: titleSmall,
       subtitleTextStyle: bodyMedium,
     ),
     navigationRailTheme: NavigationRailThemeData(
-      backgroundColor: colorScheme.surfaceVariant.withAlpha(80),
+      backgroundColor: colorScheme.surfaceContainerHighest.withAlpha(80),
     ),
     inputDecorationTheme: InputDecorationTheme(
       labelStyle: TextStyle(
-        color: colorScheme.onBackground.withAlpha(160),
+        color: colorScheme.onSurface.withAlpha(160),
         height: 0.5,
       ),
-      suffixIconColor: colorScheme.onBackground,
+      suffixIconColor: colorScheme.onSurface,
     ),
   );
 }

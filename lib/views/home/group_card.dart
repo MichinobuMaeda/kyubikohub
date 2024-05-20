@@ -23,7 +23,7 @@ class GroupCard extends HookConsumerWidget {
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) => ColoredBox(
           color: index.isEven
-              ? Theme.of(context).colorScheme.background
+              ? Theme.of(context).colorScheme.surface
               : Theme.of(context).colorScheme.shadow.withAlpha(8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: baseSize),

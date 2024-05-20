@@ -55,7 +55,7 @@ class LoginPage extends HookConsumerWidget {
                 },
                 autofocus: true,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 decoration: InputDecoration(
                   label: Text(t.email),
@@ -73,7 +73,7 @@ class LoginPage extends HookConsumerWidget {
                 },
                 obscureText: !passwordVisible.value,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 decoration: InputDecoration(
                   label: Text(t.password),

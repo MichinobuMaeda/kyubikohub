@@ -62,7 +62,7 @@ class LogoutSection extends HookConsumerWidget {
                               );
                             },
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateColor.resolveWith(
+                              backgroundColor: WidgetStateColor.resolveWith(
                                 (states) => Theme.of(context).colorScheme.error,
                               ),
                             ),
@@ -76,7 +76,7 @@ class LogoutSection extends HookConsumerWidget {
               ),
             ),
             style: ButtonStyle(
-              backgroundColor: MaterialStateColor.resolveWith(
+              backgroundColor: WidgetStateColor.resolveWith(
                 (states) => Theme.of(context).colorScheme.error,
               ),
             ),

@@ -18,7 +18,7 @@ class GroupsPage extends HookConsumerWidget {
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) => ColoredBox(
             color: index.isOdd
-                ? Theme.of(context).colorScheme.background
+                ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.shadow.withAlpha(8),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: baseSize),
