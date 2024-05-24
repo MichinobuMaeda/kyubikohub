@@ -4,11 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/tab_item.dart';
 import '../app_localizations.dart';
 import '../widgets/tabs_screen.dart';
-import 'preferences_page.dart';
-import 'my_account_page.dart';
+import 'sites_page.dart';
 
-class MeScreen extends HookConsumerWidget {
-  const MeScreen({super.key});
+class AdminScreen extends HookConsumerWidget {
+  const AdminScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,14 +16,9 @@ class MeScreen extends HookConsumerWidget {
     return TabsScreen(
       items: [
         TabItem(
-          icon: Icons.build,
-          label: t.preferences,
-          page: const PreferencesPage(),
-        ),
-        TabItem(
-          icon: Icons.account_circle,
-          label: t.myAccount,
-          page: const MyAccountPage(),
+          icon: Icons.domain,
+          label: t.sites,
+          page: const SitesPage(),
         ),
       ],
     );

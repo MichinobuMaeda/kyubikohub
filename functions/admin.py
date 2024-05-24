@@ -1,5 +1,20 @@
 from firebase_admin import auth
 from google.cloud import firestore
+import conf
+from utils import is_active_doc
+
+
+def is_admin(
+    db: firestore.Client,
+    uid: str,
+) -> bool:
+    return is_active_doc(
+        db.collection("sites")
+        .document("admins")
+        .collection("accounts")
+        .document(uid)
+        .get()
+    )
 
 
 def create_site(
@@ -9,14 +24,14 @@ def create_site(
     site_name: str,
     email: str,
     name: str,
-    password: str=None,
-    uid: str=None,
-):
-    print(f"Info  : create sites/{site_id} with manager {uid} {email}")
+    password: str = None,
+    uid: str = None,
+) -> bool:
+    print(f"INFO  : create sites/{site_id} with manager {uid} {email}")
 
     if uid is None:
-        user = auth_client.create_user(email=email, password=password)
-        uid = user.uid
+        auth_user = auth_client.create_user(email=email, password=password)
+        uid = auth_user.uid
     else:
         auth_client.create_user(uid=uid, email=email, password=password)
 
@@ -25,15 +40,15 @@ def create_site(
     site_ref.set(
         {
             "name": site_name,
-            "forGuests": "## はじめての皆さん",
-            "forMembers": "## メンバーの皆さん",
-            "forMangers": "## サイト管理者の皆さん",
+            "forGuests": conf.siteDescForGuests,
+            "forMembers": conf.siteDescForMembers,
+            "forMangers": conf.siteDescForMangers,
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }
     )
 
-    (_, user_doc) = site_ref.collection("users").add(
+    (_, user) = site_ref.collection("users").add(
         {
             "name": name,
             "email": email,
@@ -44,7 +59,7 @@ def create_site(
 
     site_ref.collection("accounts").document(uid).set(
         {
-            "user": user_doc.id,
+            "user": user.id,
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }
@@ -52,9 +67,11 @@ def create_site(
 
     site_ref.collection("groups").document("managers").set(
         {
-            "name": "Managers",
-            "users": [user_doc.id],
+            "name": conf.managersGroupName,
+            "users": [user.id],
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }
     )
+
+    return True

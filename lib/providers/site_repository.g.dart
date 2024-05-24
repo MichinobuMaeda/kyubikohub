@@ -7,7 +7,7 @@ part of 'site_repository.dart';
 // **************************************************************************
 
 String _$siteParamRepositoryHash() =>
-    r'a0b19b65a7693d26c60c4b7118b32cc01b5cb646';
+    r'99b9c0bd3dd762e17b36cebc9a59c44a274fb621';
 
 /// See also [SiteParamRepository].
 @ProviderFor(SiteParamRepository)
@@ -23,12 +23,12 @@ final siteParamRepositoryProvider =
 );
 
 typedef _$SiteParamRepository = Notifier<String?>;
-String _$siteRepositoryHash() => r'b444334ad2d13957d07694e12d571d4876b0d295';
+String _$siteRepositoryHash() => r'482c8f0d2832315568f417e1712bcdc4e3418aa6';
 
 /// See also [SiteRepository].
 @ProviderFor(SiteRepository)
 final siteRepositoryProvider =
-    NotifierProvider<SiteRepository, DataState<Site>>.internal(
+    NotifierProvider<SiteRepository, DataState<(Site, List<Site>)>>.internal(
   SiteRepository.new,
   name: r'siteRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -38,6 +38,6 @@ final siteRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SiteRepository = Notifier<DataState<Site>>;
+typedef _$SiteRepository = Notifier<DataState<(Site, List<Site>)>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

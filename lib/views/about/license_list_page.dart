@@ -11,45 +11,47 @@ class LicenseListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final entries = useFuture(LicenseRegistry.licenses.toList());
+    final entries = useFuture(LicenseRegistry.licenses
+        .map(
+          (entry) => License(
+            title: entry.packages.toList().join(', '),
+            body: entry.paragraphs
+                .toList()
+                .map((p) => p.text.trim())
+                .join('\n\n'),
+          ),
+        )
+        .toList());
 
-    return ListView(
-      children: entries.data
-              ?.map(
-                (entry) => License(
-                  title: entry.packages.toList().join(', '),
-                  body: entry.paragraphs
-                      .toList()
-                      .map((p) => p.text.trim())
-                      .join('\n\n'),
-                ),
-              )
-              .map(
-                (entry) => ListTile(
-                  title: Text(
-                    entry.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  subtitle: Text(
-                    entry.body,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.more_horiz),
-                    onPressed: () => showBottomSheet(
-                      context: context,
-                      builder: (context) => LicenseCard(
-                        title: entry.title,
-                        body: entry.body,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-              .toList() ??
-          [],
+    return ListView.builder(
+      itemCount: (entries.data ?? []).length,
+      itemBuilder: (BuildContext context, int index) => ColoredBox(
+        color: index.isOdd
+            ? Theme.of(context).colorScheme.surface
+            : Theme.of(context).colorScheme.surfaceContainer,
+        child: ListTile(
+          title: Text(
+            (entries.data ?? [])[index].title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
+            (entries.data ?? [])[index].body,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: IconButton(
+            icon: const Icon(Icons.more_horiz),
+            onPressed: () => showBottomSheet(
+              context: context,
+              builder: (context) => LicenseCard(
+                title: (entries.data ?? [])[index].title,
+                body: (entries.data ?? [])[index].body,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

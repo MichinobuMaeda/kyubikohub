@@ -10,5 +10,6 @@ class Site with _$Site {
     required String forGuests,
     required String forMembers,
     required String forMangers,
+    required bool deleted,
   }) = _Site;
 }

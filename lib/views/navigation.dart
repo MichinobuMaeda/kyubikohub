@@ -27,6 +27,7 @@ class Navigation extends HookConsumerWidget {
         MediaQuery.of(context).orientation == Orientation.landscape;
     final isMember = ref.watch(siteAccountRepositoryProvider) is Success;
     final showNav = site != null && isMember;
+    final siteAccount = ref.watch(siteAccountRepositoryProvider);
 
     final navItems = [
       NavItem(
@@ -36,10 +37,16 @@ class Navigation extends HookConsumerWidget {
         navPath: NavPath.home,
       ),
       NavItem(
-        icon: Icons.account_circle_outlined,
-        selectedIcon: Icons.account_circle,
+        icon: Icons.settings_outlined,
+        selectedIcon: Icons.settings,
         label: t.me,
         navPath: NavPath.me,
+      ),
+      NavItem(
+        icon: Icons.dns_outlined,
+        selectedIcon: Icons.dns,
+        label: t.administration,
+        navPath: NavPath.admin,
       ),
       NavItem(
         icon: Icons.info_outlined,
@@ -47,7 +54,12 @@ class Navigation extends HookConsumerWidget {
         label: t.about,
         navPath: NavPath.about,
       ),
-    ];
+    ]
+        .where((item) =>
+            item.navPath != NavPath.admin ||
+            (siteAccount is Success<SiteAccount> &&
+                siteAccount.data.site == 'admins'))
+        .toList();
 
     final selectedIndex = () {
       for (int index = 0; index < navItems.length; ++index) {
@@ -89,9 +101,7 @@ class Navigation extends HookConsumerWidget {
               children: [
                 const UpdateAppMessage(),
                 Expanded(
-                  child: site == null || isMember
-                      ? child
-                      : const LoginScreen(),
+                  child: site == null || isMember ? child : const LoginScreen(),
                 ),
               ],
             ),

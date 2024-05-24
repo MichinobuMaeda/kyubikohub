@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -50,6 +51,8 @@ const FirebaseOptions testFirebaseOptions = FirebaseOptions(
   appId: "1:114575052714:web:9ce6fc0483224f61fe65d3",
   measurementId: "G-8VLR54KLH9",
 );
+
+const functionsRegion = 'asia-northeast2';
 
 // Style -- key parameters
 const themeMode = ThemeMode.system;
@@ -104,20 +107,16 @@ ThemeData themeData(Brightness brightness) {
       subtitleTextStyle: bodyMedium,
     ),
     navigationRailTheme: NavigationRailThemeData(
-      backgroundColor: colorScheme.surfaceContainerHighest.withAlpha(80),
+      backgroundColor: colorScheme.surfaceContainerLow,
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: TextStyle(
-        color: colorScheme.onSurface.withAlpha(160),
-        height: 0.5,
-      ),
-      suffixIconColor: colorScheme.onSurface,
+    inputDecorationTheme: const InputDecorationTheme(
+      contentPadding: EdgeInsets.only(top: baseSize / 10),
     ),
   );
 }
 
 const buttonGap = baseSize * 0.75;
-const iconTextGap = baseSize * 0.25;
+const iconTextGap = baseSize * 0.5;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
@@ -150,4 +149,17 @@ MarkdownStyleSheet markdownStyleSheet(BuildContext context) {
     code: textTheme.bodyMedium?.copyWith(fontFamily: monospaceFontFamily),
     a: textTheme.bodyMedium?.copyWith(color: linkColor(context)),
   );
+}
+
+// https://www.geeksforgeeks.org/flutter-generate-strong-random-password/
+const passwordChars =
+    '!#%+23456789:=?@ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const defaultPasswordLength = 16;
+String generatePassword() {
+  final random = Random();
+  String password = '';
+  for (int i = 0; i < defaultPasswordLength; i++) {
+    password += passwordChars[random.nextInt(passwordChars.length)];
+  }
+  return password;
 }

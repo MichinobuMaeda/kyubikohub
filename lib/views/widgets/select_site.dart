@@ -20,11 +20,18 @@ class SelectSite extends HookConsumerWidget {
     final site = ref.watch(siteRepositoryProvider);
     final oldSite = switch (site) {
       Loading() || Error() => null,
-      Success() => site.data.id,
+      Success() => site.data.$1.id,
     };
 
     return FilledButton(
-      child: Text(t.selectSite),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.domain),
+          const SizedBox(width: iconTextGap),
+          Text(t.selectSite),
+        ],
+      ),
       onPressed: () => showBottomSheet(
         context: context,
         builder: (context) => BottomCard(
@@ -79,7 +86,11 @@ class SelectSite extends HookConsumerWidget {
   }
 
   @visibleForTesting
-  void goSite(BuildContext context, String? oldSite, String? newSite,) {
+  void goSite(
+    BuildContext context,
+    String? oldSite,
+    String? newSite,
+  ) {
     Navigator.pop(context);
     context.go('/${newSite?.trim()}');
 

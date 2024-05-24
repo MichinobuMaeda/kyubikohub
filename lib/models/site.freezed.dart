@@ -21,6 +21,7 @@ mixin _$Site {
   String get forGuests => throw _privateConstructorUsedError;
   String get forMembers => throw _privateConstructorUsedError;
   String get forMangers => throw _privateConstructorUsedError;
+  bool get deleted => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SiteCopyWith<Site> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $SiteCopyWith<$Res> {
       String name,
       String forGuests,
       String forMembers,
-      String forMangers});
+      String forMangers,
+      bool deleted});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
     Object? forGuests = null,
     Object? forMembers = null,
     Object? forMangers = null,
+    Object? deleted = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -79,6 +82,10 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
           ? _value.forMangers
           : forMangers // ignore: cast_nullable_to_non_nullable
               as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -95,7 +102,8 @@ abstract class _$$SiteImplCopyWith<$Res> implements $SiteCopyWith<$Res> {
       String name,
       String forGuests,
       String forMembers,
-      String forMangers});
+      String forMangers,
+      bool deleted});
 }
 
 /// @nodoc
@@ -113,6 +121,7 @@ class __$$SiteImplCopyWithImpl<$Res>
     Object? forGuests = null,
     Object? forMembers = null,
     Object? forMangers = null,
+    Object? deleted = null,
   }) {
     return _then(_$SiteImpl(
       id: null == id
@@ -135,6 +144,10 @@ class __$$SiteImplCopyWithImpl<$Res>
           ? _value.forMangers
           : forMangers // ignore: cast_nullable_to_non_nullable
               as String,
+      deleted: null == deleted
+          ? _value.deleted
+          : deleted // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -147,7 +160,8 @@ class _$SiteImpl implements _Site {
       required this.name,
       required this.forGuests,
       required this.forMembers,
-      required this.forMangers});
+      required this.forMangers,
+      required this.deleted});
 
   @override
   final String id;
@@ -159,10 +173,12 @@ class _$SiteImpl implements _Site {
   final String forMembers;
   @override
   final String forMangers;
+  @override
+  final bool deleted;
 
   @override
   String toString() {
-    return 'Site(id: $id, name: $name, forGuests: $forGuests, forMembers: $forMembers, forMangers: $forMangers)';
+    return 'Site(id: $id, name: $name, forGuests: $forGuests, forMembers: $forMembers, forMangers: $forMangers, deleted: $deleted)';
   }
 
   @override
@@ -177,12 +193,13 @@ class _$SiteImpl implements _Site {
             (identical(other.forMembers, forMembers) ||
                 other.forMembers == forMembers) &&
             (identical(other.forMangers, forMangers) ||
-                other.forMangers == forMangers));
+                other.forMangers == forMangers) &&
+            (identical(other.deleted, deleted) || other.deleted == deleted));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, name, forGuests, forMembers, forMangers);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, forGuests, forMembers, forMangers, deleted);
 
   @JsonKey(ignore: true)
   @override
@@ -197,7 +214,8 @@ abstract class _Site implements Site {
       required final String name,
       required final String forGuests,
       required final String forMembers,
-      required final String forMangers}) = _$SiteImpl;
+      required final String forMangers,
+      required final bool deleted}) = _$SiteImpl;
 
   @override
   String get id;
@@ -209,6 +227,8 @@ abstract class _Site implements Site {
   String get forMembers;
   @override
   String get forMangers;
+  @override
+  bool get deleted;
   @override
   @JsonKey(ignore: true)
   _$$SiteImplCopyWith<_$SiteImpl> get copyWith =>

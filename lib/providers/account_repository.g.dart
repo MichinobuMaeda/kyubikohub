@@ -7,7 +7,7 @@ part of 'account_repository.dart';
 // **************************************************************************
 
 String _$siteAuthRepositoryHash() =>
-    r'd916958e0d438cdf3bd0fb2458a9169da5b8b289';
+    r'8153342eca61d57a2a3f0c6f7caadecf7e665d8e';
 
 /// See also [siteAuthRepository].
 @ProviderFor(siteAuthRepository)
@@ -23,7 +23,7 @@ final siteAuthRepositoryProvider = Provider<DataState<SiteAuth>>.internal(
 
 typedef SiteAuthRepositoryRef = ProviderRef<DataState<SiteAuth>>;
 String _$siteAccountRepositoryHash() =>
-    r'c14e80e656a64dab29a45f443703fdaa4b3e2ea9';
+    r'0c033ed5d469a427458588b10013406f450f83a3';
 
 /// See also [siteAccountRepository].
 @ProviderFor(siteAccountRepository)

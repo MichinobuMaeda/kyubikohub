@@ -22,9 +22,9 @@ import 'platforms.dart';
 void main() async {
   SharedPreferences.setPrefix('kyubikohub');
   const bool isTest = version == 'for test';
-  debugPrint('     env: ${isTest ? "test" : "production"}');
+  debugPrint('ENV     : ${isTest ? "test" : "production"}');
 
-  debugPrint('Adding licenses manually.');
+  debugPrint('INFO    : Adding licenses manually.');
   for (var entry in licenseAssets) {
     LicenseRegistry.addLicense(() async* {
       yield LicenseEntryWithLineBreaks(
@@ -36,13 +36,14 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  debugPrint('    info: Initializing Firebase.');
+  debugPrint('INFO    : Initializing Firebase.');
   await Firebase.initializeApp(options: firebaseOptions);
   if (isTest) {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
-    FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
+    await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+    await FirebaseStorage.instance.useStorageEmulator('127.0.0.1', 9199);
+    FirebaseFunctions.instanceFor(region: functionsRegion)
+        .useFunctionsEmulator('127.0.0.1', 5001);
   } else {
     await FirebaseAppCheck.instance.activate(
       webProvider: ReCaptchaV3Provider(webRecaptchaSiteKey),
@@ -50,14 +51,14 @@ void main() async {
       // appleProvider: AppleProvider.appAttest,
     );
   }
-  debugPrint('    info: Initialized Firebase.');
+  debugPrint('INFO    : Initialized Firebase.');
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (isTest) {
     await prefs.remove('site');
   }
 
-  debugPrint("    info: Show Widgets.");
+  debugPrint('INFO    : Show Widgets.');
   runApp(
     ProviderScope(
       observers: [

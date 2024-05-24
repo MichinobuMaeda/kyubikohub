@@ -20,7 +20,7 @@ class GroupsRepository extends _$GroupsRepository {
       siteAccountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
-        debugPrint('    info: GroupsRepository.build next: $next');
+        debugPrint('INFO    : GroupsRepository.build next: $next');
         if (next is Success) {
           listen((next as Success).data);
         } else {

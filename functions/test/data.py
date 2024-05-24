@@ -3,7 +3,7 @@ from firebase_admin import auth
 
 
 def set_test_data(db: firestore.Client, auth_client: auth.Client):
-    print("Start: set_test_data")
+    print("START : set_test_data")
 
     db.collection("service").document("conf").update(
         {
@@ -118,4 +118,4 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
         }
     )
 
-    print("End  : set_test_data")
+    print("END   : set_test_data")

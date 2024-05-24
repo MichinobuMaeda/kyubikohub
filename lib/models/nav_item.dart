@@ -15,6 +15,10 @@ enum NavPath {
   about(
     name: 'about',
     path: 'about',
+  ),
+  admin(
+    name: 'admin',
+    path: 'admin',
   );
 
   final String name;

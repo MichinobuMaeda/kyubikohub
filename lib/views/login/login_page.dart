@@ -36,7 +36,9 @@ class LoginPage extends HookConsumerWidget {
               children: [
                 Text(
                   t.loginSite(
-                      site: site is Success<Site> ? site.data.name : ''),
+                      site: site is Success<(Site, List<Site>)>
+                          ? site.data.$1.name
+                          : ''),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(height: buttonGap),
@@ -54,9 +56,6 @@ class LoginPage extends HookConsumerWidget {
                   email.value = value;
                 },
                 autofocus: true,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
                 decoration: InputDecoration(
                   label: Text(t.email),
                 ),
@@ -72,9 +71,6 @@ class LoginPage extends HookConsumerWidget {
                   password.value = value;
                 },
                 obscureText: !passwordVisible.value,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
                 decoration: InputDecoration(
                   label: Text(t.password),
                   suffixIcon: IconButton(
@@ -91,40 +87,50 @@ class LoginPage extends HookConsumerWidget {
           ),
           Padding(
             padding: cardItemPadding,
-            child: FilledButton(
-              child: Text(t.login),
-              onPressed: () async {
-                status.value = await loginWithEmailAndPassword(
-                  email: email.value,
-                  password: password.value,
-                );
-                if (status.value == null) {
-                  logInfo(
-                    site is Success ? (site as Success).data.id : null,
-                    'Login with email: $email',
-                  );
-                } else {
-                  logError(
-                    site is Success ? (site as Success).data.id : null,
-                    'Login with email: $email, error: $status.value',
-                  );
-                }
-              },
-            ),
-          ),
-          AuthErrorMessage(status: status.value),
-          const Divider(),
-          Padding(
-            padding: cardItemPadding,
-            child: FilledButton(
-              child: Text(t.forgetYourPassword),
-              onPressed: () => showBottomSheet(
-                context: context,
-                builder: (context) => ResetPasswordCard(
-                  title: t.forgetYourPassword,
-                  email: email.value,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FilledButton(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.login),
+                      const SizedBox(width: iconTextGap),
+                      Text(t.login),
+                    ],
+                  ),
+                  onPressed: () async {
+                    status.value = await loginWithEmailAndPassword(
+                      email: email.value,
+                      password: password.value,
+                    );
+                    if (status.value == null) {
+                      logInfo(
+                        site is Success ? (site as Success).data.$1.id : null,
+                        'Login with email: $email',
+                      );
+                    } else {
+                      logError(
+                        site is Success ? (site as Success).data.$1.id : null,
+                        'Login with email: $email, error: $status.value',
+                      );
+                    }
+                  },
                 ),
-              ),
+                const SizedBox(height: buttonGap),
+                AuthErrorMessage(status: status.value),
+                const SizedBox(height: buttonGap),
+                OutlinedButton(
+                  child: Text(t.forgetYourPassword),
+                  onPressed: () => showBottomSheet(
+                    context: context,
+                    builder: (context) => ResetPasswordCard(
+                      title: t.forgetYourPassword,
+                      email: email.value,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ],

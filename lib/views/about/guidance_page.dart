@@ -18,15 +18,15 @@ class GuidancePage extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
     final isMember = ref.watch(accountRepositoryProvider) is Success;
-    final guide = site is Success<Site>
+    final guide = site is Success<(Site, List<Site>)>
         ? isMember
             ? '''
-${site.data.forGuests}
+${site.data.$1.forGuests}
 
-${site.data.forMembers}
+${site.data.$1.forMembers}
 '''
             : '''
-${site.data.forGuests}
+${site.data.$1.forGuests}
 '''
         : '';
 
@@ -42,7 +42,7 @@ ${site.data.forGuests}
                   Padding(
                     padding: cardItemPadding,
                     child: Text(
-                      site.data.name,
+                      site.data.$1.name,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
@@ -60,7 +60,7 @@ ${site.data.forGuests}
                       color: Theme.of(context).colorScheme.outline,
                       onPressed: () => Clipboard.setData(
                         ClipboardData(text: '''
-# ${site.data.name}
+# ${site.data.$1.name}
 
 $guide
 '''),

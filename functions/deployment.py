@@ -10,19 +10,19 @@ from test.data import set_test_data
 def _get_deployment_handle(
     db: firestore.Client,
 ) -> bool:
-    print("Start: get_deployment_handle")
+    print("START : get_deployment_handle")
     doc = db.collection("service").document("deployment").get()
     if doc.exists:
-        print("Error: service/deployment exists")
+        print("ERROR : service/deployment exists")
         return False
     ts = datetime.now().isoformat()
     doc.reference.set({"ts": ts})
     time.sleep(1)
     doc = doc.reference.get()
     if (not doc.exists) or doc.get("ts") != ts:
-        print("Error: interrupted")
+        print("ERROR : interrupted")
         return False
-    print("End  : get_deployment_handle return True")
+    print("END   : get_deployment_handle return True")
     return True
 
 
@@ -30,7 +30,7 @@ def _set_ui_version(
     db: firestore.Client,
     project_id: str,
 ):
-    print("Start: setUiVersion")
+    print("START : setUiVersion")
     res = requests.get(
         f"https://{project_id}.web.app/version.json" f"?check={datetime.now().timestamp()}"
     )
@@ -39,7 +39,7 @@ def _set_ui_version(
         doc = db.collection("service").document("conf").get()
         curr = doc.get("uiVersion")
         if curr != ver:
-            print(f"Info  : update uiVersion {curr} to {ver}")
+            print(f"INFO  : update uiVersion {curr} to {ver}")
             doc.reference.update(
                 {
                     "uiVersion": ver,
@@ -47,10 +47,10 @@ def _set_ui_version(
                 }
             )
         else:
-            print("Info  : skip to update")
+            print("INFO  : skip to update")
     else:
-        print(f"Error: HTTP Status: {res.status_code}")
-    print("End  : setUiVersion")
+        print(f"ERROR : HTTP Status: {res.status_code}")
+    print("END   : setUiVersion")
 
 
 def _upgrade_data_v1(
@@ -95,7 +95,7 @@ def _upgrade_data(
     auth_client: auth.Client,
     data: dict,
 ):
-    print("Start: upgrade_data")
+    print("START : upgrade_data")
 
     cur_ver = 0
     conf_ref = db.collection("service").document("conf")
@@ -117,15 +117,15 @@ def _upgrade_data(
     new_ver = 1
 
     if cur_ver == new_ver:
-        print("Info  : skip to upgrade")
+        print("INFO  : skip to upgrade")
     else:
-        print(f"Info  : upgrade {cur_ver} to {new_ver}")
+        print(f"INFO  : upgrade {cur_ver} to {new_ver}")
 
         if cur_ver < 1:
             _upgrade_data_v1(db=db, auth_client=auth_client, data=data)
             _set_data_version(conf_ref, 1)
 
-    print("End  : upgrade_data")
+    print("END   : upgrade_data")
 
 def deploy(
     db: firestore.Client,
@@ -135,11 +135,11 @@ def deploy(
     data: dict,
 ):
     if not _get_deployment_handle(db):
-        print("Error: get_handle()")
+        print("ERROR : get_handle()")
         return
 
     test = deployment_key == "test"
-    print(f"test: {test}")
+    print(f"TEST  : {test}")
 
     _upgrade_data(db=db, auth_client=auth_client, data=data)
 

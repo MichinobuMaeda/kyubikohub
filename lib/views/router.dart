@@ -7,6 +7,7 @@ import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
 import 'about/about_app_screen.dart';
 import 'about/about_site_screen.dart';
+import 'admin/admin_screen.dart';
 import 'me/me_screen.dart';
 import 'navigation.dart';
 
@@ -42,10 +43,15 @@ GoRouter router(WidgetRef ref) => GoRouter(
               path: joinPath('/:site', NavPath.about.path),
               builder: (context, state) => const AboutSiteScreen(),
             ),
+            GoRoute(
+              name: NavPath.admin.name,
+              path: joinPath('/:site', NavPath.admin.path),
+              builder: (context, state) => const AdminScreen(),
+            ),
           ],
         ),
       ],
-      redirect: (context, state) => guardSite(state, ref),
+      redirect: (context, state) => guardPath(state, ref),
     );
 
 String joinPath(String basePath, String subPath) =>
@@ -61,18 +67,53 @@ String joinPath(String basePath, String subPath) =>
   return (site, NavPath.values.firstWhere((navItem) => navItem.path == path));
 }
 
+@visibleForTesting
+Future<String?> guardPath(GoRouterState state, WidgetRef ref) async {
+  final resAdmin = guardAdmin(state);
+  if (resAdmin != null) {
+    return resAdmin;
+  }
+  return guardSite(state, ref);
+}
+
+@visibleForTesting
+String? guardAdmin(GoRouterState state) {
+  final paramSite = state.pathParameters['site'];
+
+  if (paramSite != null && paramSite != 'admins') {
+    final locationAdmin = state.namedLocation(
+      NavPath.admin.name,
+      pathParameters: {
+        "site": paramSite,
+      },
+    );
+    if (state.matchedLocation.startsWith(locationAdmin)) {
+      final locationHome = state.namedLocation(
+        NavPath.home.name,
+        pathParameters: {
+          "site": paramSite,
+        },
+      );
+      return locationHome;
+    }
+  }
+  return null;
+}
+
+@visibleForTesting
 Future<String?> guardSite(GoRouterState state, WidgetRef ref) async {
   final paramSite = state.pathParameters['site'];
   final checked = await ref
       .read(siteParamRepositoryProvider.notifier)
       .onSiteParamChanged(paramSite);
+
   if (paramSite == checked) {
     return null;
   } else if (checked == null) {
-    debugPrint('    info: redirect to /');
+    debugPrint('INFO    : redirect to /');
     return '/';
   } else {
-    debugPrint('    info: redirect to /$checked');
+    debugPrint('INFO    : redirect to /$checked');
     return '/$checked';
   }
 }

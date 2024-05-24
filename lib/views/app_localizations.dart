@@ -13,6 +13,7 @@ class AppLocalizations {
   String get home => 'ホーム';
   String get me => '設定';
   String get about => '情報';
+  String get administration => '管理';
   // Tab Items
   String get notices => 'お知らせ';
   String get preferences => 'アプリの設定';
@@ -22,6 +23,7 @@ class AppLocalizations {
   String get licenses => 'ライセンス';
   String get users => 'メンバー';
   String get groups => 'グループ';
+  String get sites => 'サイト';
   // Items
   String get siteId => 'サイトID';
   String get email => 'メールアドレス';
@@ -29,12 +31,19 @@ class AppLocalizations {
   String get curPassword => '現在のパスワード';
   String get newPassword => '新しいパスワード';
   String get conPassword => '新しいパスワード（確認）';
+  String get allMembers => 'すべてのメンバー';
+  String get id => 'ID';
+  String get siteName => 'サイト名';
+  String get displayName => '表示名';
   // Actions
   String get login => 'ログイン';
   String get logout => 'ログアウト';
   String get copy => 'コピー';
   String get update => '更新';
+  String get add => '新規追加';
   String get save => '保存';
+  String get delete => '削除';
+  String get restore => '復活';
   String get close => '閉じる';
   String get selectSite => 'サイトを選択する';
   String get changePassword => 'パスワード変更';
@@ -44,11 +53,8 @@ class AppLocalizations {
   String get warning => '警告';
   // Errors
   String get authFailed => '認証に失敗しました。';
-  String get emailRequired => 'メールアドレスを入力してください。';
-  String get passwordRequired => 'パスワードを入力してください。';
-  String get curPasswordRequired => '現在のパスワードを入力してください。';
-  String get newPasswordRequired => '新しいパスワードを入力してください。';
-  String get conPasswordRequired => '新しいパスワード（確認）を入力してください。';
+  String get systemError => 'システムエラーです。';
+  String itemIsRequired({required String item}) => '$itemを入力してください。';
   String get passwordMismatch => '新しいパスワードの確認の入力が一致しません。';
   String get weakPassword => '弱いパスワードです。';
   String get changedPassword => 'パスワードを変更しました。';
@@ -63,6 +69,9 @@ class AppLocalizations {
 $supportEmail からのメールを受信できるようにしておいてください。''';
   String get sendResetPasswordEmail => '''
 「$appTitle のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。''';
+  String get saved => '保存しました。';
+  String get deleted => '削除しました。';
+  String get restored => '復活しました。';
   String get sentEmail => 'メールを送信しました。';
   String get whyLogout => '通常、ログアウトの操作は不要です。';
   String get version => 'バージョン';

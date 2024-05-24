@@ -21,7 +21,7 @@ class ProviderLogger extends ProviderObserver {
   ) {
     debugPrint(
       '''
-   added: [${provider.name}] ${valueToString(value)}''',
+ADDED   : [${provider.name}] ${valueToString(value)}''',
     );
   }
 
@@ -34,7 +34,7 @@ class ProviderLogger extends ProviderObserver {
   ) {
     debugPrint(
       '''
- updated: [${provider.name}] ${valueToString(previousValue)}'
+UPDATED : [${provider.name}] ${valueToString(previousValue)}'
   --> ${valueToString(newValue)}''',
     );
   }
@@ -46,7 +46,7 @@ class ProviderLogger extends ProviderObserver {
   ) {
     debugPrint(
       '''
-disposed: [${provider.name}]''',
+DISPOSED: [${provider.name}]''',
     );
   }
 }

@@ -43,7 +43,7 @@ DataState<SiteAuth> siteAuthRepository(SiteAuthRepositoryRef ref) {
       (value) => switch (value) {
         Loading() => const Loading(),
         Error() => Error.fromError(value),
-        Success() => Success(data: value.data.id),
+        Success() => Success(data: value.data.$1.id),
       },
     ),
   );
@@ -173,7 +173,7 @@ DataState<SiteAccount> siteAccountRepository(SiteAccountRepositoryRef ref) {
       (value) => switch (value) {
         Loading() => const Loading(),
         Error() => Error.fromError(value),
-        Success() => Success(data: value.data.id),
+        Success() => Success(data: value.data.$1.id),
       },
     ),
   );

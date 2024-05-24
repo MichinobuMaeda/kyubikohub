@@ -5,26 +5,30 @@ import '../../config.dart';
 import '../../models/group.dart';
 import '../../providers/users_repository.dart';
 import '../widgets/bottom_card.dart';
+import '../app_localizations.dart';
 import 'user_card.dart';
 
 class GroupCard extends HookConsumerWidget {
-  final Group group;
-  const GroupCard({super.key, required this.group});
+  final Group? group;
+  const GroupCard({super.key, this.group});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final users = ref
-        .watch(usersRepositoryProvider)
-        .where((user) => group.users.contains(user.id))
-        .toList();
+    final t = AppLocalizations.of(context)!;
+    final users = group == null
+        ? ref.watch(usersRepositoryProvider)
+        : ref
+            .watch(usersRepositoryProvider)
+            .where((user) => group!.users.contains(user.id))
+            .toList();
 
     return BottomCard(
-      title: group.name,
+      title: group == null ? t.allMembers : group!.name,
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) => ColoredBox(
           color: index.isEven
               ? Theme.of(context).colorScheme.surface
-              : Theme.of(context).colorScheme.shadow.withAlpha(8),
+              : Theme.of(context).colorScheme.surfaceContainer,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: baseSize),
             child: Row(
