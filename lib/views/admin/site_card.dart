@@ -38,201 +38,206 @@ class SiteCard extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: cardItemPadding,
-                child: site == null
-                    ? SizedBox(
-                        width: baseSize * 24,
-                        child: TextField(
-                          controller: idTextController,
-                          onChanged: (value) {
-                            id.value = value;
-                          },
-                          decoration: InputDecoration(
-                            label: Text(t.id),
+          child: FocusTraversalGroup(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: cardItemPadding,
+                  child: site == null
+                      ? SizedBox(
+                          width: baseSize * 24,
+                          child: TextField(
+                            controller: idTextController,
+                            onChanged: (value) {
+                              id.value = value;
+                            },
+                            decoration: InputDecoration(
+                              label: Text(t.id),
+                            ),
+                          ),
+                        )
+                      : Text('ID: ${site!.id}'),
+                ),
+                Padding(
+                  padding: cardItemPadding,
+                  child: SizedBox(
+                    width: baseSize * 24,
+                    child: TextField(
+                      controller: nameTextController,
+                      onChanged: (value) {
+                        name.value = value;
+                      },
+                      decoration: InputDecoration(
+                        label: Text(t.siteName),
+                      ),
+                    ),
+                  ),
+                ),
+                if (site == null)
+                  Padding(
+                    padding: cardItemPadding,
+                    child: SizedBox(
+                      width: baseSize * 24,
+                      child: TextField(
+                        onChanged: (value) {
+                          managerName.value = value;
+                        },
+                        decoration: InputDecoration(
+                          label: Text(t.displayName),
+                        ),
+                      ),
+                    ),
+                  ),
+                if (site == null)
+                  Padding(
+                    padding: cardItemPadding,
+                    child: SizedBox(
+                      width: baseSize * 24,
+                      child: TextField(
+                        onChanged: (value) {
+                          managerEmail.value = value;
+                        },
+                        decoration: InputDecoration(
+                          label: Text(t.email),
+                        ),
+                      ),
+                    ),
+                  ),
+                if (site == null)
+                  Padding(
+                    padding: cardItemPadding,
+                    child: SizedBox(
+                      width: baseSize * 24,
+                      child: TextField(
+                        controller: passwordTextController,
+                        onChanged: (value) {
+                          managerPassword.value = value;
+                        },
+                        obscureText: !passwordVisible.value,
+                        decoration: InputDecoration(
+                          label: Text(t.password),
+                          suffixIcon: IconButton(
+                            icon: Icon(passwordVisible.value
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            onPressed: () {
+                              passwordVisible.value = !passwordVisible.value;
+                            },
                           ),
                         ),
-                      )
-                    : Text('ID: ${site!.id}'),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  width: baseSize * 24,
-                  child: TextField(
-                    controller: nameTextController,
-                    onChanged: (value) {
-                      name.value = value;
-                    },
-                    decoration: InputDecoration(
-                      label: Text(t.siteName),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              if (site == null)
                 Padding(
                   padding: cardItemPadding,
-                  child: SizedBox(
-                    width: baseSize * 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        managerName.value = value;
-                      },
-                      decoration: InputDecoration(
-                        label: Text(t.displayName),
-                      ),
-                    ),
-                  ),
-                ),
-              if (site == null)
-                Padding(
-                  padding: cardItemPadding,
-                  child: SizedBox(
-                    width: baseSize * 24,
-                    child: TextField(
-                      onChanged: (value) {
-                        managerEmail.value = value;
-                      },
-                      decoration: InputDecoration(
-                        label: Text(t.email),
-                      ),
-                    ),
-                  ),
-                ),
-              if (site == null)
-                Padding(
-                  padding: cardItemPadding,
-                  child: SizedBox(
-                    width: baseSize * 24,
-                    child: TextField(
-                      controller: passwordTextController,
-                      onChanged: (value) {
-                        managerPassword.value = value;
-                      },
-                      obscureText: !passwordVisible.value,
-                      decoration: InputDecoration(
-                        label: Text(t.password),
-                        suffixIcon: IconButton(
-                          icon: Icon(passwordVisible.value
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            passwordVisible.value = !passwordVisible.value;
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              Padding(
-                padding: cardItemPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FilledButton(
-                      onPressed: buttonEnabled.value
-                          ? site == null
-                              ? () async {
-                                  buttonEnabled.value = false;
-                                  final (ret, message) = await onSaveNewSite(
-                                    t: t,
-                                    siteId: id.value,
-                                    siteName: name.value,
-                                    name: managerName.value,
-                                    email: managerEmail.value,
-                                    password: managerPassword.value,
-                                  );
-                                  savedMessage.value = message;
-                                  buttonEnabled.value = !ret;
-                                }
-                              : () async {
-                                  final (_, message) = await onSaveEditedSite(
-                                    t: t,
-                                    siteId: id.value,
-                                    siteName: name.value,
-                                  );
-                                  savedMessage.value = message;
-                                }
-                          : null,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.save_alt),
-                          const SizedBox(width: iconTextGap),
-                          Text(t.save),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: buttonGap),
-                    Text(
-                      savedMessage.value,
-                      style: TextStyle(
-                        color: savedMessage.value == t.saved
-                            ? Theme.of(context).colorScheme.tertiary
-                            : Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                    if (site != null) const SizedBox(height: buttonGap),
-                    if (site != null)
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       FilledButton(
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateColor.resolveWith(
-                            (state) => buttonEnabled.value
-                                ? Theme.of(context).colorScheme.error
-                                : Theme.of(context).colorScheme.errorContainer,
-                          ),
-                        ),
                         onPressed: buttonEnabled.value
-                            ? site!.deleted
+                            ? site == null
                                 ? () async {
                                     buttonEnabled.value = false;
-                                    final (ret, message) = await onRestoreSite(
+                                    final (ret, message) = await onSaveNewSite(
                                       t: t,
                                       siteId: id.value,
+                                      siteName: name.value,
+                                      name: managerName.value,
+                                      email: managerEmail.value,
+                                      password: managerPassword.value,
                                     );
-                                    deletedMessage.value = message;
+                                    savedMessage.value = message;
                                     buttonEnabled.value = !ret;
                                   }
                                 : () async {
-                                    buttonEnabled.value = false;
-                                    final (ret, message) = await onDeleteSite(
+                                    final (_, message) = await onSaveEditedSite(
                                       t: t,
                                       siteId: id.value,
+                                      siteName: name.value,
                                     );
-                                    deletedMessage.value = message;
-                                    buttonEnabled.value = !ret;
+                                    savedMessage.value = message;
                                   }
                             : null,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              site!.deleted ? Icons.restore : Icons.delete,
-                            ),
+                            const Icon(Icons.save_alt),
                             const SizedBox(width: iconTextGap),
-                            Text(site!.deleted ? t.restore : t.delete),
+                            Text(t.save),
                           ],
                         ),
                       ),
-                    if (site != null) const SizedBox(height: buttonGap),
-                    if (site != null)
+                      const SizedBox(height: buttonGap),
                       Text(
-                        deletedMessage.value,
+                        savedMessage.value,
                         style: TextStyle(
-                          color: deletedMessage.value == t.deleted ||
-                                  deletedMessage.value == t.restored
+                          color: savedMessage.value == t.saved
                               ? Theme.of(context).colorScheme.tertiary
                               : Theme.of(context).colorScheme.error,
                         ),
                       ),
-                  ],
+                      if (site != null) const SizedBox(height: buttonGap),
+                      if (site != null)
+                        FilledButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateColor.resolveWith(
+                              (state) => buttonEnabled.value
+                                  ? Theme.of(context).colorScheme.error
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .errorContainer,
+                            ),
+                          ),
+                          onPressed: buttonEnabled.value
+                              ? site!.deleted
+                                  ? () async {
+                                      buttonEnabled.value = false;
+                                      final (ret, message) =
+                                          await onRestoreSite(
+                                        t: t,
+                                        siteId: id.value,
+                                      );
+                                      deletedMessage.value = message;
+                                      buttonEnabled.value = !ret;
+                                    }
+                                  : () async {
+                                      buttonEnabled.value = false;
+                                      final (ret, message) = await onDeleteSite(
+                                        t: t,
+                                        siteId: id.value,
+                                      );
+                                      deletedMessage.value = message;
+                                      buttonEnabled.value = !ret;
+                                    }
+                              : null,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                site!.deleted ? Icons.restore : Icons.delete,
+                              ),
+                              const SizedBox(width: iconTextGap),
+                              Text(site!.deleted ? t.restore : t.delete),
+                            ],
+                          ),
+                        ),
+                      if (site != null) const SizedBox(height: buttonGap),
+                      if (site != null)
+                        Text(
+                          deletedMessage.value,
+                          style: TextStyle(
+                            color: deletedMessage.value == t.deleted ||
+                                    deletedMessage.value == t.restored
+                                ? Theme.of(context).colorScheme.tertiary
+                                : Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

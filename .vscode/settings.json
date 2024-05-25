@@ -29,7 +29,7 @@
     "venv",
     "Zabcdefghijkmnopqrstuvwxyz"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.22.0",
+  "dart.flutterSdkPath": ".fvm/versions/3.22.1",
   "python.createEnvironment.trigger": "off",
   "files.trimTrailingWhitespace": true
 }

@@ -38,17 +38,20 @@ class ResetPasswordCard extends HookConsumerWidget {
               children: [
                 Padding(
                   padding: cardItemPadding,
-                  child: TextField(
-                    controller: _textEditingController,
-                    onChanged: (value) {
-                      email.value = value;
-                    },
-                    autofocus: true,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    decoration: InputDecoration(
-                      label: Text(t.email),
+                  child: SizedBox(
+                    width: baseSize * 24,
+                    child: TextField(
+                      controller: _textEditingController,
+                      onChanged: (value) {
+                        email.value = value;
+                      },
+                      autofocus: true,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      decoration: InputDecoration(
+                        label: Text(t.email),
+                      ),
                     ),
                   ),
                 ),
@@ -78,7 +81,11 @@ class ResetPasswordCard extends HookConsumerWidget {
                 ),
                 Padding(
                   padding: cardItemPadding,
-                  child: Text('${t.sendResetPasswordEmail}\n${t.acceptEmail}'),
+                  child: SizedBox(
+                    width: baseSize * 36,
+                    child:
+                        Text('${t.sendResetPasswordEmail}\n${t.acceptEmail}'),
+                  ),
                 ),
                 AuthErrorMessage(status: status.value),
               ],

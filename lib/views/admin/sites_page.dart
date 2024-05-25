@@ -27,9 +27,8 @@ class SitesPage extends HookConsumerWidget {
             color: index.isOdd
                 ? Theme.of(context).colorScheme.surface
                 : Theme.of(context).colorScheme.surfaceContainer,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: baseSize),
-              child: Row(
+            child: ListTile(
+              title: Row(
                 children: [
                   Expanded(
                     child: Text(
@@ -42,21 +41,17 @@ class SitesPage extends HookConsumerWidget {
                           : null,
                     ),
                   ),
-                  IconButton(
-                    icon: index == 0
-                        ? const Icon(Icons.add)
-                        : const Icon(Icons.edit),
-                    onPressed: () {
-                      showBottomSheet(
-                        context: context,
-                        builder: (context) => SiteCard(
-                          site: index == 0 ? null : sites[index - 1],
-                        ),
-                      );
-                    },
-                  ),
+                  Icon(index == 0 ? Icons.add : Icons.edit)
                 ],
               ),
+              onTap: () {
+                showBottomSheet(
+                  context: context,
+                  builder: (context) => SiteCard(
+                    site: index == 0 ? null : sites[index - 1],
+                  ),
+                );
+              },
             ),
           ),
           itemCount: sites.length + 1,

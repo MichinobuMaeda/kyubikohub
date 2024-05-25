@@ -40,14 +40,12 @@ class LicenseListPage extends HookConsumerWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          trailing: IconButton(
-            icon: const Icon(Icons.more_horiz),
-            onPressed: () => showBottomSheet(
-              context: context,
-              builder: (context) => LicenseCard(
-                title: (entries.data ?? [])[index].title,
-                body: (entries.data ?? [])[index].body,
-              ),
+          trailing: const Icon(Icons.more_horiz),
+          onTap: () => showBottomSheet(
+            context: context,
+            builder: (context) => LicenseCard(
+              title: (entries.data ?? [])[index].title,
+              body: (entries.data ?? [])[index].body,
             ),
           ),
         ),

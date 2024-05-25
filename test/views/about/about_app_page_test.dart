@@ -26,20 +26,22 @@ class ConfRepositoryStub extends ConfRepository {
 
 class SiteRepositoryLoading extends SiteRepository {
   @override
-  DataState<Site> build() => const Loading();
+  DataState<(Site, List<Site>)> build() => const Loading();
 }
 
 class SiteRepositorySuccess extends SiteRepository {
   @override
-  DataState<Site> build() => const Success(
-    data: Site(
+  DataState<(Site, List<Site>)> build() {
+    const site = Site(
       id: 'test',
       name: 'test',
       forGuests: '',
       forMembers: '',
       forMangers: '',
-    ),
-  );
+      deleted: false,
+    );
+    return const Success(data: (site, [site]));
+  }
 }
 
 void main() {
