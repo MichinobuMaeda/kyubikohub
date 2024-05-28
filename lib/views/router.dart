@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../models/nav_item.dart';
 import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
-import 'about/about_app_screen.dart';
-import 'about/about_site_screen.dart';
+import 'about/about_screen.dart';
 import 'admin/admin_screen.dart';
-import 'me/me_screen.dart';
+import 'preferences/preferences_screen.dart';
 import 'navigation.dart';
 
 GoRouter router(WidgetRef ref) => GoRouter(
@@ -26,27 +25,37 @@ GoRouter router(WidgetRef ref) => GoRouter(
             GoRoute(
               name: 'root',
               path: '/',
-              builder: (context, state) => const AboutAppScreen(),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AboutScreen(),
+              ),
             ),
             GoRoute(
               name: NavPath.home.name,
               path: joinPath('/:site', NavPath.home.path),
-              builder: (context, state) => const HomeScreen(),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: HomeScreen(),
+              ),
             ),
             GoRoute(
-              name: NavPath.me.name,
-              path: joinPath('/:site', NavPath.me.path),
-              builder: (context, state) => const MeScreen(),
+              name: NavPath.preferences.name,
+              path: joinPath('/:site', NavPath.preferences.path),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: MeScreen(),
+              ),
             ),
             GoRoute(
               name: NavPath.about.name,
               path: joinPath('/:site', NavPath.about.path),
-              builder: (context, state) => const AboutSiteScreen(),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AboutScreen(),
+              ),
             ),
             GoRoute(
               name: NavPath.admin.name,
               path: joinPath('/:site', NavPath.admin.path),
-              builder: (context, state) => const AdminScreen(),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: AdminScreen(),
+              ),
             ),
           ],
         ),

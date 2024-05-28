@@ -9,7 +9,7 @@ import 'package:kyubikohub/models/conf.dart';
 import 'package:kyubikohub/models/site.dart';
 import 'package:kyubikohub/providers/conf_repository.dart';
 import 'package:kyubikohub/providers/site_repository.dart';
-import 'package:kyubikohub/views/about/about_app_page.dart';
+import 'package:kyubikohub/views/about/about_app_section.dart';
 import 'package:kyubikohub/views/app_localizations.dart';
 
 const testDescription = 'Test data';
@@ -46,8 +46,7 @@ class SiteRepositorySuccess extends SiteRepository {
 
 void main() {
   testWidgets(
-    'AboutAppPage shows the app title, version, description'
-    ' and "Select site" if site is not selected.',
+    'AboutAppSection shows the app title, version, description.',
     (WidgetTester tester) async {
       // Prepare
       final t = AppLocalizations();
@@ -61,7 +60,7 @@ void main() {
         ProviderScope(
           overrides: overrides,
           child: getTestMaterialApp(
-            const AboutAppPage(),
+            const AboutAppSection(),
           ),
         ),
       );
@@ -69,36 +68,6 @@ void main() {
       // Check
       expect(find.text(appTitle), findsOne);
       expect(find.text('${t.version}: $version'), findsOne);
-      expect(find.text(t.selectSite), findsOne);
-      expect(find.text(testDescription), findsOne);
-    },
-  );
-
-  testWidgets(
-    'AboutAppPage shows the app title, version, description'
-    ' and hides "Select site" if site is selected.',
-    (WidgetTester tester) async {
-      // Prepare
-      final t = AppLocalizations();
-      final overrides = [
-        confRepositoryProvider.overrideWith(() => ConfRepositoryStub()),
-        siteRepositoryProvider.overrideWith(() => SiteRepositorySuccess()),
-      ];
-
-      // Run
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: overrides,
-          child: getTestMaterialApp(
-            const AboutAppPage(),
-          ),
-        ),
-      );
-
-      // Check
-      expect(find.text(appTitle), findsOne);
-      expect(find.text('${t.version}: $version'), findsOne);
-      expect(find.text(t.selectSite), findsNothing);
       expect(find.text(testDescription), findsOne);
     },
   );

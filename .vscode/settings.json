@@ -31,5 +31,6 @@
   ],
   "dart.flutterSdkPath": ".fvm/versions/3.22.1",
   "python.createEnvironment.trigger": "off",
-  "files.trimTrailingWhitespace": true
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": true
 }

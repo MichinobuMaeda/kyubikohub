@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/group.dart';
 import '../../providers/users_repository.dart';
-import '../widgets/bottom_card.dart';
+import '../widgets/modal_sheet.dart';
 import '../app_localizations.dart';
-import 'user_card.dart';
+import 'user_sheet.dart';
 
-class GroupCard extends HookConsumerWidget {
+class GroupSheet extends HookConsumerWidget {
   final Group? group;
-  const GroupCard({super.key, this.group});
+  const GroupSheet({super.key, this.group});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +22,7 @@ class GroupCard extends HookConsumerWidget {
             .where((user) => group!.users.contains(user.id))
             .toList();
 
-    return BottomCard(
+    return ModalSheet(
       title: group == null ? t.allMembers : group!.name,
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) => ColoredBox(
@@ -38,7 +38,7 @@ class GroupCard extends HookConsumerWidget {
                   icon: const Icon(Icons.more_horiz),
                   onPressed: () => showBottomSheet(
                     context: context,
-                    builder: (context) => UserCard(
+                    builder: (context) => UserSheet(
                       user: users[index],
                     ),
                   ),

@@ -5,16 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/site.dart';
 import '../../providers/firebase_utils.dart';
-import '../widgets/bottom_card.dart';
+import '../widgets/modal_sheet.dart';
 import '../app_localizations.dart';
 
-class SiteCard extends HookConsumerWidget {
+class SiteSheet extends HookConsumerWidget {
   final Site? site;
   final TextEditingController idTextController = TextEditingController();
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
 
-  SiteCard({super.key, this.site}) {
+  SiteSheet({super.key, this.site}) {
     idTextController.text = site == null ? '' : site!.id;
     nameTextController.text = site == null ? '' : site!.name;
     passwordTextController.text = generatePassword();
@@ -33,7 +33,7 @@ class SiteCard extends HookConsumerWidget {
     final buttonEnabled = useState(true);
     final deletedMessage = useState('');
 
-    return BottomCard(
+    return ModalSheet(
       title: site?.name ?? t.add,
       body: SingleChildScrollView(
         child: SizedBox(

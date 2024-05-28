@@ -10,8 +10,8 @@ import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
 import '../app_localizations.dart';
 
-class GuidancePage extends HookConsumerWidget {
-  const GuidancePage({super.key});
+class GuidanceSection extends HookConsumerWidget {
+  const GuidanceSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +30,11 @@ ${site.data.$1.forGuests}
 '''
         : '';
 
-    return switch (site) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: baseSize * 24.0,
+        child:
+    switch (site) {
       Loading() => Text(t.defaultLoadingMessage),
       Error() => Text(site.message),
       Success() => Column(
@@ -80,6 +84,6 @@ $guide
             ),
           ],
         ),
-    };
+    },),);
   }
 }

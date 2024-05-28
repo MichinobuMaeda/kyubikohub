@@ -1,11 +1,13 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kyubikohub/config.dart';
 
 import '../models/nav_item.dart';
 import '../models/data_state.dart';
 import '../providers/account_repository.dart';
-import 'login/login_screen.dart';
+import 'about/about_screen.dart';
 import 'widgets/update_app_message.dart';
 import 'app_localizations.dart';
 
@@ -40,7 +42,7 @@ class Navigation extends HookConsumerWidget {
         icon: Icons.settings_outlined,
         selectedIcon: Icons.settings,
         label: t.me,
-        navPath: NavPath.me,
+        navPath: NavPath.preferences,
       ),
       NavItem(
         icon: Icons.dns_outlined,
@@ -70,65 +72,81 @@ class Navigation extends HookConsumerWidget {
       return navItems.length - 1;
     }();
 
-    return Scaffold(
-      body: Row(
-        children: [
-          if (showNav && landscape)
-            NavigationRail(
-              labelType: NavigationRailLabelType.all,
-              selectedIndex: selectedIndex,
-              destinations: [
-                ...navItems.map(
-                  (item) => NavigationRailDestination(
-                    icon: Icon(item.icon),
-                    selectedIcon: Icon(item.selectedIcon),
-                    label: Text(
-                      item.label,
-                      overflow: TextOverflow.fade,
-                    ),
-                  ),
-                ),
-              ],
-              onDestinationSelected: (index) {
-                context.goNamed(
-                  navItems[index].navPath.name,
-                  pathParameters: {'site': site ?? ''},
-                );
-              },
-            ),
-          Expanded(
-            child: Column(
+    final leftPadding =
+        max(MediaQuery.of(context).size.width - baseSize * 54, 0) / 2;
+
+    return SafeArea(
+      child: Scaffold(
+        body: ColoredBox(
+          color: Theme.of(context).colorScheme.surfaceContainerHigh,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: leftPadding),
+            child: Row(
               children: [
-                const UpdateAppMessage(),
+                if (showNav && landscape)
+                  NavigationRail(
+                    labelType: NavigationRailLabelType.all,
+                    selectedIndex: selectedIndex,
+                    destinations: [
+                      ...navItems.map(
+                        (item) => NavigationRailDestination(
+                          icon: Icon(item.icon),
+                          selectedIcon: Icon(item.selectedIcon),
+                          label: Text(
+                            item.label,
+                            overflow: TextOverflow.fade,
+                          ),
+                        ),
+                      ),
+                    ],
+                    onDestinationSelected: (index) {
+                      context.goNamed(
+                        navItems[index].navPath.name,
+                        pathParameters: {'site': site ?? ''},
+                      );
+                    },
+                  ),
                 Expanded(
-                  child: site == null || isMember ? child : const LoginScreen(),
+                  child: Column(
+                    children: [
+                      const UpdateAppMessage(),
+                      Expanded(
+                        child: ColoredBox(
+                          color: Theme.of(context).colorScheme.surface,
+                          child: site == null || isMember
+                              ? child
+                              : const AboutScreen(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: (!showNav || landscape)
-          ? null
-          : NavigationBar(
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-              selectedIndex: selectedIndex,
-              destinations: [
-                ...navItems.map(
-                  (item) => NavigationDestination(
-                    icon: Icon(item.icon),
-                    selectedIcon: Icon(item.selectedIcon),
-                    label: item.label,
+        ),
+        bottomNavigationBar: (!showNav || landscape)
+            ? null
+            : NavigationBar(
+                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                selectedIndex: selectedIndex,
+                destinations: [
+                  ...navItems.map(
+                    (item) => NavigationDestination(
+                      icon: Icon(item.icon),
+                      selectedIcon: Icon(item.selectedIcon),
+                      label: item.label,
+                    ),
                   ),
-                ),
-              ],
-              onDestinationSelected: (index) {
-                context.goNamed(
-                  navItems[index].navPath.name,
-                  pathParameters: {'site': site ?? ''},
-                );
-              },
-            ),
+                ],
+                onDestinationSelected: (index) {
+                  context.goNamed(
+                    navItems[index].navPath.name,
+                    pathParameters: {'site': site ?? ''},
+                  );
+                },
+              ),
+      ),
     );
   }
 }

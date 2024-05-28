@@ -4,13 +4,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../app_localizations.dart';
 
-class BottomCard extends HookConsumerWidget {
+class ModalSheet extends HookConsumerWidget {
   final String title;
   final Widget body;
   final List<Widget> topActions;
   final List<Widget> bottomActions;
 
-  const BottomCard({
+  const ModalSheet({
     super.key,
     required this.title,
     required this.body,
@@ -24,18 +24,24 @@ class BottomCard extends HookConsumerWidget {
 
     return TapRegion(
       onTapOutside: (_) => Navigator.of(context).pop(),
-      child: Card(
-        child: Column(
-          children: [
-            Row(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+              baseSize * 1.5, // Left
+              baseSize * 0.25, // Top
+              baseSize * 0.5, // Right
+              baseSize * 0.25, // Bottom
+            ),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Padding(
-                    padding: cardItemPadding,
+                    padding: const EdgeInsets.only(top: baseSize * 0.25),
                     child: Text(
                       title,
-                      maxLines: 8,
+                      maxLines: 4,
                       style: Theme.of(context).textTheme.titleSmall,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -54,33 +60,36 @@ class BottomCard extends HookConsumerWidget {
                 )
               ],
             ),
-            Expanded(
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(baseSize * 0.25),
               child: ColoredBox(
                 color: Theme.of(context).colorScheme.surface,
                 child: body,
               ),
             ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ...bottomActions.map(
-                  (item) => Padding(
-                    padding: cardItemPadding,
-                    child: item,
-                  ),
-                ),
-                Padding(
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ...bottomActions.map(
+                (item) => Padding(
                   padding: cardItemPadding,
-                  child: TextButton(
-                    child: Text(t.close),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                  child: item,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+              Padding(
+                padding: cardItemPadding,
+                child: TextButton(
+                  child: Text(t.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

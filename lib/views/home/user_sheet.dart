@@ -4,12 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/user.dart';
 import '../../providers/groups_repository.dart';
-import '../widgets/bottom_card.dart';
-import 'group_card.dart';
+import '../widgets/modal_sheet.dart';
+import 'group_sheet.dart';
 
-class UserCard extends HookConsumerWidget {
+class UserSheet extends HookConsumerWidget {
   final User user;
-  const UserCard({super.key, required this.user});
+  const UserSheet({super.key, required this.user});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +18,7 @@ class UserCard extends HookConsumerWidget {
         .where((group) => group.users.contains(user.id))
         .toList();
 
-    return BottomCard(
+    return ModalSheet(
       title: user.name,
       body: SingleChildScrollView(
         child: Padding(
@@ -31,7 +31,7 @@ class UserCard extends HookConsumerWidget {
                     child: OutlinedButton(
                       onPressed: () => showBottomSheet(
                         context: context,
-                        builder: (context) => GroupCard(group: group),
+                        builder: (context) => GroupSheet(group: group),
                       ),
                       child: Row(
                         children: [

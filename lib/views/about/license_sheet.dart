@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
-import '../widgets/bottom_card.dart';
+import '../widgets/modal_sheet.dart';
 import '../app_localizations.dart';
 
-class LicenseCard extends HookConsumerWidget {
+class LicenseSheet extends HookConsumerWidget {
   final String title;
   final String body;
-  const LicenseCard({super.key, required this.title, required this.body});
+  const LicenseSheet({super.key, required this.title, required this.body});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
 
-    return BottomCard(
+    return ModalSheet(
       title: title,
       body: SingleChildScrollView(
         child: Padding(

@@ -17,6 +17,9 @@ const String adminsSiteId = 'admins';
 const String testSiteId = 'test';
 const String managersGroupId = 'managers';
 
+// App default
+const int homeNoticesCount = 6;
+
 // Licenses to add manually
 const List<List<String>> licenseAssets = [
   // [text, product1, product2, ...]
@@ -103,7 +106,7 @@ ThemeData themeData(Brightness brightness) {
     ),
     listTileTheme: ListTileThemeData(
       tileColor: colorScheme.onSurface,
-      titleTextStyle: titleSmall,
+      titleTextStyle: bodyLarge,
       subtitleTextStyle: bodyMedium,
     ),
     navigationRailTheme: NavigationRailThemeData(
@@ -120,6 +123,16 @@ const iconTextGap = baseSize * 0.5;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
+
+const sectionHeaderHeight = baseSize * 2.8;
+
+const listItemHeight = baseSize * 2.8;
+Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
+    ? Theme.of(context).colorScheme.surfaceContainer
+    : Theme.of(context).colorScheme.surface;
+
+Color listItemsHoverColor(BuildContext context) =>
+    Theme.of(context).colorScheme.primaryFixed.withAlpha(32);
 
 void onTapLink(String text, String? href, String? title) {
   if (href != null && href.trim().isNotEmpty) {

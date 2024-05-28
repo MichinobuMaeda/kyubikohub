@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../models/tab_item.dart';
 import '../app_localizations.dart';
-import '../widgets/tabs_screen.dart';
-import 'sites_page.dart';
+import '../widgets/section_header.dart';
+import 'sites_section.dart';
 
 class AdminScreen extends HookConsumerWidget {
   const AdminScreen({super.key});
@@ -13,13 +12,13 @@ class AdminScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
 
-    return TabsScreen(
-      items: [
-        TabItem(
-          icon: Icons.domain,
-          label: t.sites,
-          page: const SitesPage(),
+    return CustomScrollView(
+      slivers: [
+        SectionHeader(
+          title: t.sites,
+          leading: Icons.domain,
         ),
+        const SitesSection(),
       ],
     );
   }

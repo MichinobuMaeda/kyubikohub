@@ -8,9 +8,9 @@ enum NavPath {
     name: 'home',
     path: '',
   ),
-  me(
-    name: 'me',
-    path: 'me',
+  preferences(
+    name: 'preferences',
+    path: 'preferences',
   ),
   about(
     name: 'about',

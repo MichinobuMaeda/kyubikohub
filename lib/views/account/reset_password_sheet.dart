@@ -8,14 +8,14 @@ import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
 import '../app_localizations.dart';
-import 'bottom_card.dart';
+import '../widgets/modal_sheet.dart';
 import 'auth_error_message.dart';
 
-class ResetPasswordCard extends HookConsumerWidget {
+class ResetPasswordSheet extends HookConsumerWidget {
   final String title;
   final String? email;
   final TextEditingController _textEditingController = TextEditingController();
-  ResetPasswordCard({super.key, required this.title, this.email}) {
+  ResetPasswordSheet({super.key, required this.title, this.email}) {
     _textEditingController.text = email ?? '';
   }
 
@@ -26,7 +26,7 @@ class ResetPasswordCard extends HookConsumerWidget {
     final email = useState(this.email);
     final status = useState<String?>(null);
 
-    return BottomCard(
+    return ModalSheet(
       title: title,
       body: SingleChildScrollView(
         child: Padding(

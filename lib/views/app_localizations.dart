@@ -64,7 +64,7 @@ class AppLocalizations {
   String get wrongPassword => userDisabled;
   // Message
   String confirmTo({required String action}) => '本当に$actionしますか？';
-  String loginSite({required String site}) => 'サイト「$site」にログインします。';
+  String currentSiteId({required String site}) => '現在のサイトID: $site';
   String get acceptEmail => '''
 $supportEmail からのメールを受信できるようにしておいてください。''';
   String get sendResetPasswordEmail => '''
