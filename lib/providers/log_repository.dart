@@ -42,6 +42,6 @@ Future<void> setLog(
       'message': message,
     });
   } catch (e, s) {
-    debugPrint('   error: $e\n${s.toString()}');
+    debugPrint('ERROR   : $e\n${s.toString()}');
   }
 }

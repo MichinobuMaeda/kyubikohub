@@ -20,7 +20,7 @@ class UsersRepository extends _$UsersRepository {
       siteAccountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
-        debugPrint('    info: UsersRepository.build next: $next');
+        debugPrint('INFO    : UsersRepository.build next: $next');
         if (next is Success) {
           listen((next as Success).data);
         } else {

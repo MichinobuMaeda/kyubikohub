@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -15,6 +16,9 @@ const String version = 'for test';
 const String adminsSiteId = 'admins';
 const String testSiteId = 'test';
 const String managersGroupId = 'managers';
+
+// App default
+const int homeNoticesCount = 6;
 
 // Licenses to add manually
 const List<List<String>> licenseAssets = [
@@ -51,6 +55,8 @@ const FirebaseOptions testFirebaseOptions = FirebaseOptions(
   measurementId: "G-8VLR54KLH9",
 );
 
+const functionsRegion = 'asia-northeast2';
+
 // Style -- key parameters
 const themeMode = ThemeMode.system;
 const seedColor = Color.fromARGB(255, 85, 107, 47);
@@ -71,7 +77,7 @@ ThemeData themeData(Brightness brightness) {
   final bodySmall = TextStyle(
     fontSize: baseSize * 0.9,
     fontWeight: FontWeight.normal,
-    color: colorScheme.onBackground,
+    color: colorScheme.onSurface,
   );
   final bodyMedium = bodySmall.copyWith(fontSize: baseSize);
   final bodyLarge = bodyMedium.copyWith(fontSize: baseSize * 1.1);
@@ -99,28 +105,34 @@ ThemeData themeData(Brightness brightness) {
       unselectedLabelStyle: bodyMedium,
     ),
     listTileTheme: ListTileThemeData(
-      tileColor: colorScheme.background,
-      titleTextStyle: titleSmall,
+      tileColor: colorScheme.onSurface,
+      titleTextStyle: bodyLarge,
       subtitleTextStyle: bodyMedium,
     ),
     navigationRailTheme: NavigationRailThemeData(
-      backgroundColor: colorScheme.surfaceVariant.withAlpha(80),
+      backgroundColor: colorScheme.surfaceContainerLow,
     ),
-    inputDecorationTheme: InputDecorationTheme(
-      labelStyle: TextStyle(
-        color: colorScheme.onBackground.withAlpha(160),
-        height: 0.5,
-      ),
-      suffixIconColor: colorScheme.onBackground,
+    inputDecorationTheme: const InputDecorationTheme(
+      contentPadding: EdgeInsets.only(top: baseSize / 10),
     ),
   );
 }
 
 const buttonGap = baseSize * 0.75;
-const iconTextGap = baseSize * 0.25;
+const iconTextGap = baseSize * 0.5;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
+
+const sectionHeaderHeight = baseSize * 2.8;
+
+const listItemHeight = baseSize * 2.8;
+Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
+    ? Theme.of(context).colorScheme.surfaceContainer
+    : Theme.of(context).colorScheme.surface;
+
+Color listItemsHoverColor(BuildContext context) =>
+    Theme.of(context).colorScheme.primaryFixed.withAlpha(64);
 
 void onTapLink(String text, String? href, String? title) {
   if (href != null && href.trim().isNotEmpty) {
@@ -150,4 +162,17 @@ MarkdownStyleSheet markdownStyleSheet(BuildContext context) {
     code: textTheme.bodyMedium?.copyWith(fontFamily: monospaceFontFamily),
     a: textTheme.bodyMedium?.copyWith(color: linkColor(context)),
   );
+}
+
+// https://www.geeksforgeeks.org/flutter-generate-strong-random-password/
+const passwordChars =
+    '!#%+23456789:=?@ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const defaultPasswordLength = 16;
+String generatePassword() {
+  final random = Random();
+  String password = '';
+  for (int i = 0; i < defaultPasswordLength; i++) {
+    password += passwordChars[random.nextInt(passwordChars.length)];
+  }
+  return password;
 }

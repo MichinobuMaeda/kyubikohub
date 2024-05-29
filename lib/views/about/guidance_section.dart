@@ -5,32 +5,35 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
-import '../../models/site.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
 import '../app_localizations.dart';
 
-class GuidancePage extends HookConsumerWidget {
-  const GuidancePage({super.key});
+class GuidanceSection extends HookConsumerWidget {
+  const GuidanceSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
     final isMember = ref.watch(accountRepositoryProvider) is Success;
-    final guide = site is Success<Site>
+    final guide = site is Success<SiteRecord>
         ? isMember
             ? '''
-${site.data.forGuests}
+${site.data.selected.forGuests}
 
-${site.data.forMembers}
+${site.data.selected.forMembers}
 '''
             : '''
-${site.data.forGuests}
+${site.data.selected.forGuests}
 '''
         : '';
 
-    return switch (site) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: baseSize * 24.0,
+        child:
+    switch (site) {
       Loading() => Text(t.defaultLoadingMessage),
       Error() => Text(site.message),
       Success() => Column(
@@ -42,7 +45,7 @@ ${site.data.forGuests}
                   Padding(
                     padding: cardItemPadding,
                     child: Text(
-                      site.data.name,
+                      site.data.selected.name,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
@@ -60,7 +63,7 @@ ${site.data.forGuests}
                       color: Theme.of(context).colorScheme.outline,
                       onPressed: () => Clipboard.setData(
                         ClipboardData(text: '''
-# ${site.data.name}
+# ${site.data.selected.name}
 
 $guide
 '''),
@@ -80,6 +83,6 @@ $guide
             ),
           ],
         ),
-    };
+    },),);
   }
 }

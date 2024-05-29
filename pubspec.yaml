@@ -1,9 +1,9 @@
 name: kyubikohub
 description: "Communication tool for labours unions."
-publish_to: 'none'
-version: 0.0.2+1
+publish_to: "none"
+version: 0.0.2+2
 environment:
-  sdk: '>=3.3.3 <4.0.0'
+  sdk: ">=3.3.3 <4.0.0"
 dependencies:
   flutter:
     sdk: flutter

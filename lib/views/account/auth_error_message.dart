@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../config.dart';
 import '../app_localizations.dart';
 
 class AuthErrorMessage extends HookConsumerWidget {
@@ -18,22 +17,13 @@ class AuthErrorMessage extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
 
     return status == 'ok'
-        ? successMessage != null
-            ? Padding(
-                padding: cardItemPadding,
-                child: Text(
-                  successMessage!,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.tertiary),
-                ),
-              )
-            : const SizedBox.shrink()
-        : Padding(
-            padding: cardItemPadding,
-            child: Text(
-              statusToMessage(t, status),
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
+        ? Text(
+            successMessage ?? 'OK',
+            style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+          )
+        : Text(
+            statusToMessage(t, status),
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
           );
   }
 }
@@ -43,9 +33,9 @@ String statusToMessage(AppLocalizations t, String? status) {
     case null || '' || 'ok':
       return '';
     case 'email-required':
-      return t.emailRequired;
+      return t.itemIsRequired(item: t.email);
     case 'password-required':
-      return t.passwordRequired;
+      return t.itemIsRequired(item: t.password);
     case 'invalid-email':
       return t.invalidEmail;
     case 'user-disabled':
@@ -55,11 +45,11 @@ String statusToMessage(AppLocalizations t, String? status) {
     case 'wrong-password':
       return t.wrongPassword;
     case 'curPassword-required':
-      return t.curPasswordRequired;
+      return t.itemIsRequired(item: t.curPassword);
     case 'newPassword-required':
-      return t.newPasswordRequired;
+      return t.itemIsRequired(item: t.newPassword);
     case 'conPassword-required':
-      return t.conPasswordRequired;
+      return t.itemIsRequired(item: t.conPassword);
     case 'password-mismatch':
       return t.passwordMismatch;
     case 'weak-password':

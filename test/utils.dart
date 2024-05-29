@@ -14,5 +14,5 @@ Widget getTestMaterialApp(Widget child) => MaterialApp(
       supportedLocales: const [
         Locale('ja'),
       ],
-      home: Scaffold(body: child),
+      home: Scaffold(body: CustomScrollView(slivers: [child])),
     );

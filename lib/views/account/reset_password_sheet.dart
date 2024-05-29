@@ -8,14 +8,14 @@ import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
 import '../app_localizations.dart';
-import 'bottom_card.dart';
+import '../widgets/modal_sheet.dart';
 import 'auth_error_message.dart';
 
-class ResetPasswordCard extends HookConsumerWidget {
+class ResetPasswordSheet extends HookConsumerWidget {
   final String title;
   final String? email;
   final TextEditingController _textEditingController = TextEditingController();
-  ResetPasswordCard({super.key, required this.title, this.email}) {
+  ResetPasswordSheet({super.key, required this.title, this.email}) {
     _textEditingController.text = email ?? '';
   }
 
@@ -26,7 +26,7 @@ class ResetPasswordCard extends HookConsumerWidget {
     final email = useState(this.email);
     final status = useState<String?>(null);
 
-    return BottomCard(
+    return ModalSheet(
       title: title,
       body: SingleChildScrollView(
         child: Padding(
@@ -38,17 +38,20 @@ class ResetPasswordCard extends HookConsumerWidget {
               children: [
                 Padding(
                   padding: cardItemPadding,
-                  child: TextField(
-                    controller: _textEditingController,
-                    onChanged: (value) {
-                      email.value = value;
-                    },
-                    autofocus: true,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                    decoration: InputDecoration(
-                      label: Text(t.email),
+                  child: SizedBox(
+                    width: baseSize * 24,
+                    child: TextField(
+                      controller: _textEditingController,
+                      onChanged: (value) {
+                        email.value = value;
+                      },
+                      autofocus: true,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      decoration: InputDecoration(
+                        label: Text(t.email),
+                      ),
                     ),
                   ),
                 ),
@@ -78,7 +81,11 @@ class ResetPasswordCard extends HookConsumerWidget {
                 ),
                 Padding(
                   padding: cardItemPadding,
-                  child: Text('${t.sendResetPasswordEmail}\n${t.acceptEmail}'),
+                  child: SizedBox(
+                    width: baseSize * 36,
+                    child:
+                        Text('${t.sendResetPasswordEmail}\n${t.acceptEmail}'),
+                  ),
                 ),
                 AuthErrorMessage(status: status.value),
               ],

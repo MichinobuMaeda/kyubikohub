@@ -1,11 +1,88 @@
 import unittest
 from unittest.mock import MagicMock
 from google.cloud import firestore
-from admin import create_site
+from datetime import datetime
+from admin import is_admin, create_site
+import conf
 from .utils import MockDb, MockAuth, MockUserRecord
 
 
 class TestMain(unittest.TestCase):
+    def test_is_admin_with_valid_doc(
+        self,
+    ):
+        # Prepare
+        db = MockDb()
+        # sites/admins
+        site_snap = db.set_doc("sites", "admins", {"name": "Administrators"})
+        # sites/admins/accounts/account_id
+        account_snap = site_snap.reference.set_doc(
+            "accounts", "account_id", {"name": "Admin user"}
+        )
+
+        site_snap.reference.set = MagicMock(return_value=None)
+        account_snap.reference.set = MagicMock(return_value=None)
+
+        # Run
+        ret = is_admin(
+            db=db,
+            uid="account_id",
+        )
+
+        # Check
+        assert ret
+
+    def test_is_admin_with_deleted_doc(
+        self,
+    ):
+        # Prepare
+        db = MockDb()
+        # sites/admins
+        site_snap = db.set_doc("sites", "admins", {"name": "Administrators"})
+        # sites/admins/accounts/account_id
+        account_snap = site_snap.reference.set_doc(
+            "accounts",
+            "account_id",
+            {
+                "name": "Admin user",
+                "deletedAt": datetime.now(),
+            },
+        )
+
+        site_snap.reference.set = MagicMock(return_value=None)
+        account_snap.reference.set = MagicMock(return_value=None)
+
+        # Run
+        ret = is_admin(
+            db=db,
+            uid="account_id",
+        )
+
+        # Check
+        assert not ret
+
+    def test_is_admin_without_doc(
+        self,
+    ):
+        # Prepare
+        db = MockDb()
+        # sites/admins
+        site_snap = db.set_doc("sites", "admins", {"name": "Administrators"})
+        # sites/admins/accounts/account_id
+        account_snap = site_snap.reference.set_doc("accounts", "account_id", None)
+
+        site_snap.reference.set = MagicMock(return_value=None)
+        account_snap.reference.set = MagicMock(return_value=None)
+
+        # Run
+        ret = is_admin(
+            db=db,
+            uid="account_id",
+        )
+
+        # Check
+        assert not ret
+
     def test_create_site_with_uid(
         self,
     ):
@@ -21,7 +98,9 @@ class TestMain(unittest.TestCase):
         # sites/site_id/groups/managers
         managers_snap = site_snap.reference.set_doc("groups", "managers", None)
 
-        auth_client.create_user = MagicMock(return_value=MockUserRecord("account_id"))
+        auth_client.create_user = MagicMock(
+            return_value=MockUserRecord(uid="account_id")
+        )
         site_snap.reference.set = MagicMock(return_value=None)
         site_snap.reference.collection("users").add = MagicMock(
             return_value=(None, user_snap)
@@ -50,9 +129,9 @@ class TestMain(unittest.TestCase):
         site_snap.reference.set.assert_called_once_with(
             {
                 "name": "Org Name",
-                "forGuests": "## はじめての皆さん",
-                "forMembers": "## メンバーの皆さん",
-                "forMangers": "## サイト管理者の皆さん",
+                "forGuests": conf.siteDescForGuests,
+                "forMembers": conf.siteDescForMembers,
+                "forMangers": conf.siteDescForMangers,
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
@@ -74,7 +153,7 @@ class TestMain(unittest.TestCase):
         )
         managers_snap.reference.set.assert_called_once_with(
             {
-                "name": "Managers",
+                "name": conf.managersGroupName,
                 "users": ["user_id"],
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
@@ -96,7 +175,9 @@ class TestMain(unittest.TestCase):
         # sites/site_id/groups/managers
         managers_snap = site_snap.reference.set_doc("groups", "managers", None)
 
-        auth_client.create_user = MagicMock(return_value=MockUserRecord("account_id"))
+        auth_client.create_user = MagicMock(
+            return_value=MockUserRecord(uid="account_id")
+        )
         site_snap.reference.set = MagicMock(return_value=None)
         site_snap.reference.collection("users").add = MagicMock(
             return_value=(None, user_snap)
@@ -123,9 +204,9 @@ class TestMain(unittest.TestCase):
         site_snap.reference.set.assert_called_once_with(
             {
                 "name": "Org Name",
-                "forGuests": "## はじめての皆さん",
-                "forMembers": "## メンバーの皆さん",
-                "forMangers": "## サイト管理者の皆さん",
+                "forGuests": conf.siteDescForGuests,
+                "forMembers": conf.siteDescForMembers,
+                "forMangers": conf.siteDescForMangers,
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
@@ -147,7 +228,7 @@ class TestMain(unittest.TestCase):
         )
         managers_snap.reference.set.assert_called_once_with(
             {
-                "name": "Managers",
+                "name": conf.managersGroupName,
                 "users": ["user_id"],
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,

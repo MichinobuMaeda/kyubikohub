@@ -98,4 +98,13 @@ describe('After Sing-in as Primary User', () => {
   it('0073', () => allowedToListDocs("sites", "test", "groups")(false));
   it('0074', () => allowedToUpdateDoc("sites", "test", "groups", "managers")(false));
   it('0075', () => allowedToUpdateDoc("sites", "test", "groups", "group01")(false));
+
+  it('0080', () => allowedToAddDoc("logs", "0005")(true));
+  it('0081', () => allowedToReadDoc("logs", "0005")(true));
+  it('0082', () => allowedToUpdateDoc("logs", "0005")(true));
+  it('0083', () => allowedToDeleteDoc("logs", "0005")(true));
+  it('0085', () => allowedToAddDoc("sites", "test", "logs", "0005")(true));
+  it('0086', () => allowedToReadDoc("sites", "test", "logs", "0005")(true));
+  it('0087', () => allowedToUpdateDoc("sites", "test", "logs", "0005")(true));
+  it('0088', () => allowedToDeleteDoc("sites", "test", "logs", "0005")(true));
 });

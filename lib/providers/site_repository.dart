@@ -18,37 +18,43 @@ class SiteParamRepository extends _$SiteParamRepository {
   String? build() => null;
 
   Future<String?> onSiteParamChanged(String? next) async {
-    debugPrint('    info: onSiteParamChanged($next)');
     final localStorage = ref.read(localStorageRepositoryProvider);
-    if (next == null) {
-      final savedSite = localStorage!.getString(LocalStorageKey.site.name);
-      if (savedSite != null) {
-        return savedSite;
-      }
-    }
-    if (state != next && next != null) {
-      final doc = await colSiteRef.doc(next).get();
-      if (!isDeleted(doc)) {
-        state = next;
-        localStorage!.setString(LocalStorageKey.site.name, next);
+    if (state == next) {
+      // Nothing to do
+    } else {
+      debugPrint('INFO    : onSiteParamChanged $state --> $next');
+      if (next == null) {
+        final savedSite = localStorage!.getString(LocalStorageKey.site.name);
+        if (savedSite != null) {
+          debugPrint('INFO    : onSiteParamChanged Saved: $savedSite');
+          return savedSite;
+        }
+      } else {
+        final doc = await colSiteRef.doc(next).get();
+        if (!isDeleted(doc)) {
+          state = next;
+          localStorage!.setString(LocalStorageKey.site.name, next);
+        }
       }
     }
     return state;
   }
 }
 
+typedef SiteRecord = ({Site selected, List<Site> sites});
+
 @Riverpod(keepAlive: true)
 class SiteRepository extends _$SiteRepository {
   StreamSubscription? _sub;
 
   @override
-  DataState<Site> build() {
+  DataState<SiteRecord> build() {
     ref.listen(
       siteParamRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
         debugPrint('''
-   info: listen(siteParamRepositoryProvider, (
+INFO    : listen(siteParamRepositoryProvider, (
     $prev,
     $next) {})''');
         if (prev != next && next != null) {
@@ -60,27 +66,50 @@ class SiteRepository extends _$SiteRepository {
   }
 
   @visibleForTesting
+  Site fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) => Site(
+        id: doc.id,
+        name: getStringValue(doc, 'name') ?? '-',
+        forGuests: getStringValue(doc, 'forGuests') ?? '',
+        forMembers: getStringValue(doc, 'forMembers') ?? '',
+        forMangers: getStringValue(doc, 'forMangers') ?? '',
+        deleted: isDeleted(doc),
+      );
+
+  @visibleForTesting
   Future<void> onSiteChanged(String next) async {
+    debugPrint('INFO    : onSiteChanged($next)');
     await _sub?.cancel();
-    _sub = colSiteRef.doc(next).snapshots().listen(
-      (doc) {
-        if (!isDeleted(doc)) {
-          state = Success(
-            data: Site(
-              id: doc.id,
-              name: getStringValue(doc, 'name') ?? '-',
-              forGuests: getStringValue(doc, 'forGuests') ?? '',
-              forMembers: getStringValue(doc, 'forMembers') ?? '',
-              forMangers: getStringValue(doc, 'forMangers') ?? '',
-            ),
-          );
-        } else {
-          state = const Loading();
-        }
-      },
-      onError: (error, stackTrace) {
-        state = Error(error: error, stackTrace: stackTrace);
-      },
-    );
+    if (next == 'admins') {
+      _sub = colSiteRef.snapshots().listen(
+        (snap) {
+          snap.docs;
+          final doc = snap.docs.singleWhere((item) => item.id == next);
+          if (!isDeleted(doc)) {
+            final site = fromDoc(doc);
+            final sites = snap.docs.map((doc) => fromDoc(doc)).toList();
+            state = Success(data: (selected: site, sites: sites));
+          } else {
+            state = const Loading();
+          }
+        },
+        onError: (error, stackTrace) {
+          state = Error(error: error, stackTrace: stackTrace);
+        },
+      );
+    } else {
+      _sub = colSiteRef.doc(next).snapshots().listen(
+        (doc) {
+          if (!isDeleted(doc)) {
+            final site = fromDoc(doc);
+            state = Success(data: (selected: site, sites: [site]));
+          } else {
+            state = const Loading();
+          }
+        },
+        onError: (error, stackTrace) {
+          state = Error(error: error, stackTrace: stackTrace);
+        },
+      );
+    }
   }
 }

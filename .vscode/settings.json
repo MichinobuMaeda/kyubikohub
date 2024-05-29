@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "ABCDEFGHJKLMNPRSTUVWXY",
     "ARGB",
     "autofocus",
     "canonicalized",
@@ -25,9 +26,11 @@
     "sublist",
     "tracefile",
     "uids",
-    "venv"
+    "venv",
+    "Zabcdefghijkmnopqrstuvwxyz"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.19.6",
+  "dart.flutterSdkPath": ".fvm/versions/3.22.1",
   "python.createEnvironment.trigger": "off",
-  "files.trimTrailingWhitespace": true
+  "files.trimTrailingWhitespace": true,
+  "editor.formatOnSave": true
 }
