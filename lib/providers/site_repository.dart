@@ -41,12 +41,14 @@ class SiteParamRepository extends _$SiteParamRepository {
   }
 }
 
+typedef SiteRecord = ({Site selected, List<Site> sites});
+
 @Riverpod(keepAlive: true)
 class SiteRepository extends _$SiteRepository {
   StreamSubscription? _sub;
 
   @override
-  DataState<(Site, List<Site>)> build() {
+  DataState<SiteRecord> build() {
     ref.listen(
       siteParamRepositoryProvider,
       fireImmediately: true,
@@ -63,6 +65,7 @@ INFO    : listen(siteParamRepositoryProvider, (
     return const Loading();
   }
 
+  @visibleForTesting
   Site fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) => Site(
         id: doc.id,
         name: getStringValue(doc, 'name') ?? '-',
@@ -74,6 +77,7 @@ INFO    : listen(siteParamRepositoryProvider, (
 
   @visibleForTesting
   Future<void> onSiteChanged(String next) async {
+    debugPrint('INFO    : onSiteChanged($next)');
     await _sub?.cancel();
     if (next == 'admins') {
       _sub = colSiteRef.snapshots().listen(
@@ -82,12 +86,8 @@ INFO    : listen(siteParamRepositoryProvider, (
           final doc = snap.docs.singleWhere((item) => item.id == next);
           if (!isDeleted(doc)) {
             final site = fromDoc(doc);
-            final sites = snap.docs
-                .map(
-                  (doc) => fromDoc(doc),
-                )
-                .toList();
-            state = Success(data: (site, sites));
+            final sites = snap.docs.map((doc) => fromDoc(doc)).toList();
+            state = Success(data: (selected: site, sites: sites));
           } else {
             state = const Loading();
           }
@@ -101,7 +101,7 @@ INFO    : listen(siteParamRepositoryProvider, (
         (doc) {
           if (!isDeleted(doc)) {
             final site = fromDoc(doc);
-            state = Success(data: (site, [site]));
+            state = Success(data: (selected: site, sites: [site]));
           } else {
             state = const Loading();
           }

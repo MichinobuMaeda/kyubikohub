@@ -15,6 +15,7 @@ class Navigation extends HookConsumerWidget {
   final Widget child;
   final String? site;
   final NavPath? navPath;
+
   const Navigation({
     super.key,
     required this.site,
@@ -27,9 +28,9 @@ class Navigation extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final isMember = ref.watch(siteAccountRepositoryProvider) is Success;
-    final showNav = site != null && isMember;
     final siteAccount = ref.watch(siteAccountRepositoryProvider);
+    final isMember = siteAccount is Success;
+    final showNav = site != null && isMember;
 
     final navItems = [
       NavItem(

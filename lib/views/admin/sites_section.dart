@@ -5,8 +5,9 @@ import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
+import '../widgets/modal_item.dart';
 import '../app_localizations.dart';
-import 'site_sheet.dart';
+import 'site_form.dart';
 
 class SitesSection extends HookConsumerWidget {
   const SitesSection({super.key});
@@ -15,44 +16,32 @@ class SitesSection extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final siteProvider = ref.watch(siteRepositoryProvider);
-    final List<Site> sites = (siteProvider is Success<(Site, List<Site>)>)
-        ? siteProvider.data.$2
-        : [];
+    final sites = [
+      (
+        title: null,
+        data: null,
+        deleted: false,
+      ),
+      ...((siteProvider is Success<SiteRecord>)
+              ? siteProvider.data.sites
+              : [] as List<Site>)
+          .map((site) => (
+                title: site.name,
+                data: site,
+                deleted: site.deleted,
+              )),
+    ];
 
     return SliverFixedExtentList(
       itemExtent: listItemHeight,
       delegate: SliverChildBuilderDelegate(
-        childCount: sites.length + 1,
-        (BuildContext context, int index) => ColoredBox(
-          color: index.isOdd
-              ? Theme.of(context).colorScheme.surface
-              : Theme.of(context).colorScheme.surfaceContainer,
-          child: ListTile(
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    index == 0 ? t.add : sites[index - 1].name,
-                    style: index != 0 && sites[index - 1].deleted
-                        ? TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            color: Theme.of(context).colorScheme.error,
-                          )
-                        : null,
-                  ),
-                ),
-                Icon(index == 0 ? Icons.add : Icons.edit)
-              ],
-            ),
-            onTap: () {
-              showBottomSheet(
-                context: context,
-                builder: (context) => SiteSheet(
-                  site: index == 0 ? null : sites[index - 1],
-                ),
-              );
-            },
-          ),
+        childCount: sites.length,
+        (BuildContext context, int index) => ModalItem(
+          index: index,
+          title: sites[index].title ?? t.add,
+          deleted: sites[index].deleted,
+          trailing: Icon(sites[index].data == null ? Icons.add : Icons.edit),
+          child: SiteForm(site: sites[index].data),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/license.dart';
+import '../../providers/modal_sheet_controller_provider.dart';
 import 'license_sheet.dart';
 
 class LicensesSection extends HookConsumerWidget {
@@ -12,6 +13,7 @@ class LicensesSection extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(modalSheetControllerProviderProvider.notifier);
     final entries = useFuture(
       LicenseRegistry.licenses
           .map(
@@ -33,27 +35,31 @@ class LicensesSection extends HookConsumerWidget {
         (BuildContext context, int index) => Material(
           type: MaterialType.transparency,
           child: ListTile(
-            title: Text(
-              entries.data![index].title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              entries.data![index].body,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: const Icon(Icons.more_horiz),
-            hoverColor: listItemsHoverColor(context),
-            tileColor: listItemsStripeColor(context, index),
-            onTap: () => showBottomSheet(
-              context: context,
-              builder: (context) => LicenseSheet(
-                title: entries.data![index].title,
-                body: entries.data![index].body,
+              title: Text(
+                entries.data![index].title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
-            ),
-          ),
+              subtitle: Text(
+                entries.data![index].body,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.more_horiz),
+              hoverColor: listItemsHoverColor(context),
+              tileColor: listItemsStripeColor(context, index),
+              onTap: () {
+                controller.set(
+                  showBottomSheet(
+                    context: context,
+                    builder: (context) => LicenseSheet(
+                      title: entries.data![index].title,
+                      body: entries.data![index].body,
+                    ),
+                  ),
+                );
+              }),
         ),
       ),
     );

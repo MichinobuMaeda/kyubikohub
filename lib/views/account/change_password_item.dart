@@ -7,12 +7,15 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
+import '../../providers/modal_sheet_controller_provider.dart';
+import '../widgets/modal_item.dart';
+import '../app_localizations.dart';
 import 'auth_error_message.dart';
 import 'reset_password_sheet.dart';
-import '../app_localizations.dart';
 
-class ChangePasswordSection extends HookConsumerWidget {
-  const ChangePasswordSection({super.key});
+class ChangePasswordItem extends HookConsumerWidget {
+  final int index;
+  const ChangePasswordItem({super.key, required this.index});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,12 +28,16 @@ class ChangePasswordSection extends HookConsumerWidget {
     final newPasswordVisible = useState(false);
     final conPasswordVisible = useState(false);
     final status = useState<String?>(null);
+    final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: cardItemPadding,
-        child: SizedBox(
-          width: baseSize * 24,
+    return ModalItem(
+      index: index,
+      title: t.changePassword,
+      leading: const Icon(Icons.password),
+      trailing: const Icon(Icons.more_horiz),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: cardItemPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -112,21 +119,21 @@ class ChangePasswordSection extends HookConsumerWidget {
                 },
               ),
               AuthErrorMessage(status: status.value),
-          const Divider(),
-          Padding(
-            padding: cardItemPadding,
-            child: FilledButton(
-              child: Text(t.resetPassword),
-              onPressed: () => showBottomSheet(
-                context: context,
-                builder: (context) => ResetPasswordSheet(
-                  title: t.resetPassword,
-                  email: getUserEmail(),
-                ),
+              const SizedBox(height: buttonGap),
+              OutlinedButton(
+                child: Text(t.forgetYourPassword),
+                onPressed: () {
+                  controller.set(
+                    showBottomSheet(
+                      context: context,
+                      builder: (context) => ResetPasswordSheet(
+                        title: t.forgetYourPassword,
+                        email: getUserEmail(),
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-          ),
-          const Divider(),
             ],
           ),
         ),

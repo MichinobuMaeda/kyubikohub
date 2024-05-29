@@ -43,7 +43,7 @@ DataState<SiteAuth> siteAuthRepository(SiteAuthRepositoryRef ref) {
       (value) => switch (value) {
         Loading() => const Loading(),
         Error() => Error.fromError(value),
-        Success() => Success(data: value.data.$1.id),
+        Success() => Success(data: value.data.selected.id),
       },
     ),
   );
@@ -115,7 +115,7 @@ class AccountRepository extends _$AccountRepository {
   @visibleForTesting
   void listenAccount(SiteAuth siteAuth) {
     debugPrint('''
-    info: accountRepository.onSiteAuthChange(siteAuth(
+INFO    : accountRepository.onSiteAuthChange(siteAuth(
             site: ${siteAuth.site},
             uid: ${siteAuth.uid}
 ))''');
@@ -152,7 +152,7 @@ class AccountRepository extends _$AccountRepository {
     required void Function() next,
   }) async {
     debugPrint('''
-    info: accountRepository.cancel(
+INFO    : accountRepository.cancel(
             state: ${state.runtimeType.toString()},
             next: ${next.runtimeType}
 )''');
@@ -173,7 +173,7 @@ DataState<SiteAccount> siteAccountRepository(SiteAccountRepositoryRef ref) {
       (value) => switch (value) {
         Loading() => const Loading(),
         Error() => Error.fromError(value),
-        Success() => Success(data: value.data.$1.id),
+        Success() => Success(data: value.data.selected.id),
       },
     ),
   );

@@ -7,6 +7,7 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
+import '../../providers/modal_sheet_controller_provider.dart';
 import '../app_localizations.dart';
 import 'reset_password_sheet.dart';
 import 'auth_error_message.dart';
@@ -22,6 +23,7 @@ class LoginSection extends HookConsumerWidget {
     final status = useState<String?>(null);
     final email = useState('');
     final password = useState('');
+    final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
     return SliverToBoxAdapter(
       child: SizedBox(
@@ -88,12 +90,16 @@ class LoginSection extends HookConsumerWidget {
                       );
                       if (status.value == null) {
                         logInfo(
-                          site is Success ? (site as Success).data.$1.id : null,
+                          site is Success
+                              ? (site as Success<SiteRecord>).data.selected.id
+                              : null,
                           'Login with email: $email',
                         );
                       } else {
                         logError(
-                          site is Success ? (site as Success).data.$1.id : null,
+                          site is Success
+                              ? (site as Success<SiteRecord>).data.selected.id
+                              : null,
                           'Login with email: $email, error: $status.value',
                         );
                       }
@@ -104,14 +110,18 @@ class LoginSection extends HookConsumerWidget {
                   const SizedBox(height: buttonGap),
                   OutlinedButton(
                     child: Text(t.forgetYourPassword),
-                    onPressed: () => showBottomSheet(
-                      context: context,
-                      builder: (context) => ResetPasswordSheet(
-                        title: t.forgetYourPassword,
-                        email: email.value,
-                      ),
-                    ),
-                  )
+                    onPressed: () {
+                      controller.set(
+                        showBottomSheet(
+                          context: context,
+                          builder: (context) => ResetPasswordSheet(
+                            title: t.forgetYourPassword,
+                            email: email.value,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),

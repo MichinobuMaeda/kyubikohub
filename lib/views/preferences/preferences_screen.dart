@@ -3,9 +3,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../app_localizations.dart';
 import '../widgets/section_header.dart';
-import '../account/select_site_sheet.dart';
-import '../account/change_password_section.dart';
-import '../account/logout_section.dart';
+import '../account/select_site_item.dart';
+import '../account/change_password_item.dart';
+import '../account/logout_item.dart';
 
 class MeScreen extends HookConsumerWidget {
   const MeScreen({super.key});
@@ -21,9 +21,9 @@ class MeScreen extends HookConsumerWidget {
           title: t.myAccount,
           leading: Icons.account_circle,
         ),
-        SelectSiteSheet(index: index++),
-        const ChangePasswordSection(),
-        const LogoutSection(),
+        SliverToBoxAdapter(child: SelectSiteSheet(index: index++)),
+        SliverToBoxAdapter(child: ChangePasswordItem(index: index++)),
+        SliverToBoxAdapter(child: LogoutItem(index: index++)),
       ],
     );
   }

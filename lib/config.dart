@@ -132,7 +132,7 @@ Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
     : Theme.of(context).colorScheme.surface;
 
 Color listItemsHoverColor(BuildContext context) =>
-    Theme.of(context).colorScheme.primaryFixed.withAlpha(32);
+    Theme.of(context).colorScheme.primaryFixed.withAlpha(64);
 
 void onTapLink(String text, String? href, String? title) {
   if (href != null && href.trim().isNotEmpty) {

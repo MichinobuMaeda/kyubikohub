@@ -35,6 +35,7 @@ class AppLocalizations {
   String get id => 'ID';
   String get siteName => 'サイト名';
   String get displayName => '表示名';
+  String get groupMembership => '所属グループ';
   // Actions
   String get login => 'ログイン';
   String get logout => 'ログアウト';

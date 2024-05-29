@@ -5,7 +5,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
-import '../../models/site.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
 import '../app_localizations.dart';
@@ -18,15 +17,15 @@ class GuidanceSection extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final site = ref.watch(siteRepositoryProvider);
     final isMember = ref.watch(accountRepositoryProvider) is Success;
-    final guide = site is Success<(Site, List<Site>)>
+    final guide = site is Success<SiteRecord>
         ? isMember
             ? '''
-${site.data.$1.forGuests}
+${site.data.selected.forGuests}
 
-${site.data.$1.forMembers}
+${site.data.selected.forMembers}
 '''
             : '''
-${site.data.$1.forGuests}
+${site.data.selected.forGuests}
 '''
         : '';
 
@@ -46,7 +45,7 @@ ${site.data.$1.forGuests}
                   Padding(
                     padding: cardItemPadding,
                     child: Text(
-                      site.data.$1.name,
+                      site.data.selected.name,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
@@ -64,7 +63,7 @@ ${site.data.$1.forGuests}
                       color: Theme.of(context).colorScheme.outline,
                       onPressed: () => Clipboard.setData(
                         ClipboardData(text: '''
-# ${site.data.$1.name}
+# ${site.data.selected.name}
 
 $guide
 '''),

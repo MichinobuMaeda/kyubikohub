@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
+import '../../providers/modal_sheet_controller_provider.dart';
 import '../app_localizations.dart';
 
 class ModalSheet extends HookConsumerWidget {
@@ -21,9 +22,10 @@ class ModalSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
+    final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
     return TapRegion(
-      onTapOutside: (_) => Navigator.of(context).pop(),
+      onTapOutside: (_) => controller.close(),
       child: Column(
         children: [
           Padding(
@@ -56,7 +58,7 @@ class ModalSheet extends HookConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.close),
                   color: Theme.of(context).colorScheme.onSurface,
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => controller.close(),
                 )
               ],
             ),
@@ -84,7 +86,7 @@ class ModalSheet extends HookConsumerWidget {
                 padding: cardItemPadding,
                 child: TextButton(
                   child: Text(t.close),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => controller.close(),
                 ),
               ),
             ],

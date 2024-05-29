@@ -26,12 +26,12 @@ class ConfRepositoryStub extends ConfRepository {
 
 class SiteRepositoryLoading extends SiteRepository {
   @override
-  DataState<(Site, List<Site>)> build() => const Loading();
+  DataState<SiteRecord> build() => const Loading();
 }
 
 class SiteRepositorySuccess extends SiteRepository {
   @override
-  DataState<(Site, List<Site>)> build() {
+  DataState<SiteRecord> build() {
     const site = Site(
       id: 'test',
       name: 'test',
@@ -40,7 +40,7 @@ class SiteRepositorySuccess extends SiteRepository {
       forMangers: '',
       deleted: false,
     );
-    return const Success(data: (site, [site]));
+    return const Success(data: (selected: site, sites: [site]));
   }
 }
 
