@@ -62,6 +62,8 @@ Future<void> restoreDoc(
 ) =>
     docRef.update({"deletedAt": null});
 
+final confRef = FirebaseFirestore.instance.collection('service').doc('conf');
+
 DocumentReference<Map<String, dynamic>> siteRef({
   required String id,
 }) =>

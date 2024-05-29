@@ -43,7 +43,7 @@ class AboutScreen extends HookConsumerWidget {
           title: t.aboutTheApp,
           leading: Icons.code,
         ),
-        const AboutAppSection(),
+        AboutAppSection(),
         SectionHeader(
           title: t.licenses,
           leading: Icons.notes,

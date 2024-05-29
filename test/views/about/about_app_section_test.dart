@@ -6,9 +6,8 @@ import '../../utils.dart';
 import 'package:kyubikohub/config.dart';
 import 'package:kyubikohub/models/data_state.dart';
 import 'package:kyubikohub/models/conf.dart';
-import 'package:kyubikohub/models/site.dart';
 import 'package:kyubikohub/providers/conf_repository.dart';
-import 'package:kyubikohub/providers/site_repository.dart';
+import 'package:kyubikohub/providers/account_repository.dart';
 import 'package:kyubikohub/views/about/about_app_section.dart';
 import 'package:kyubikohub/views/app_localizations.dart';
 
@@ -24,26 +23,6 @@ class ConfRepositoryStub extends ConfRepository {
       );
 }
 
-class SiteRepositoryLoading extends SiteRepository {
-  @override
-  DataState<SiteRecord> build() => const Loading();
-}
-
-class SiteRepositorySuccess extends SiteRepository {
-  @override
-  DataState<SiteRecord> build() {
-    const site = Site(
-      id: 'test',
-      name: 'test',
-      forGuests: '',
-      forMembers: '',
-      forMangers: '',
-      deleted: false,
-    );
-    return const Success(data: (selected: site, sites: [site]));
-  }
-}
-
 void main() {
   testWidgets(
     'AboutAppSection shows the app title, version, description.',
@@ -52,7 +31,9 @@ void main() {
       final t = AppLocalizations();
       final overrides = [
         confRepositoryProvider.overrideWith(() => ConfRepositoryStub()),
-        siteRepositoryProvider.overrideWith(() => SiteRepositoryLoading()),
+        siteAccountRepositoryProvider.overrideWith(
+          (SiteAccountRepositoryRef ref) => const Loading<SiteAccount>(),
+        ),
       ];
 
       // Run
@@ -60,7 +41,7 @@ void main() {
         ProviderScope(
           overrides: overrides,
           child: getTestMaterialApp(
-            const AboutAppSection(),
+            AboutAppSection(),
           ),
         ),
       );
