@@ -23,7 +23,7 @@ final siteParamRepositoryProvider =
 );
 
 typedef _$SiteParamRepository = Notifier<String?>;
-String _$siteRepositoryHash() => r'8ce04aff51751b4333914eb638ae0f3357664af3';
+String _$siteRepositoryHash() => r'a50e3d121084a0b620822a573d281a3be8e0f4d0';
 
 /// See also [SiteRepository].
 @ProviderFor(SiteRepository)
