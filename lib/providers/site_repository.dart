@@ -19,7 +19,7 @@ class SiteParamRepository extends _$SiteParamRepository {
 
   Future<String?> onSiteParamChanged(String? next) async {
     final localStorage = ref.read(localStorageRepositoryProvider);
-    if (state == next) {
+    if (next != null && state == next) {
       // Nothing to do
     } else {
       debugPrint('INFO    : onSiteParamChanged $state --> $next');
