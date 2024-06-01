@@ -7,7 +7,7 @@ part of 'site_repository.dart';
 // **************************************************************************
 
 String _$siteParamRepositoryHash() =>
-    r'99b9c0bd3dd762e17b36cebc9a59c44a274fb621';
+    r'67bc2a1df82d37507d9ac672f7e001b0556bc051';
 
 /// See also [SiteParamRepository].
 @ProviderFor(SiteParamRepository)
@@ -23,7 +23,7 @@ final siteParamRepositoryProvider =
 );
 
 typedef _$SiteParamRepository = Notifier<String?>;
-String _$siteRepositoryHash() => r'a50e3d121084a0b620822a573d281a3be8e0f4d0';
+String _$siteRepositoryHash() => r'3eac7a22d7b91f8eeca999175c984917d0f8a5bd';
 
 /// See also [SiteRepository].
 @ProviderFor(SiteRepository)

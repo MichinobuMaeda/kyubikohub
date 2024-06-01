@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config.dart';
 import '../models/nav_item.dart';
 import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
@@ -89,7 +90,7 @@ Future<String?> guardPath(GoRouterState state, WidgetRef ref) async {
 String? guardAdmin(GoRouterState state) {
   final paramSite = state.pathParameters['site'];
 
-  if (paramSite != null && paramSite != 'admins') {
+  if (paramSite != null && paramSite != adminsSiteId) {
     final locationAdmin = state.namedLocation(
       NavPath.admin.name,
       pathParameters: {

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kyubikohub/config.dart';
+import 'package:kyubikohub/providers/groups_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/data_state.dart';
@@ -23,17 +25,20 @@ class SiteAuth with _$SiteAuth {
 @freezed
 class Account with _$Account {
   const factory Account({
+    required String site,
     required String id,
+    required String? user,
     required DateTime? deletedAt,
   }) = _Account;
 }
 
 @freezed
-class SiteAccount with _$SiteAccount {
-  const factory SiteAccount({
-    required String account,
-    required String site,
-  }) = _SiteAccount;
+class AccountStatus with _$AccountStatus {
+  const factory AccountStatus({
+    required Account? account,
+    required bool manager,
+    required bool admin,
+  }) = _AccountStatus;
 }
 
 @Riverpod(keepAlive: true)
@@ -77,7 +82,7 @@ class AccountRepository extends _$AccountRepository {
   StreamSubscription? _sub;
 
   @override
-  DataState<Account> build() {
+  DataState<Account?> build() {
     ref.listen(
       siteAuthRepositoryProvider,
       fireImmediately: true,
@@ -89,48 +94,45 @@ class AccountRepository extends _$AccountRepository {
         } else {
           final siteAuth = (next as Success<SiteAuth>).data;
           if (prev is! Success || (prev as Success).data != siteAuth) {
-            if (siteAuth.site == null) {
+            if (siteAuth.site == null || siteAuth.uid == null) {
               cancel(next: logout);
             } else {
-              if (siteAuth.uid == null) {
-                cancel(next: logout);
+              if ((prev is Success<SiteAuth>) && prev.data == siteAuth) {
+                // Skip
               } else {
-                if ((prev is Success<SiteAuth>) && prev.data == siteAuth) {
-                  // Skip
-                } else {
-                  cancel(
-                    state: const Loading<Account>(),
-                    next: () => listenAccount(siteAuth),
-                  );
-                }
+                cancel(
+                  next: () => listenAccount(
+                    site: siteAuth.site!,
+                    uid: siteAuth.uid!,
+                  ),
+                );
               }
             }
           }
         }
       },
     );
-    return const Loading<Account>();
+    return const Loading();
   }
 
   @visibleForTesting
-  void listenAccount(SiteAuth siteAuth) {
+  void listenAccount({required String site, required String uid}) {
     debugPrint('''
-INFO    : accountRepository.onSiteAuthChange(siteAuth(
-            site: ${siteAuth.site},
-            uid: ${siteAuth.uid}
-))''');
+INFO    : accountRepository.onSiteAuthChange(site: $site, uid: $uid)''');
     _sub = FirebaseFirestore.instance
         .collection('sites')
-        .doc(siteAuth.site)
+        .doc(site)
         .collection('accounts')
-        .doc(siteAuth.uid)
+        .doc(uid)
         .snapshots()
         .listen(
       (doc) {
         if (!isDeleted(doc)) {
           state = Success(
             data: Account(
+              site: site,
               id: doc.id,
+              user: getStringValue(doc, "user"),
               deletedAt: getDateTimeValue(doc, "deletedAt"),
             ),
           );
@@ -140,7 +142,7 @@ INFO    : accountRepository.onSiteAuthChange(siteAuth(
       },
       onError: (error, stackTrace) {
         cancel(
-          state: Error(error: error, stackTrace: stackTrace),
+          state: Error.fromError(error),
           next: logout,
         );
       },
@@ -148,7 +150,7 @@ INFO    : accountRepository.onSiteAuthChange(siteAuth(
   }
 
   Future<void> cancel({
-    DataState<Account> state = const Loading<Account>(),
+    DataState<Account?>? state,
     required void Function() next,
   }) async {
     debugPrint('''
@@ -158,8 +160,9 @@ INFO    : accountRepository.cancel(
 )''');
     await _sub?.cancel();
     _sub = null;
+
     if (this.state != state) {
-      this.state = state;
+      this.state = state ?? const Success<Account?>(data: null);
     }
     await Future.delayed(const Duration(milliseconds: 100));
     next();
@@ -167,37 +170,30 @@ INFO    : accountRepository.cancel(
 }
 
 @Riverpod(keepAlive: true)
-DataState<SiteAccount> siteAccountRepository(SiteAccountRepositoryRef ref) {
-  final DataState<String> site = ref.watch(
-    siteRepositoryProvider.select(
-      (value) => switch (value) {
-        Loading() => const Loading(),
-        Error() => Error.fromError(value),
-        Success() => Success(data: value.data.selected.id),
-      },
-    ),
-  );
-  final DataState<String> account = ref.watch(
+AccountStatus accountStatus(AccountStatusRef ref) {
+  final account = ref.watch(
     accountRepositoryProvider.select(
       (value) => switch (value) {
-        Loading() => const Loading(),
-        Error() => Error.fromError(value),
-        Success() => Success(data: value.data.id),
+        Loading() => null,
+        Error() => null,
+        Success() => value.data,
       },
     ),
   );
-  return switch (site) {
-    Loading() => const Loading(),
-    Error() => Error.fromError(site),
-    Success() => switch (account) {
-        Loading() => const Loading(),
-        Error() => Error.fromError(account),
-        Success() => Success(
-            data: SiteAccount(
-              account: account.data,
-              site: site.data,
-            ),
-          ),
-      }
-  };
+  final manager = account?.user != null &&
+      ref.watch(
+        groupsRepositoryProvider.select(
+          (groups) => groups.any((group) => group.id == managersGroupId)
+              ? groups
+                  .singleWhere((group) => group.id == managersGroupId)
+                  .users
+                  .contains(account?.user)
+              : false,
+        ),
+      );
+  return AccountStatus(
+    account: account,
+    manager: manager,
+    admin: account?.site == adminsSiteId,
+  );
 }

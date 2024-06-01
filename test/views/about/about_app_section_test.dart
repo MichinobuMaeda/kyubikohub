@@ -31,8 +31,12 @@ void main() {
       final t = AppLocalizations();
       final overrides = [
         confRepositoryProvider.overrideWith(() => ConfRepositoryStub()),
-        siteAccountRepositoryProvider.overrideWith(
-          (SiteAccountRepositoryRef ref) => const Loading<SiteAccount>(),
+        accountStatusProvider.overrideWith(
+          (AccountStatusRef ref) => const AccountStatus(
+            account: null,
+            manager: false,
+            admin: false,
+          ),
         ),
       ];
 

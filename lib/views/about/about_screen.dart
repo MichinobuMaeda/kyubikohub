@@ -18,9 +18,16 @@ class AboutScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final isMember = ref.watch(siteAccountRepositoryProvider) is Success;
-    final site = ref.watch(siteRepositoryProvider);
-    final bool isSite = site is Success<SiteRecord>;
+    final isMember = ref.watch(
+      accountStatusProvider.select(
+        (accountStatus) => accountStatus.account != null,
+      ),
+    );
+    final bool isSite = ref.watch(
+      siteRepositoryProvider.select(
+        (site) => site is Success<SiteRecord>,
+      ),
+    );
     int index = 0;
 
     return CustomScrollView(

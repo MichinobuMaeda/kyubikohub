@@ -25,9 +25,7 @@ class AboutAppSection extends HookConsumerWidget {
         (conf) => (conf is Success<Conf>) ? conf.data.desc : null,
       ),
     );
-    final siteAccount = ref.watch(siteAccountRepositoryProvider);
-    final bool isAdmins = siteAccount is Success<SiteAccount> &&
-        siteAccount.data.site == 'admins';
+    final accountStatus = ref.watch(accountStatusProvider);
     final isEdit = useState(false);
     final desc = useState('');
 
@@ -91,7 +89,7 @@ class AboutAppSection extends HookConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              if (isAdmins && isEdit.value)
+                              if (accountStatus.admin && isEdit.value)
                                 IconButton(
                                   icon: const Icon(Icons.check),
                                   color: Theme.of(context).colorScheme.outline,
@@ -103,9 +101,9 @@ class AboutAppSection extends HookConsumerWidget {
                                     isEdit.value = false;
                                   },
                                 ),
-                              if (isAdmins && isEdit.value)
+                              if (accountStatus.admin && isEdit.value)
                                 const SizedBox(width: buttonGap),
-                              if (isAdmins && isEdit.value)
+                              if (accountStatus.admin && isEdit.value)
                                 IconButton(
                                   icon: const Icon(Icons.close),
                                   color: Theme.of(context).colorScheme.outline,
@@ -113,7 +111,7 @@ class AboutAppSection extends HookConsumerWidget {
                                     isEdit.value = false;
                                   },
                                 ),
-                              if (isAdmins && !isEdit.value)
+                              if (accountStatus.admin && !isEdit.value)
                                 IconButton(
                                   icon: const Icon(Icons.edit),
                                   color: Theme.of(context).colorScheme.outline,
@@ -123,7 +121,7 @@ class AboutAppSection extends HookConsumerWidget {
                                     textController.text = about;
                                   },
                                 ),
-                              if (isAdmins && !isEdit.value)
+                              if (accountStatus.admin && !isEdit.value)
                                 const SizedBox(width: buttonGap),
                               if (!isEdit.value)
                                 IconButton(

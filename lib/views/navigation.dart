@@ -2,10 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kyubikohub/config.dart';
 
+import '../config.dart';
 import '../models/nav_item.dart';
-import '../models/data_state.dart';
 import '../providers/account_repository.dart';
 import 'about/about_screen.dart';
 import 'widgets/update_app_message.dart';
@@ -28,8 +27,8 @@ class Navigation extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
     final landscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final siteAccount = ref.watch(siteAccountRepositoryProvider);
-    final isMember = siteAccount is Success;
+    final accountStatus = ref.watch(accountStatusProvider);
+    final isMember = accountStatus.account != null;
     final showNav = site != null && isMember;
 
     final navItems = [
@@ -58,10 +57,7 @@ class Navigation extends HookConsumerWidget {
         navPath: NavPath.about,
       ),
     ]
-        .where((item) =>
-            item.navPath != NavPath.admin ||
-            (siteAccount is Success<SiteAccount> &&
-                siteAccount.data.site == 'admins'))
+        .where((item) => item.navPath != NavPath.admin || accountStatus.admin)
         .toList();
 
     final selectedIndex = () {
@@ -100,12 +96,8 @@ class Navigation extends HookConsumerWidget {
                         ),
                       ),
                     ],
-                    onDestinationSelected: (index) {
-                      context.goNamed(
-                        navItems[index].navPath.name,
-                        pathParameters: {'site': site ?? ''},
-                      );
-                    },
+                    onDestinationSelected: (index) =>
+                        onDestinationSelected(context, navItems, index),
                   ),
                 Expanded(
                   child: Column(
@@ -114,9 +106,7 @@ class Navigation extends HookConsumerWidget {
                       Expanded(
                         child: ColoredBox(
                           color: Theme.of(context).colorScheme.surface,
-                          child: site == null || isMember
-                              ? child
-                              : const AboutScreen(),
+                          child: isMember ? child : const AboutScreen(),
                         ),
                       ),
                     ],
@@ -140,14 +130,21 @@ class Navigation extends HookConsumerWidget {
                     ),
                   ),
                 ],
-                onDestinationSelected: (index) {
-                  context.goNamed(
-                    navItems[index].navPath.name,
-                    pathParameters: {'site': site ?? ''},
-                  );
-                },
+                onDestinationSelected: (index) =>
+                    onDestinationSelected(context, navItems, index),
               ),
       ),
+    );
+  }
+
+  void onDestinationSelected(
+    BuildContext context,
+    List<NavItem> navItems,
+    int index,
+  ) {
+    context.goNamed(
+      navItems[index].navPath.name,
+      pathParameters: {'site': site ?? ''},
     );
   }
 }

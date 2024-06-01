@@ -33,7 +33,7 @@ class AuthRepository extends _$AuthRepository {
         );
       },
       onError: (error, stackTrace) {
-        state = Error(error: error, stackTrace: stackTrace);
+        state = Error.fromError(error);
       },
     );
     return const Loading();

@@ -22,28 +22,27 @@ final siteAuthRepositoryProvider = Provider<DataState<SiteAuth>>.internal(
 );
 
 typedef SiteAuthRepositoryRef = ProviderRef<DataState<SiteAuth>>;
-String _$siteAccountRepositoryHash() =>
-    r'e6211bc108ebee0f47001936faa9ea4d02806998';
+String _$accountStatusHash() => r'489a93d6a5316e7512a8a9a472b85b3ba25f03f1';
 
-/// See also [siteAccountRepository].
-@ProviderFor(siteAccountRepository)
-final siteAccountRepositoryProvider = Provider<DataState<SiteAccount>>.internal(
-  siteAccountRepository,
-  name: r'siteAccountRepositoryProvider',
+/// See also [accountStatus].
+@ProviderFor(accountStatus)
+final accountStatusProvider = Provider<AccountStatus>.internal(
+  accountStatus,
+  name: r'accountStatusProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$siteAccountRepositoryHash,
+      : _$accountStatusHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef SiteAccountRepositoryRef = ProviderRef<DataState<SiteAccount>>;
-String _$accountRepositoryHash() => r'b94e7eaff76549256b2199a8b0f1747355ffaffe';
+typedef AccountStatusRef = ProviderRef<AccountStatus>;
+String _$accountRepositoryHash() => r'f7ad2220ec7c219e09813dc38c08e4d86c6bee40';
 
 /// See also [AccountRepository].
 @ProviderFor(AccountRepository)
 final accountRepositoryProvider =
-    NotifierProvider<AccountRepository, DataState<Account>>.internal(
+    NotifierProvider<AccountRepository, DataState<Account?>>.internal(
   AccountRepository.new,
   name: r'accountRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -53,6 +52,6 @@ final accountRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$AccountRepository = Notifier<DataState<Account>>;
+typedef _$AccountRepository = Notifier<DataState<Account?>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

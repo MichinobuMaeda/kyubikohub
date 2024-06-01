@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../config.dart';
 import 'firebase_utils.dart';
 import '../models/data_state.dart';
 import '../models/site.dart';
@@ -79,7 +80,7 @@ INFO    : listen(siteParamRepositoryProvider, (
   Future<void> onSiteChanged(String next) async {
     debugPrint('INFO    : onSiteChanged($next)');
     await _sub?.cancel();
-    if (next == 'admins') {
+    if (next == adminsSiteId) {
       _sub = colSiteRef.snapshots().listen(
         (snap) {
           snap.docs;
@@ -93,7 +94,7 @@ INFO    : listen(siteParamRepositoryProvider, (
           }
         },
         onError: (error, stackTrace) {
-          state = Error(error: error, stackTrace: stackTrace);
+          state = Error.fromError(error);
         },
       );
     } else {
@@ -107,7 +108,7 @@ INFO    : listen(siteParamRepositoryProvider, (
           }
         },
         onError: (error, stackTrace) {
-          state = Error(error: error, stackTrace: stackTrace);
+          state = Error.fromError(error);
         },
       );
     }

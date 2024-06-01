@@ -17,7 +17,7 @@ class UsersRepository extends _$UsersRepository {
   @override
   List<User> build() {
     ref.listen(
-      siteAccountRepositoryProvider,
+      accountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
         debugPrint('INFO    : UsersRepository.build next: $next');
@@ -31,11 +31,12 @@ class UsersRepository extends _$UsersRepository {
     return [];
   }
 
-  Future<void> listen(SiteAccount siteAccount) async {
+  @visibleForTesting
+  Future<void> listen(Account account) async {
     await _sub?.cancel();
     _sub = FirebaseFirestore.instance
         .collection('sites')
-        .doc(siteAccount.site)
+        .doc(account.site)
         .collection('users')
         .snapshots()
         .listen(
@@ -66,6 +67,7 @@ class UsersRepository extends _$UsersRepository {
     );
   }
 
+  @visibleForTesting
   Future<void> cancel() async {
     await _sub?.cancel();
     _sub = null;

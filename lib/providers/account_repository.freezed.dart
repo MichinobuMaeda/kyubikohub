@@ -159,7 +159,9 @@ abstract class _SiteAuth implements SiteAuth {
 
 /// @nodoc
 mixin _$Account {
+  String get site => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String? get user => throw _privateConstructorUsedError;
   DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -171,7 +173,7 @@ abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
-  $Res call({String id, DateTime? deletedAt});
+  $Res call({String site, String id, String? user, DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -187,14 +189,24 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? site = null,
     Object? id = null,
+    Object? user = freezed,
     Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
+      site: null == site
+          ? _value.site
+          : site // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as String?,
       deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -210,7 +222,7 @@ abstract class _$$AccountImplCopyWith<$Res> implements $AccountCopyWith<$Res> {
       __$$AccountImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, DateTime? deletedAt});
+  $Res call({String site, String id, String? user, DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -224,14 +236,24 @@ class __$$AccountImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? site = null,
     Object? id = null,
+    Object? user = freezed,
     Object? deletedAt = freezed,
   }) {
     return _then(_$AccountImpl(
+      site: null == site
+          ? _value.site
+          : site // ignore: cast_nullable_to_non_nullable
+              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as String?,
       deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
@@ -243,16 +265,24 @@ class __$$AccountImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
-  const _$AccountImpl({required this.id, required this.deletedAt});
+  const _$AccountImpl(
+      {required this.site,
+      required this.id,
+      required this.user,
+      required this.deletedAt});
 
   @override
+  final String site;
+  @override
   final String id;
+  @override
+  final String? user;
   @override
   final DateTime? deletedAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Account(id: $id, deletedAt: $deletedAt)';
+    return 'Account(site: $site, id: $id, user: $user, deletedAt: $deletedAt)';
   }
 
   @override
@@ -260,7 +290,9 @@ class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Account'))
+      ..add(DiagnosticsProperty('site', site))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('user', user))
       ..add(DiagnosticsProperty('deletedAt', deletedAt));
   }
 
@@ -269,13 +301,15 @@ class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AccountImpl &&
+            (identical(other.site, site) || other.site == site) &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.user, user) || other.user == user) &&
             (identical(other.deletedAt, deletedAt) ||
                 other.deletedAt == deletedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, deletedAt);
+  int get hashCode => Object.hash(runtimeType, site, id, user, deletedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -286,11 +320,17 @@ class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
 
 abstract class _Account implements Account {
   const factory _Account(
-      {required final String id,
+      {required final String site,
+      required final String id,
+      required final String? user,
       required final DateTime? deletedAt}) = _$AccountImpl;
 
   @override
+  String get site;
+  @override
   String get id;
+  @override
+  String? get user;
   @override
   DateTime? get deletedAt;
   @override
@@ -300,28 +340,31 @@ abstract class _Account implements Account {
 }
 
 /// @nodoc
-mixin _$SiteAccount {
-  String get account => throw _privateConstructorUsedError;
-  String get site => throw _privateConstructorUsedError;
+mixin _$AccountStatus {
+  Account? get account => throw _privateConstructorUsedError;
+  bool get manager => throw _privateConstructorUsedError;
+  bool get admin => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SiteAccountCopyWith<SiteAccount> get copyWith =>
+  $AccountStatusCopyWith<AccountStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SiteAccountCopyWith<$Res> {
-  factory $SiteAccountCopyWith(
-          SiteAccount value, $Res Function(SiteAccount) then) =
-      _$SiteAccountCopyWithImpl<$Res, SiteAccount>;
+abstract class $AccountStatusCopyWith<$Res> {
+  factory $AccountStatusCopyWith(
+          AccountStatus value, $Res Function(AccountStatus) then) =
+      _$AccountStatusCopyWithImpl<$Res, AccountStatus>;
   @useResult
-  $Res call({String account, String site});
+  $Res call({Account? account, bool manager, bool admin});
+
+  $AccountCopyWith<$Res>? get account;
 }
 
 /// @nodoc
-class _$SiteAccountCopyWithImpl<$Res, $Val extends SiteAccount>
-    implements $SiteAccountCopyWith<$Res> {
-  _$SiteAccountCopyWithImpl(this._value, this._then);
+class _$AccountStatusCopyWithImpl<$Res, $Val extends AccountStatus>
+    implements $AccountStatusCopyWith<$Res> {
+  _$AccountStatusCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -331,114 +374,149 @@ class _$SiteAccountCopyWithImpl<$Res, $Val extends SiteAccount>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = null,
-    Object? site = null,
+    Object? account = freezed,
+    Object? manager = null,
+    Object? admin = null,
   }) {
     return _then(_value.copyWith(
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      site: null == site
-          ? _value.site
-          : site // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Account?,
+      manager: null == manager
+          ? _value.manager
+          : manager // ignore: cast_nullable_to_non_nullable
+              as bool,
+      admin: null == admin
+          ? _value.admin
+          : admin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountCopyWith<$Res>? get account {
+    if (_value.account == null) {
+      return null;
+    }
+
+    return $AccountCopyWith<$Res>(_value.account!, (value) {
+      return _then(_value.copyWith(account: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$SiteAccountImplCopyWith<$Res>
-    implements $SiteAccountCopyWith<$Res> {
-  factory _$$SiteAccountImplCopyWith(
-          _$SiteAccountImpl value, $Res Function(_$SiteAccountImpl) then) =
-      __$$SiteAccountImplCopyWithImpl<$Res>;
+abstract class _$$AccountStatusImplCopyWith<$Res>
+    implements $AccountStatusCopyWith<$Res> {
+  factory _$$AccountStatusImplCopyWith(
+          _$AccountStatusImpl value, $Res Function(_$AccountStatusImpl) then) =
+      __$$AccountStatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String account, String site});
+  $Res call({Account? account, bool manager, bool admin});
+
+  @override
+  $AccountCopyWith<$Res>? get account;
 }
 
 /// @nodoc
-class __$$SiteAccountImplCopyWithImpl<$Res>
-    extends _$SiteAccountCopyWithImpl<$Res, _$SiteAccountImpl>
-    implements _$$SiteAccountImplCopyWith<$Res> {
-  __$$SiteAccountImplCopyWithImpl(
-      _$SiteAccountImpl _value, $Res Function(_$SiteAccountImpl) _then)
+class __$$AccountStatusImplCopyWithImpl<$Res>
+    extends _$AccountStatusCopyWithImpl<$Res, _$AccountStatusImpl>
+    implements _$$AccountStatusImplCopyWith<$Res> {
+  __$$AccountStatusImplCopyWithImpl(
+      _$AccountStatusImpl _value, $Res Function(_$AccountStatusImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = null,
-    Object? site = null,
+    Object? account = freezed,
+    Object? manager = null,
+    Object? admin = null,
   }) {
-    return _then(_$SiteAccountImpl(
-      account: null == account
+    return _then(_$AccountStatusImpl(
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
-              as String,
-      site: null == site
-          ? _value.site
-          : site // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Account?,
+      manager: null == manager
+          ? _value.manager
+          : manager // ignore: cast_nullable_to_non_nullable
+              as bool,
+      admin: null == admin
+          ? _value.admin
+          : admin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$SiteAccountImpl with DiagnosticableTreeMixin implements _SiteAccount {
-  const _$SiteAccountImpl({required this.account, required this.site});
+class _$AccountStatusImpl
+    with DiagnosticableTreeMixin
+    implements _AccountStatus {
+  const _$AccountStatusImpl(
+      {required this.account, required this.manager, required this.admin});
 
   @override
-  final String account;
+  final Account? account;
   @override
-  final String site;
+  final bool manager;
+  @override
+  final bool admin;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SiteAccount(account: $account, site: $site)';
+    return 'AccountStatus(account: $account, manager: $manager, admin: $admin)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'SiteAccount'))
+      ..add(DiagnosticsProperty('type', 'AccountStatus'))
       ..add(DiagnosticsProperty('account', account))
-      ..add(DiagnosticsProperty('site', site));
+      ..add(DiagnosticsProperty('manager', manager))
+      ..add(DiagnosticsProperty('admin', admin));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SiteAccountImpl &&
+            other is _$AccountStatusImpl &&
             (identical(other.account, account) || other.account == account) &&
-            (identical(other.site, site) || other.site == site));
+            (identical(other.manager, manager) || other.manager == manager) &&
+            (identical(other.admin, admin) || other.admin == admin));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, account, site);
+  int get hashCode => Object.hash(runtimeType, account, manager, admin);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SiteAccountImplCopyWith<_$SiteAccountImpl> get copyWith =>
-      __$$SiteAccountImplCopyWithImpl<_$SiteAccountImpl>(this, _$identity);
+  _$$AccountStatusImplCopyWith<_$AccountStatusImpl> get copyWith =>
+      __$$AccountStatusImplCopyWithImpl<_$AccountStatusImpl>(this, _$identity);
 }
 
-abstract class _SiteAccount implements SiteAccount {
-  const factory _SiteAccount(
-      {required final String account,
-      required final String site}) = _$SiteAccountImpl;
+abstract class _AccountStatus implements AccountStatus {
+  const factory _AccountStatus(
+      {required final Account? account,
+      required final bool manager,
+      required final bool admin}) = _$AccountStatusImpl;
 
   @override
-  String get account;
+  Account? get account;
   @override
-  String get site;
+  bool get manager;
+  @override
+  bool get admin;
   @override
   @JsonKey(ignore: true)
-  _$$SiteAccountImplCopyWith<_$SiteAccountImpl> get copyWith =>
+  _$$AccountStatusImplCopyWith<_$AccountStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

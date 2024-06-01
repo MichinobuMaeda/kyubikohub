@@ -17,12 +17,12 @@ class GroupsRepository extends _$GroupsRepository {
   @override
   List<Group> build() {
     ref.listen(
-      siteAccountRepositoryProvider,
+      accountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
         debugPrint('INFO    : GroupsRepository.build next: $next');
-        if (next is Success) {
-          listen((next as Success).data);
+        if ((next is Success<Account?>) && next.data != null) {
+          listen(next.data!);
         } else {
           cancel();
         }
@@ -31,11 +31,12 @@ class GroupsRepository extends _$GroupsRepository {
     return [];
   }
 
-  Future<void> listen(SiteAccount siteAccount) async {
+  @visibleForTesting
+  Future<void> listen(Account account) async {
     await _sub?.cancel();
     _sub = FirebaseFirestore.instance
         .collection('sites')
-        .doc(siteAccount.site)
+        .doc(account.site)
         .collection('groups')
         .snapshots()
         .listen(
@@ -68,6 +69,7 @@ class GroupsRepository extends _$GroupsRepository {
     );
   }
 
+  @visibleForTesting
   Future<void> cancel() async {
     await _sub?.cancel();
     _sub = null;
