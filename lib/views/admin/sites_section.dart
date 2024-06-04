@@ -36,8 +36,9 @@ class SitesSection extends HookConsumerWidget {
       itemExtent: listItemHeight,
       delegate: SliverChildBuilderDelegate(
         childCount: sites.length,
-        (BuildContext context, int index) => ModalItem(
+        (BuildContext context, int index) => ModalItems(
           index: index,
+          height: listItemHeight,
           title: sites[index].title ?? t.add,
           deleted: sites[index].deleted,
           trailing: Icon(sites[index].data == null ? Icons.add : Icons.edit),

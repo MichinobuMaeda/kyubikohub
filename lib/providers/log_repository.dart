@@ -1,8 +1,45 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/log.dart';
+import 'firebase_utils.dart';
+
+part 'log_repository.g.dart';
+
+@Riverpod(keepAlive: true)
+Stream<List<Log>> logRepository(
+  LogRepositoryRef ref,
+  String? site,
+) =>
+    (site == null
+            ? FirebaseFirestore.instance.collection('logs')
+            : FirebaseFirestore.instance
+                .collection('sites')
+                .doc(site)
+                .collection('logs'))
+        .orderBy('ts', descending: true)
+        .limit(10)
+        .snapshots()
+        .map(
+          (snap) => snap.docs
+              .map(
+                (doc) => Log(
+                  ts: getDateTimeValue(doc, 'ts') ?? DateTime(1970),
+                  level: LogLevel.values.any(
+                    (v) => v.value == getStringValue(doc, 'user'),
+                  )
+                      ? LogLevel.values.singleWhere(
+                          (v) => v.value == getStringValue(doc, 'user'),
+                        )
+                      : LogLevel.error,
+                  user: getStringValue(doc, 'user') ?? '',
+                  message: getStringValue(doc, 'message') ?? '',
+                ),
+              )
+              .toList(),
+        );
 
 Future<void> logAppError(String message) =>
     setLog(null, LogLevel.error, message);

@@ -5,9 +5,9 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
 import '../widgets/section_header.dart';
-import '../account/select_site_item.dart';
 import '../app_localizations.dart';
 import '../account/login_section.dart';
+import 'select_site_section.dart';
 import 'guidance_section.dart';
 import 'about_app_section.dart';
 import 'licenses_section.dart';
@@ -28,12 +28,11 @@ class AboutScreen extends HookConsumerWidget {
         (site) => site is Success<SiteRecord>,
       ),
     );
-    int index = 0;
 
     return CustomScrollView(
       slivers: [
         if (!isMember)
-          SliverToBoxAdapter(child: SelectSiteSheet(index: index++)),
+          const SelectSiteSection(),
         if (isSite && !isMember)
           SectionHeader(
             title: t.login,

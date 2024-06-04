@@ -15,6 +15,14 @@ class AdminScreen extends HookConsumerWidget {
     return CustomScrollView(
       slivers: [
         SectionHeader(
+          title: t.appSettings,
+          leading: Icons.code,
+        ),
+        SectionHeader(
+          title: t.operationLog,
+          leading: Icons.video_camera_front,
+        ),
+        SectionHeader(
           title: t.sites,
           leading: Icons.domain,
         ),

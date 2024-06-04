@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../app_localizations.dart';
+import '../../providers/account_repository.dart';
 import '../widgets/section_header.dart';
-import '../account/select_site_item.dart';
-import '../account/change_password_item.dart';
-import '../account/logout_item.dart';
+import '../app_localizations.dart';
+import 'account_settings_section.dart';
 
 class MeScreen extends HookConsumerWidget {
   const MeScreen({super.key});
@@ -13,17 +12,20 @@ class MeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    int index = 0;
+    final accountStatus = ref.watch(accountStatusProvider);
 
     return CustomScrollView(
       slivers: [
+        if (accountStatus.manager)
+          SectionHeader(
+            title: t.siteSettings,
+            leading: Icons.build_circle,
+          ),
         SectionHeader(
-          title: t.myAccount,
+          title: t.accountSettings,
           leading: Icons.account_circle,
         ),
-        SliverToBoxAdapter(child: SelectSiteSheet(index: index++)),
-        SliverToBoxAdapter(child: ChangePasswordItem(index: index++)),
-        SliverToBoxAdapter(child: LogoutItem(index: index++)),
+        const AccountSettingsSection(),
       ],
     );
   }

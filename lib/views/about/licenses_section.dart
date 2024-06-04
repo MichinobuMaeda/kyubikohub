@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/license.dart';
-import '../../providers/modal_sheet_controller_provider.dart';
-import 'license_sheet.dart';
+import '../widgets/modal_item.dart';
+import '../app_localizations.dart';
 
 class LicensesSection extends HookConsumerWidget {
   const LicensesSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(modalSheetControllerProviderProvider.notifier);
+    final t = AppLocalizations.of(context)!;
     final entries = useFuture(
       LicenseRegistry.licenses
           .map(
@@ -29,39 +30,51 @@ class LicensesSection extends HookConsumerWidget {
     );
 
     return SliverFixedExtentList(
-      itemExtent: baseSize * 4.0,
+      itemExtent: listItemHeightWithSubtitle,
       delegate: SliverChildBuilderDelegate(
         childCount: entries.data?.length ?? 0,
         (BuildContext context, int index) => Material(
           type: MaterialType.transparency,
-          child: ListTile(
-              title: Text(
-                entries.data![index].title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          child: ModalItems(
+            index: index,
+            height: listItemHeightWithSubtitle,
+            title: entries.data![index].title,
+            subtitle: entries.data![index].body,
+            trailing: const Icon(Icons.more_horiz),
+            topActions: [
+              IconButton(
+                icon: const Icon(Icons.copy),
+                color: Theme.of(context).colorScheme.onSurface,
+                onPressed: () => copyText(entries.data![index]),
               ),
-              subtitle: Text(
-                entries.data![index].body,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            ],
+            bottomActions: [
+              TextButton(
+                child: Text(t.copy),
+                onPressed: () => copyText(entries.data![index]),
               ),
-              trailing: const Icon(Icons.more_horiz),
-              hoverColor: listItemsHoverColor(context),
-              tileColor: listItemsStripeColor(context, index),
-              onTap: () {
-                controller.set(
-                  showBottomSheet(
-                    context: context,
-                    builder: (context) => LicenseSheet(
-                      title: entries.data![index].title,
-                      body: entries.data![index].body,
-                    ),
+            ],
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: cardItemPadding,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    entries.data![index].body,
+                    maxLines: 1000,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                );
-              }),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
+
+  void copyText(License license) => Clipboard.setData(
+        ClipboardData(text: '${license.title}\n\n${license.body}'),
+      );
 }

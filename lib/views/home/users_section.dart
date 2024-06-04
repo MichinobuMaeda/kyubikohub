@@ -27,8 +27,9 @@ class UsersSection extends HookConsumerWidget {
       itemExtent: listItemHeight,
       delegate: SliverChildBuilderDelegate(
         childCount: users.length,
-        (BuildContext context, int index) => ModalItem(
+        (BuildContext context, int index) => ModalItems(
           index: index,
+          height: listItemHeight,
           title: users[index].name,
           trailing: const Icon(Icons.more_horiz),
           child: CustomScrollView(

@@ -5,9 +5,11 @@ import '../../config.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/modal_sheet.dart';
 
-class ModalItem extends HookConsumerWidget {
+class ModalItems extends HookConsumerWidget {
   final int index;
+  final double height;
   final String title;
+  final String? subtitle;
   final Widget child;
   final Widget? leading;
   final Widget? trailing;
@@ -15,10 +17,12 @@ class ModalItem extends HookConsumerWidget {
   final List<Widget> bottomActions;
   final bool deleted;
 
-  const ModalItem({
+  const ModalItems({
     super.key,
     this.index = 0,
+    required this.height,
     required this.title,
+    this.subtitle,
     this.leading,
     this.trailing,
     required this.child,
@@ -32,20 +36,31 @@ class ModalItem extends HookConsumerWidget {
     final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
     return SizedBox(
-      height: listItemHeight,
+      height: height,
       child: Material(
         type: MaterialType.transparency,
         child: ListTile(
           leading: leading,
           title: Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: deleted
                 ? TextStyle(
                     decoration: TextDecoration.lineThrough,
                     color: Theme.of(context).colorScheme.error,
                   )
-                : null,
+                : subtitle != null
+                    ? TextStyle(color: Theme.of(context).colorScheme.primary)
+                    : null,
           ),
+          subtitle: subtitle != null
+              ? Text(
+                  subtitle!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+              : null,
           trailing: trailing,
           hoverColor: listItemsHoverColor(context),
           tileColor: listItemsStripeColor(context, index),
@@ -53,6 +68,10 @@ class ModalItem extends HookConsumerWidget {
             controller.set(
               showBottomSheet(
                 context: context,
+                constraints: const BoxConstraints(
+                  minWidth: contentWidth,
+                  maxWidth: contentWidth,
+                ),
                 builder: (context) => ModalSheet(
                   title: title,
                   body: child,

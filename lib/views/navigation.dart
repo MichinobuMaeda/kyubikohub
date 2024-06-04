@@ -70,7 +70,7 @@ class Navigation extends HookConsumerWidget {
     }();
 
     final leftPadding =
-        max(MediaQuery.of(context).size.width - baseSize * 54, 0) / 2;
+        max(MediaQuery.of(context).size.width - contentWidth, 0) / 2;
 
     return SafeArea(
       child: Scaffold(

@@ -17,7 +17,9 @@ class AppLocalizations {
   // Tab Items
   String get notices => 'お知らせ';
   String get preferences => 'アプリの設定';
-  String get myAccount => 'アカウントの設定';
+  String get accountSettings => 'アカウントの設定';
+  String get siteSettings => 'サイトの設定';
+  String get appSettings => 'アプリの設定';
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
   String get licenses => 'ライセンス';
@@ -36,6 +38,7 @@ class AppLocalizations {
   String get siteName => 'サイト名';
   String get displayName => '表示名';
   String get groupMembership => '所属グループ';
+  String get operationLog => '操作ログ';
   // Actions
   String get login => 'ログイン';
   String get logout => 'ログアウト';
@@ -52,6 +55,7 @@ class AppLocalizations {
   String get forgetYourPassword => 'パスワードを忘れた場合';
   String get send => '送信';
   String get warning => '警告';
+  String get showMore => '続きを見る';
   // Errors
   String get authFailed => '認証に失敗しました。';
   String get systemError => 'システムエラーです。';

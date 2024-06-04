@@ -114,6 +114,10 @@ class LoginSection extends HookConsumerWidget {
                       controller.set(
                         showBottomSheet(
                           context: context,
+                          constraints: const BoxConstraints(
+                            minWidth: contentWidth,
+                            maxWidth: contentWidth,
+                          ),
                           builder: (context) => ResetPasswordSheet(
                             title: t.forgetYourPassword,
                             email: email.value,

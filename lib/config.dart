@@ -123,10 +123,12 @@ const iconTextGap = baseSize * 0.5;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
+const contentWidth = baseSize * 54;
 
 const sectionHeaderHeight = baseSize * 2.8;
 
 const listItemHeight = baseSize * 2.8;
+const listItemHeightWithSubtitle = baseSize * 4;
 Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
     ? Theme.of(context).colorScheme.surfaceContainer
     : Theme.of(context).colorScheme.surface;
@@ -176,3 +178,7 @@ String generatePassword() {
   }
   return password;
 }
+
+bool validateEmail(email) => RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(email);
