@@ -10,8 +10,8 @@ import '../../providers/account_repository.dart';
 import '../../providers/log_repository.dart';
 import '../app_localizations.dart';
 
-class LogoutSheet extends HookConsumerWidget {
-  const LogoutSheet({super.key});
+class LogoutForm extends HookConsumerWidget {
+  const LogoutForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

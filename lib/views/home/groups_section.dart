@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../config.dart';
 import '../../providers/groups_repository.dart';
-import '../widgets/modal_item.dart';
+import '../widgets/modal_items_section.dart';
 import '../widgets/section_header.dart';
 import '../app_localizations.dart';
 import 'users_section.dart';
@@ -25,24 +24,19 @@ class GroupsSection extends HookConsumerWidget {
           .map((group) => (title: group.name, data: group)),
     ];
 
-    return SliverFixedExtentList(
-      itemExtent: listItemHeight,
-      delegate: SliverChildBuilderDelegate(
-        childCount: items.length,
-        (BuildContext context, int index) => ModalItems(
-          index: index,
-          height: listItemHeight,
-          title: items[index].title,
-          trailing: const Icon(Icons.more_horiz),
-          child: CustomScrollView(
-            slivers: [
-              SectionHeader(
-                title: t.users,
-                leading: Icons.people,
-              ),
-              UsersSection(group: items[index].data),
-            ],
-          ),
+    return ModalItemsSection(
+      childCount: items.length,
+      item: (index) => ModalItem(
+        title: items[index].title,
+        trailing: const Icon(Icons.more_horiz),
+        child: CustomScrollView(
+          slivers: [
+            SectionHeader(
+              title: t.users,
+              leading: Icons.people,
+            ),
+            UsersSection(group: items[index].data),
+          ],
         ),
       ),
     );

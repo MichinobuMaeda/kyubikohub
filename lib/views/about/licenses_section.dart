@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/license.dart';
-import '../widgets/modal_item.dart';
+import '../widgets/modal_items_section.dart';
 import '../app_localizations.dart';
 
 class LicensesSection extends HookConsumerWidget {
@@ -29,43 +29,36 @@ class LicensesSection extends HookConsumerWidget {
           .toList(),
     );
 
-    return SliverFixedExtentList(
-      itemExtent: listItemHeightWithSubtitle,
-      delegate: SliverChildBuilderDelegate(
-        childCount: entries.data?.length ?? 0,
-        (BuildContext context, int index) => Material(
-          type: MaterialType.transparency,
-          child: ModalItems(
-            index: index,
-            height: listItemHeightWithSubtitle,
-            title: entries.data![index].title,
-            subtitle: entries.data![index].body,
-            trailing: const Icon(Icons.more_horiz),
-            topActions: [
-              IconButton(
-                icon: const Icon(Icons.copy),
-                color: Theme.of(context).colorScheme.onSurface,
-                onPressed: () => copyText(entries.data![index]),
-              ),
-            ],
-            bottomActions: [
-              TextButton(
-                child: Text(t.copy),
-                onPressed: () => copyText(entries.data![index]),
-              ),
-            ],
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    entries.data![index].body,
-                    maxLines: 1000,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
+    return ModalItemsSection(
+      childCount: entries.data?.length ?? 0,
+      height: listItemHeightWithSubtitle,
+      item: (index) => ModalItem(
+        title: entries.data![index].title,
+        subtitle: entries.data![index].body,
+        trailing: const Icon(Icons.more_horiz),
+        topActions: [
+          IconButton(
+            icon: const Icon(Icons.copy),
+            color: Theme.of(context).colorScheme.onSurface,
+            onPressed: () => copyText(entries.data![index]),
+          ),
+        ],
+        bottomActions: [
+          TextButton(
+            child: Text(t.copy),
+            onPressed: () => copyText(entries.data![index]),
+          ),
+        ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: cardItemPadding,
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                entries.data![index].body,
+                maxLines: 1000,
+                style: Theme.of(context).textTheme.bodyMedium,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

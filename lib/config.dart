@@ -68,6 +68,14 @@ Color linkColor(BuildContext context) =>
         ? Colors.blue.shade800
         : Colors.lightBlue.shade300;
 
+const buttonGap = baseSize * 0.75;
+const iconTextGap = baseSize * 0.5;
+const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
+const cardItemPadding = EdgeInsets.all(buttonGap);
+const imagePadding = EdgeInsets.all(baseSize);
+const contentWidth = baseSize * 54;
+const sectionHeaderHeight = baseSize * 2.8;
+
 // Style -- relative settings
 ThemeData themeData(Brightness brightness) {
   final ColorScheme colorScheme = ColorScheme.fromSeed(
@@ -115,17 +123,14 @@ ThemeData themeData(Brightness brightness) {
     inputDecorationTheme: const InputDecorationTheme(
       contentPadding: EdgeInsets.only(top: baseSize / 10),
     ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      constraints: BoxConstraints(
+        minWidth: contentWidth,
+        maxWidth: contentWidth,
+      ),
+    ),
   );
 }
-
-const buttonGap = baseSize * 0.75;
-const iconTextGap = baseSize * 0.5;
-const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
-const cardItemPadding = EdgeInsets.all(buttonGap);
-const imagePadding = EdgeInsets.all(baseSize);
-const contentWidth = baseSize * 54;
-
-const sectionHeaderHeight = baseSize * 2.8;
 
 const listItemHeight = baseSize * 2.8;
 const listItemHeightWithSubtitle = baseSize * 4;

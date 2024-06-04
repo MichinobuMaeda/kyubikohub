@@ -11,11 +11,11 @@ import '../app_localizations.dart';
 import '../widgets/modal_sheet.dart';
 import 'auth_error_message.dart';
 
-class ResetPasswordSheet extends HookConsumerWidget {
+class ResetPasswordForm extends HookConsumerWidget {
   final String title;
   final String? email;
   final TextEditingController _textEditingController = TextEditingController();
-  ResetPasswordSheet({super.key, required this.title, this.email}) {
+  ResetPasswordForm({super.key, required this.title, this.email}) {
     _textEditingController.text = email ?? '';
   }
 

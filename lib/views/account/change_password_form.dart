@@ -10,10 +10,10 @@ import '../../providers/log_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../app_localizations.dart';
 import 'auth_error_message.dart';
-import 'reset_password_sheet.dart';
+import 'reset_password_form.dart';
 
-class ChangePasswordSheet extends HookConsumerWidget {
-  const ChangePasswordSheet({super.key});
+class ChangePasswordForm extends HookConsumerWidget {
+  const ChangePasswordForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -119,11 +119,7 @@ class ChangePasswordSheet extends HookConsumerWidget {
                 controller.set(
                   showBottomSheet(
                     context: context,
-                    constraints: const BoxConstraints(
-                      minWidth: contentWidth,
-                      maxWidth: contentWidth,
-                    ),
-                    builder: (context) => ResetPasswordSheet(
+                    builder: (context) => ResetPasswordForm(
                       title: t.forgetYourPassword,
                       email: getUserEmail(),
                     ),

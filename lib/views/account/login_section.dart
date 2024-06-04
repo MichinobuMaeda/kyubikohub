@@ -9,7 +9,7 @@ import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../app_localizations.dart';
-import 'reset_password_sheet.dart';
+import 'reset_password_form.dart';
 import 'auth_error_message.dart';
 
 class LoginSection extends HookConsumerWidget {
@@ -114,11 +114,7 @@ class LoginSection extends HookConsumerWidget {
                       controller.set(
                         showBottomSheet(
                           context: context,
-                          constraints: const BoxConstraints(
-                            minWidth: contentWidth,
-                            maxWidth: contentWidth,
-                          ),
-                          builder: (context) => ResetPasswordSheet(
+                          builder: (context) => ResetPasswordForm(
                             title: t.forgetYourPassword,
                             email: email.value,
                           ),
