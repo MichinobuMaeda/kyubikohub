@@ -11,8 +11,7 @@ import '../../providers/modal_sheet_controller_provider.dart';
 import '../app_localizations.dart';
 
 class SelectSiteForm extends HookConsumerWidget {
-  final int index;
-  const SelectSiteForm({super.key, this.index = 0});
+  const SelectSiteForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

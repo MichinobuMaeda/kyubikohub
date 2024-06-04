@@ -15,34 +15,29 @@ class AccountSettingsSection extends HookConsumerWidget {
     final t = AppLocalizations.of(context)!;
 
     final items = [
-      (
+      ModalItem(
         title: t.selectSite,
-        leading: Icons.exit_to_app,
-        trailing: Icons.more_horiz,
+        leading: const Icon(Icons.exit_to_app),
+        trailing: const Icon(Icons.more_horiz),
         child: const SelectSiteForm(),
       ),
-      (
+      ModalItem(
         title: t.changePassword,
-        leading: Icons.password,
-        trailing: Icons.more_horiz,
+        leading: const Icon(Icons.password),
+        trailing: const Icon(Icons.more_horiz),
         child: const ChangePasswordForm(),
       ),
-      (
+      ModalItem(
         title: t.logout,
-        leading: Icons.logout,
-        trailing: Icons.more_horiz,
+        leading: const Icon(Icons.logout),
+        trailing: const Icon(Icons.more_horiz),
         child: const LogoutForm(),
       ),
     ];
 
     return ModalItemsSection(
       childCount: items.length,
-      item: (index) => ModalItem(
-        title: items[index].title,
-        leading: Icon(items[index].leading),
-        trailing: Icon(items[index].trailing),
-        child: items[index].child,
-      ),
+      item: (index) => items[index],
     );
   }
 }

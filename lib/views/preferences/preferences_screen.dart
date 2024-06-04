@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/account_repository.dart';
 import '../widgets/section_header.dart';
 import '../app_localizations.dart';
+import 'site_settings_section.dart';
 import 'account_settings_section.dart';
 
 class MeScreen extends HookConsumerWidget {
@@ -21,6 +22,7 @@ class MeScreen extends HookConsumerWidget {
             title: t.siteSettings,
             leading: Icons.build_circle,
           ),
+        if (accountStatus.manager) SiteSettingsSection(),
         SectionHeader(
           title: t.accountSettings,
           leading: Icons.account_circle,

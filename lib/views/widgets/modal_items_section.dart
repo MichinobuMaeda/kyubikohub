@@ -14,6 +14,7 @@ class ModalItem {
   final List<Widget> topActions;
   final List<Widget> bottomActions;
   final bool deleted;
+  final void Function()? initState;
 
   ModalItem({
     required this.title,
@@ -24,6 +25,7 @@ class ModalItem {
     this.topActions = const [],
     this.bottomActions = const [],
     this.deleted = false,
+    this.initState,
   });
 }
 
@@ -80,12 +82,17 @@ class ModalItemsSection extends HookConsumerWidget {
                 hoverColor: listItemsHoverColor(context),
                 tileColor: listItemsStripeColor(context, index),
                 onTap: () {
+                  if (entry.initState != null) {
+                    entry.initState!();
+                  }
                   controller.set(
                     showBottomSheet(
                       context: context,
                       builder: (context) => ModalSheet(
                         title: entry.title,
                         body: entry.child,
+                        topActions: entry.topActions,
+                        bottomActions: entry.bottomActions,
                       ),
                     ),
                   );

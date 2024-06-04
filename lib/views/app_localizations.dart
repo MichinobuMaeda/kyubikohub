@@ -22,6 +22,9 @@ class AppLocalizations {
   String get appSettings => 'アプリの設定';
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
+  String get forGuests => 'ログイン前の案内';
+  String get forMembers => 'ログイン後の案内';
+  String get forMangers => 'サイト管理者向けの案内';
   String get licenses => 'ライセンス';
   String get users => 'メンバー';
   String get groups => 'グループ';

@@ -39,14 +39,13 @@ class LicensesSection extends HookConsumerWidget {
         topActions: [
           IconButton(
             icon: const Icon(Icons.copy),
-            color: Theme.of(context).colorScheme.onSurface,
             onPressed: () => copyText(entries.data![index]),
           ),
         ],
         bottomActions: [
           TextButton(
-            child: Text(t.copy),
             onPressed: () => copyText(entries.data![index]),
+            child: Text(t.copy),
           ),
         ],
         child: SingleChildScrollView(

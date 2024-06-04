@@ -46,11 +46,16 @@ bool isDeleted(
 Future<void> updateDoc(
   DocumentReference<Map<String, dynamic>> docRef,
   Map<String, dynamic> data,
-) =>
+) async {
+  try {
     docRef.update({
       ...data,
       "updatedAt": FieldValue.serverTimestamp(),
     });
+  } catch (e, s) {
+    debugPrint('ERROR   : $e\n${s.toString()}');
+  }
+}
 
 Future<void> deleteDoc(
   DocumentReference<Map<String, dynamic>> docRef,

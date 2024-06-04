@@ -57,7 +57,6 @@ class ModalSheet extends HookConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
-                  color: Theme.of(context).colorScheme.onSurface,
                   onPressed: () => controller.close(),
                 )
               ],
