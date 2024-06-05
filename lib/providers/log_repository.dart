@@ -10,9 +10,9 @@ part 'log_repository.g.dart';
 
 @Riverpod(keepAlive: true)
 Stream<List<Log>> logRepository(
-  LogRepositoryRef ref,
+  LogRepositoryRef ref, {
   String? site,
-) =>
+}) =>
     (site == null
             ? FirebaseFirestore.instance.collection('logs')
             : FirebaseFirestore.instance

@@ -93,14 +93,14 @@ class LoginSection extends HookConsumerWidget {
                           site is Success
                               ? (site as Success<SiteRecord>).data.selected.id
                               : null,
-                          'Login with email: $email',
+                          'Login with email: ${email.value}',
                         );
                       } else {
                         logError(
                           site is Success
                               ? (site as Success<SiteRecord>).data.selected.id
                               : null,
-                          'Login with email: $email, error: $status.value',
+                          'Login with email: ${email.value}, error: $status.value',
                         );
                       }
                     },

@@ -6,7 +6,7 @@ part of 'log_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$logRepositoryHash() => r'5c08917ae4c67cd6fad59d4a7c43fca362c33ed6';
+String _$logRepositoryHash() => r'ac09793f688ef21e95861521b13039799932447f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -39,11 +39,11 @@ class LogRepositoryFamily extends Family<AsyncValue<List<Log>>> {
   const LogRepositoryFamily();
 
   /// See also [logRepository].
-  LogRepositoryProvider call(
+  LogRepositoryProvider call({
     String? site,
-  ) {
+  }) {
     return LogRepositoryProvider(
-      site,
+      site: site,
     );
   }
 
@@ -52,7 +52,7 @@ class LogRepositoryFamily extends Family<AsyncValue<List<Log>>> {
     covariant LogRepositoryProvider provider,
   ) {
     return call(
-      provider.site,
+      site: provider.site,
     );
   }
 
@@ -74,12 +74,12 @@ class LogRepositoryFamily extends Family<AsyncValue<List<Log>>> {
 /// See also [logRepository].
 class LogRepositoryProvider extends StreamProvider<List<Log>> {
   /// See also [logRepository].
-  LogRepositoryProvider(
+  LogRepositoryProvider({
     String? site,
-  ) : this._internal(
+  }) : this._internal(
           (ref) => logRepository(
             ref as LogRepositoryRef,
-            site,
+            site: site,
           ),
           from: logRepositoryProvider,
           name: r'logRepositoryProvider',

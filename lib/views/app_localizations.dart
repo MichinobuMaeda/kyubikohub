@@ -46,6 +46,7 @@ class AppLocalizations {
   String get login => 'ログイン';
   String get logout => 'ログアウト';
   String get copy => 'コピー';
+  String get edit => '編集';
   String get update => '更新';
   String get add => '新規追加';
   String get save => '保存';
