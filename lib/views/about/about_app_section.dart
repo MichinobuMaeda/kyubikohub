@@ -10,7 +10,7 @@ import '../../providers/conf_repository.dart';
 import '../app_localizations.dart';
 
 class AboutAppSection extends HookConsumerWidget {
-  final TextEditingController textController = TextEditingController();
+  final _scrollController = ScrollController();
 
   AboutAppSection({super.key});
 
@@ -91,11 +91,15 @@ $about
                 : Expanded(
                     child: Padding(
                       padding: cardItemPadding,
-                      child: Markdown(
-                        data: about,
-                        padding: const EdgeInsets.all(0.0),
-                        onTapLink: onTapLink,
-                        styleSheet: markdownStyleSheet(context),
+                      child: Scrollbar(
+                        controller: _scrollController,
+                        child: Markdown(
+                          controller: _scrollController,
+                          data: about,
+                          padding: const EdgeInsets.all(0.0),
+                          onTapLink: onTapLink,
+                          styleSheet: markdownStyleSheet(context),
+                        ),
                       ),
                     ),
                   ),

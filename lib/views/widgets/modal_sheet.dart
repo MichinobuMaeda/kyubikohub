@@ -71,7 +71,7 @@ class ModalSheet extends HookConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: baseSize * 0.5),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

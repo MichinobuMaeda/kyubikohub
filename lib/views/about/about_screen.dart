@@ -44,7 +44,7 @@ class AboutScreen extends HookConsumerWidget {
             title: t.guidance,
             leading: Icons.support_agent,
           ),
-        if (isSite) const GuidanceSection(),
+        if (isSite) GuidanceSection(),
         SectionHeader(
           title: t.aboutTheApp,
           leading: Icons.code,

@@ -10,7 +10,9 @@ import '../../providers/account_repository.dart';
 import '../app_localizations.dart';
 
 class GuidanceSection extends HookConsumerWidget {
-  const GuidanceSection({super.key});
+  final _scrollController = ScrollController();
+
+  GuidanceSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -97,11 +99,15 @@ $guide
                               child: Text(t.defaultLoadingMessage),
                             )
                           : Expanded(
-                              child: Markdown(
-                                data: guide,
-                                onTapLink: onTapLink,
-                                padding: cardItemPadding,
-                                styleSheet: markdownStyleSheet(context),
+                              child: Scrollbar(
+                                controller: _scrollController,
+                                child: Markdown(
+                                  controller: _scrollController,
+                                  data: guide,
+                                  onTapLink: onTapLink,
+                                  padding: cardItemPadding,
+                                  styleSheet: markdownStyleSheet(context),
+                                ),
                               ),
                             ),
                     ],

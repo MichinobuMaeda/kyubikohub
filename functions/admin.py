@@ -35,14 +35,33 @@ def create_site(
     else:
         auth_client.create_user(uid=uid, email=email, password=password)
 
+    conf_ref = db.collection("service").document("conf")
+    conf_doc = conf_ref.get()
+
     site_ref = db.collection("sites").document(site_id)
+
+    forGuests = (
+        conf_doc.get("forGuests")
+        if "forGuests" in conf_doc.to_dict()
+        else conf.siteDescForGuests
+    )
+    forMembers = (
+        conf_doc.get("forMembers")
+        if "forMembers" in conf_doc.to_dict()
+        else conf.siteDescForMembers
+    )
+    forMangers = (
+        conf_doc.get("forMangers")
+        if "forMangers" in conf_doc.to_dict()
+        else conf.siteDescForMangers
+    )
 
     site_ref.set(
         {
             "name": site_name,
-            "forGuests": conf.siteDescForGuests,
-            "forMembers": conf.siteDescForMembers,
-            "forMangers": conf.siteDescForMangers,
+            "forGuests": forGuests,
+            "forMembers": forMembers,
+            "forMangers": forMangers,
             "createdAt": firestore.SERVER_TIMESTAMP,
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }

@@ -24,6 +24,10 @@ class ConfRepository extends _$ConfRepository {
           data: Conf(
             uiVersion: getStringValue(doc, "uiVersion"),
             desc: getStringValue(doc, "desc"),
+            forGuests: getStringValue(doc, "forGuests"),
+            forMembers: getStringValue(doc, "forMembers"),
+            forMangers: getStringValue(doc, "forMangers"),
+
           ),
         );
       } catch (e, s) {

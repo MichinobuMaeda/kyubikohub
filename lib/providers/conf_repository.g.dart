@@ -6,7 +6,7 @@ part of 'conf_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$confRepositoryHash() => r'180c3647cbd5daa971d46e21ecc8811b0bf0160e';
+String _$confRepositoryHash() => r'77c38d015d942cba0a41866f14f2f2e40f0737c6';
 
 /// See also [ConfRepository].
 @ProviderFor(ConfRepository)

@@ -5,6 +5,7 @@ from google.cloud import firestore
 import requests
 from admin import create_site
 from test.data import set_test_data
+import conf
 
 
 def _get_deployment_handle(
@@ -32,7 +33,8 @@ def _set_ui_version(
 ):
     print("START : setUiVersion")
     res = requests.get(
-        f"https://{project_id}.web.app/version.json" f"?check={datetime.now().timestamp()}"
+        f"https://{project_id}.web.app/version.json"
+        f"?check={datetime.now().timestamp()}"
     )
     if res.status_code == 200:
         ver = res.json()["version"]
@@ -80,6 +82,39 @@ def _upgrade_data_v1(
     )
 
 
+def _upgrade_data_v2(
+    db: firestore.Client,
+    auth_client: auth.Client,
+    data: dict,
+):
+    conf_ref = db.collection("service").document("conf")
+    conf_doc = conf_ref.get()
+
+    if "forGuests" not in conf_doc.to_dict():
+        conf_ref.update(
+            {
+                "forGuests": conf.siteDescForGuests,
+                "updatedAt": firestore.SERVER_TIMESTAMP,
+            }
+        )
+
+    if "forMembers" not in conf_doc.to_dict():
+        conf_ref.update(
+            {
+                "forMembers": conf.siteDescForMembers,
+                "updatedAt": firestore.SERVER_TIMESTAMP,
+            }
+        )
+
+    if "forMangers" not in conf_doc.to_dict():
+        conf_ref.update(
+            {
+                "forMangers": conf.siteDescForMangers,
+                "updatedAt": firestore.SERVER_TIMESTAMP,
+            }
+        )
+
+
 def _set_data_version(conf_ref, ver: int):
     conf_ref.update(
         {
@@ -114,18 +149,27 @@ def _upgrade_data(
             }
         )
 
-    new_ver = 1
+    upgrades = [
+        _upgrade_data_v1,
+        _upgrade_data_v2,
+    ]
 
-    if cur_ver == new_ver:
-        print("INFO  : skip to upgrade")
-    else:
-        print(f"INFO  : upgrade {cur_ver} to {new_ver}")
+    new_ver = 0
 
-        if cur_ver < 1:
-            _upgrade_data_v1(db=db, auth_client=auth_client, data=data)
-            _set_data_version(conf_ref, 1)
+    for upgrade in upgrades:
+        new_ver = new_ver + 1
+        if cur_ver == new_ver:
+            print("INFO  : skip to upgrade")
+        else:
+            print(f"INFO  : upgrade {cur_ver} to {new_ver}")
+
+            if cur_ver < new_ver:
+                upgrade(db=db, auth_client=auth_client, data=data)
+                _set_data_version(conf_ref, new_ver)
+                cur_ver = new_ver
 
     print("END   : upgrade_data")
+
 
 def deploy(
     db: firestore.Client,

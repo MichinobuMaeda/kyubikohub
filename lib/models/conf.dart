@@ -7,5 +7,8 @@ class Conf with _$Conf {
   const factory Conf({
     required String? uiVersion,
     required String? desc,
+    required String? forGuests,
+    required String? forMembers,
+    required String? forMangers,
   }) = _Conf;
 }

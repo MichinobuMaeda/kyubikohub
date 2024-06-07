@@ -18,6 +18,9 @@ class ConfRepositoryStub extends ConfRepository {
   DataState<Conf> build() => const Success<Conf>(
         data: Conf(
           desc: testDescription,
+          forGuests: '',
+          forMembers: '',
+          forMangers: '',
           uiVersion: '',
         ),
       );

@@ -3,10 +3,12 @@ from unittest.mock import MagicMock, patch, call
 import json
 import os
 from google.cloud import firestore
+import conf
 from deployment import (
     _get_deployment_handle,
     _set_ui_version,
     _upgrade_data_v1,
+    _upgrade_data_v2,
     _set_data_version,
     _upgrade_data,
     deploy,
@@ -186,6 +188,44 @@ class TestMain(unittest.TestCase):
             ]
         )
 
+    def test_upgrade_data_v2(
+        self,
+    ):
+        # Prepare
+        auth_client = MockAuth()
+        db = MockDb()
+        # service/conf
+        conf_snap = db.set_doc("service", "conf", {})
+        conf_snap.reference.update = MagicMock(return_value=None)
+        data = {}
+
+        # Run
+        _upgrade_data_v2(auth_client=auth_client, db=db, data=data)
+
+        # Check
+        conf_snap.reference.update.assert_has_calls(
+            [
+                call(
+                    {
+                        "forGuests": conf.siteDescForGuests,
+                        "updatedAt": firestore.SERVER_TIMESTAMP,
+                    }
+                ),
+                call(
+                    {
+                        "forMembers": conf.siteDescForMembers,
+                        "updatedAt": firestore.SERVER_TIMESTAMP,
+                    }
+                ),
+                call(
+                    {
+                        "forMangers": conf.siteDescForMangers,
+                        "updatedAt": firestore.SERVER_TIMESTAMP,
+                    }
+                ),
+            ]
+        )
+
     def test_set_set_data_version(
         self,
     ):
@@ -208,8 +248,10 @@ class TestMain(unittest.TestCase):
 
     @patch("deployment._set_data_version")
     @patch("deployment._upgrade_data_v1")
+    @patch("deployment._upgrade_data_v2")
     def test_upgrade_data_without_conf(
         self,
+        mock_upgrade_data_v2,
         mock_upgrade_data_v1,
         mock_set_data_version,
     ):
@@ -237,12 +279,22 @@ class TestMain(unittest.TestCase):
         mock_upgrade_data_v1.assert_called_once_with(
             db=db, auth_client=auth_client, data=data
         )
-        mock_set_data_version.assert_called_once_with(conf_snap.reference, 1)
+        mock_upgrade_data_v2.assert_called_once_with(
+            db=db, auth_client=auth_client, data=data
+        )
+        mock_set_data_version.assert_has_calls(
+            [
+                call(conf_snap.reference, 1),
+                call(conf_snap.reference, 2),
+            ]
+        )
 
     @patch("deployment._set_data_version")
     @patch("deployment._upgrade_data_v1")
+    @patch("deployment._upgrade_data_v2")
     def test_upgrade_data_with_conf_data_version_0(
         self,
+        mock_upgrade_data_v2,
         mock_upgrade_data_v1,
         mock_set_data_version,
     ):
@@ -262,12 +314,22 @@ class TestMain(unittest.TestCase):
         mock_upgrade_data_v1.assert_called_once_with(
             db=db, auth_client=auth_client, data=data
         )
-        mock_set_data_version.assert_called_once_with(conf_snap.reference, 1)
+        mock_upgrade_data_v2.assert_called_once_with(
+            db=db, auth_client=auth_client, data=data
+        )
+        mock_set_data_version.assert_has_calls(
+            [
+                call(conf_snap.reference, 1),
+                call(conf_snap.reference, 2),
+            ]
+        )
 
     @patch("deployment._set_data_version")
     @patch("deployment._upgrade_data_v1")
+    @patch("deployment._upgrade_data_v2")
     def test_upgrade_data_with_conf_data_version_1(
         self,
+        mock_upgrade_data_v2,
         mock_upgrade_data_v1,
         mock_set_data_version,
     ):
@@ -285,6 +347,35 @@ class TestMain(unittest.TestCase):
         # Check
         conf_snap.reference.set.assert_not_called()
         mock_upgrade_data_v1.assert_not_called()
+        mock_upgrade_data_v2.assert_called_once_with(
+            db=db, auth_client=auth_client, data=data
+        )
+        mock_set_data_version.assert_called_once_with(conf_snap.reference, 2)
+
+    @patch("deployment._set_data_version")
+    @patch("deployment._upgrade_data_v1")
+    @patch("deployment._upgrade_data_v2")
+    def test_upgrade_data_with_conf_data_version_2(
+        self,
+        mock_upgrade_data_v2,
+        mock_upgrade_data_v1,
+        mock_set_data_version,
+    ):
+        # Prepare
+        auth_client = MockAuth()
+        db = MockDb()
+        # service/conf
+        conf_snap = db.set_doc("service", "conf", {"dataVersion": 2})
+        conf_snap.reference.set = MagicMock(return_value=None)
+        data = {"dummy": "dummy"}
+
+        # Run
+        _upgrade_data(db=db, auth_client=auth_client, data=data)
+
+        # Check
+        conf_snap.reference.set.assert_not_called()
+        mock_upgrade_data_v1.assert_not_called()
+        mock_upgrade_data_v2.assert_not_called()
         mock_set_data_version.assert_not_called()
 
     @patch("deployment._set_ui_version")

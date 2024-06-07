@@ -13,12 +13,12 @@ def is_manager(
     if is_active_doc(site):
         account = site_ref.collection("accounts").document(uid).get()
         if is_active_doc(account) and "user" in account.to_dict():
-            user = account.to_dict()["user"]
+            user = account.get("user")
             managers = site.reference.collection("groups").document("managers").get()
             return (
                 is_active_doc(managers)
                 and "users" in managers.to_dict()
-                and user in managers.to_dict()["users"]
+                and user in managers.get("users")
             )
 
 

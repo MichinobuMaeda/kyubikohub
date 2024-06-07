@@ -89,6 +89,8 @@ class TestMain(unittest.TestCase):
         # Prepare
         auth_client = MockAuth()
         db = MockDb()
+        # service/conf
+        site_snap = db.set_doc("service", "conf", {})
         # sites/site_id
         site_snap = db.set_doc("sites", "site_id", {"name": "Org Name"})
         # sites/site_id/users
@@ -166,6 +168,8 @@ class TestMain(unittest.TestCase):
         # Prepare
         auth_client = MockAuth()
         db = MockDb()
+        # service/conf
+        site_snap = db.set_doc("service", "conf", {})
         # sites/site_id
         site_snap = db.set_doc("sites", "site_id", {"name": "Org Name"})
         # sites/site_id/users
