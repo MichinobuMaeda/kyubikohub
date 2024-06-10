@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/site.dart';
 import '../../providers/firebase_utils.dart';
-import '../widgets/section_header.dart';
 import '../app_localizations.dart';
 
 class SiteForm extends HookConsumerWidget {
