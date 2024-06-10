@@ -47,26 +47,26 @@ GoRouter router(WidgetRef ref) => GoRouter(
               ),
             ),
             GoRoute(
-              name: NavPath.users.param,
+              name: NavPath.user.name,
               path: joinPath(
-                joinPath('/:site', NavPath.users.path),
-                ':${NavPath.users.param}',
+                joinPath('/:site', NavPath.user.path),
+                ':${NavPath.user.param}',
               ),
               pageBuilder: (context, state) => NoTransitionPage(
                 child: UserScreen(
-                  user: state.pathParameters[NavPath.users.param],
+                  user: state.pathParameters[NavPath.user.param],
                 ),
               ),
             ),
             GoRoute(
-              name: NavPath.groups.name,
+              name: NavPath.group.name,
               path: joinPath(
-                joinPath('/:site', NavPath.groups.path),
-                ':${NavPath.groups.param}',
+                joinPath('/:site', NavPath.group.path),
+                ':${NavPath.group.param}',
               ),
               pageBuilder: (context, state) => NoTransitionPage(
                 child: GroupScreen(
-                  group: state.pathParameters[NavPath.groups.param],
+                  group: state.pathParameters[NavPath.group.param],
                 ),
               ),
             ),

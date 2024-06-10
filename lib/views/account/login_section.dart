@@ -114,6 +114,7 @@ class LoginSection extends HookConsumerWidget {
                     onPressed: () {
                       controller.set(
                         showBottomSheet(
+                          backgroundColor: modalColor(context),
                           context: context,
                           builder: (context) => ResetPasswordForm(
                             title: t.forgetYourPassword,

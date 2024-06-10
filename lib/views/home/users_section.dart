@@ -24,10 +24,10 @@ class UsersSection extends HookConsumerWidget {
         .map(
           (user) => (
             title: user.name,
-            name: NavPath.users.param!,
+            name: NavPath.user.name,
             pathParameters: {
               'site': site,
-              NavPath.users.param!: user.id,
+              NavPath.user.param!: user.id,
             },
           ),
         )

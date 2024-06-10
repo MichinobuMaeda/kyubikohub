@@ -145,6 +145,9 @@ Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
 Color listItemsHoverColor(BuildContext context) =>
     Theme.of(context).colorScheme.primaryFixed.withAlpha(64);
 
+Color modalColor(BuildContext context) =>
+    Theme.of(context).colorScheme.tertiaryContainer;
+
 void onTapLink(String text, String? href, String? title) {
   if (href != null && href.trim().isNotEmpty) {
     launchUrl(

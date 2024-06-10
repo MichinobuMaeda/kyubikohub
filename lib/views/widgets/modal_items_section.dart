@@ -88,6 +88,7 @@ class ModalItemsSection extends HookConsumerWidget {
                   controller.set(
                     showBottomSheet(
                       context: context,
+                      backgroundColor: modalColor(context),
                       builder: (context) => ModalSheet(
                         title: entry.title,
                         body: entry.child,

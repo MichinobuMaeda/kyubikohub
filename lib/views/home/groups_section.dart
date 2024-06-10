@@ -31,10 +31,10 @@ class GroupsSection extends HookConsumerWidget {
           .map(
             (group) => (
               title: group.name,
-              name: NavPath.groups.name,
+              name: NavPath.group.name,
               pathParameters: {
                 'site': site,
-                NavPath.groups.param!: group.id,
+                NavPath.group.param!: group.id,
               },
             ),
           ),

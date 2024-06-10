@@ -7,15 +7,18 @@ enum NavPath {
   home(
     name: 'home',
     path: '',
-    param: null,
   ),
   users(
     name: 'users',
     path: 'users',
+  ),
+  user(
+    name: 'user',
+    path: 'users',
     param: 'user',
   ),
-  groups(
-    name: 'groups',
+  group(
+    name: 'group',
     path: 'groups',
     param: 'group',
   ),
