@@ -7,6 +7,17 @@ enum NavPath {
   home(
     name: 'home',
     path: '',
+    param: null,
+  ),
+  users(
+    name: 'users',
+    path: 'users',
+    param: 'user',
+  ),
+  groups(
+    name: 'groups',
+    path: 'groups',
+    param: 'group',
   ),
   preferences(
     name: 'preferences',
@@ -23,9 +34,12 @@ enum NavPath {
 
   final String name;
   final String path;
+  final String? param;
+
   const NavPath({
     required this.name,
     required this.path,
+    this.param,
   });
 }
 

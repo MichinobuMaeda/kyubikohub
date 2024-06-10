@@ -66,7 +66,7 @@ class ModalSheet extends HookConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.all(baseSize * 0.25),
               child: ColoredBox(
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.surfaceContainerLowest,
                 child: body,
               ),
             ),

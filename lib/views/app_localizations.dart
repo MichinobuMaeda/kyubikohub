@@ -59,6 +59,7 @@ class AppLocalizations {
   String get resetPassword => 'パスワード再設定';
   String get forgetYourPassword => 'パスワードを忘れた場合';
   String get send => '送信';
+  String get goBack => '戻る';
   String get warning => '警告';
   String get showMore => '続きを見る';
   // Errors

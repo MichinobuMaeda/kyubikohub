@@ -142,7 +142,7 @@ class Navigation extends HookConsumerWidget {
     List<NavItem> navItems,
     int index,
   ) {
-    context.goNamed(
+    context.pushNamed(
       navItems[index].navPath.name,
       pathParameters: {'site': site ?? ''},
     );

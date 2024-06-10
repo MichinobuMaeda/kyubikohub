@@ -7,7 +7,6 @@ import '../../models/site.dart';
 import '../../providers/firebase_utils.dart';
 import '../widgets/section_header.dart';
 import '../app_localizations.dart';
-import 'logs_section.dart';
 
 class SiteForm extends HookConsumerWidget {
   final Site? site;
@@ -36,16 +35,6 @@ class SiteForm extends HookConsumerWidget {
 
     return CustomScrollView(
       slivers: [
-        if (site != null)
-          SectionHeader(
-            title: t.operationLog,
-            leading: Icons.video_camera_front,
-          ),
-        if (site != null) LogsSection(site: site!.id),
-        SectionHeader(
-          title: t.edit,
-          leading: Icons.edit,
-        ),
         SliverToBoxAdapter(
           child: SizedBox(
             width: double.infinity,

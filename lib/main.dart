@@ -10,6 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 
 import 'views/app_localizations.dart';
 import 'views/router.dart';
@@ -35,6 +36,7 @@ void main() async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
   debugPrint('INFO    : Initializing Firebase.');
   await Firebase.initializeApp(options: firebaseOptions);

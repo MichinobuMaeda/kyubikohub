@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../app_localizations.dart';
 import '../widgets/section_header.dart';
 import 'app_settings_section.dart';
-import 'logs_section.dart';
 import 'sites_section.dart';
 
 class AdminScreen extends HookConsumerWidget {
@@ -17,18 +16,13 @@ class AdminScreen extends HookConsumerWidget {
     return CustomScrollView(
       slivers: [
         SectionHeader(
-          title: t.appSettings,
-          leading: Icons.code,
+          title: Text(t.appSettings),
+          leading: const Icon(Icons.code),
         ),
         AppSettingsSection(),
         SectionHeader(
-          title: t.operationLog,
-          leading: Icons.video_camera_front,
-        ),
-        const LogsSection(),
-        SectionHeader(
-          title: t.sites,
-          leading: Icons.domain,
+          title: Text(t.sites),
+          leading: const Icon(Icons.domain),
         ),
         const SitesSection(),
       ],

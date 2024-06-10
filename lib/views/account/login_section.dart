@@ -26,7 +26,8 @@ class LoginSection extends HookConsumerWidget {
     final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
     return SliverToBoxAdapter(
-      child: SizedBox(
+      child: Container(
+        color: Theme.of(context).colorScheme.surfaceContainerLowest,
         height: baseSize * 20.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -24,7 +24,8 @@ class AboutAppSection extends HookConsumerWidget {
     );
 
     return SliverToBoxAdapter(
-      child: SizedBox(
+      child: Container(
+        color: sectionColor(context),
         height: baseSize * 24.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

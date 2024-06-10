@@ -1,45 +1,43 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/log.dart';
 import 'firebase_utils.dart';
 
-part 'log_repository.g.dart';
+DateTime today() {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);
+}
 
-@Riverpod(keepAlive: true)
-Stream<List<Log>> logRepository(
-  LogRepositoryRef ref, {
-  String? site,
-}) =>
-    (site == null
-            ? FirebaseFirestore.instance.collection('logs')
-            : FirebaseFirestore.instance
-                .collection('sites')
-                .doc(site)
-                .collection('logs'))
-        .orderBy('ts', descending: true)
-        .limit(10)
-        .snapshots()
-        .map(
-          (snap) => snap.docs
-              .map(
-                (doc) => Log(
-                  ts: getDateTimeValue(doc, 'ts') ?? DateTime(1970),
-                  level: LogLevel.values.any(
-                    (v) => v.value == getStringValue(doc, 'user'),
-                  )
-                      ? LogLevel.values.singleWhere(
-                          (v) => v.value == getStringValue(doc, 'user'),
-                        )
-                      : LogLevel.error,
-                  user: getStringValue(doc, 'user') ?? '',
-                  message: getStringValue(doc, 'message') ?? '',
-                ),
-              )
-              .toList(),
-        );
+Future<List<Log>> getLog(String? site, DateTime date) async {
+  return (await (site == null
+              ? FirebaseFirestore.instance.collection('logs')
+              : FirebaseFirestore.instance
+                  .collection('sites')
+                  .doc(site)
+                  .collection('logs'))
+          .where('ts', isGreaterThanOrEqualTo: date)
+          .where('ts', isLessThan: date.add(const Duration(days: 1)))
+          .orderBy('ts', descending: true)
+          .get())
+      .docs
+      .map(
+        (doc) => Log(
+          ts: getDateTimeValue(doc, 'ts') ?? DateTime(1970),
+          level: LogLevel.values.any(
+            (v) => v.value == getStringValue(doc, 'user'),
+          )
+              ? LogLevel.values.singleWhere(
+                  (v) => v.value == getStringValue(doc, 'user'),
+                )
+              : LogLevel.error,
+          user: getStringValue(doc, 'user') ?? '',
+          message: getStringValue(doc, 'message') ?? '',
+        ),
+      )
+      .toList();
+}
 
 Future<void> logAppError(String message) =>
     setLog(null, LogLevel.error, message);

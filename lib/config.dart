@@ -134,9 +134,13 @@ ThemeData themeData(Brightness brightness) {
 
 const listItemHeight = baseSize * 2.8;
 const listItemHeightWithSubtitle = baseSize * 4;
+
+Color sectionColor(BuildContext context) =>
+    Theme.of(context).colorScheme.surfaceContainerLowest;
+
 Color listItemsStripeColor(BuildContext context, int index) => index.isOdd
-    ? Theme.of(context).colorScheme.surfaceContainer
-    : Theme.of(context).colorScheme.surface;
+    ? Theme.of(context).colorScheme.surfaceContainerLow.withAlpha(192)
+    : sectionColor(context);
 
 Color listItemsHoverColor(BuildContext context) =>
     Theme.of(context).colorScheme.primaryFixed.withAlpha(64);

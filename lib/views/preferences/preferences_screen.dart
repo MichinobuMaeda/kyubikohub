@@ -19,13 +19,13 @@ class MeScreen extends HookConsumerWidget {
       slivers: [
         if (accountStatus.manager)
           SectionHeader(
-            title: t.siteSettings,
-            leading: Icons.build_circle,
+            title: Text(t.siteSettings),
+            leading: const Icon(Icons.build_circle),
           ),
         if (accountStatus.manager) SiteSettingsSection(),
         SectionHeader(
-          title: t.accountSettings,
-          leading: Icons.account_circle,
+          title: Text(t.accountSettings),
+          leading: const Icon(Icons.account_circle),
         ),
         const AccountSettingsSection(),
       ],

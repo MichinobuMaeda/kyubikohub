@@ -6,6 +6,8 @@ import '../config.dart';
 import '../models/nav_item.dart';
 import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
+import 'home/user_screen.dart';
+import 'home/group_screen.dart';
 import 'about/about_screen.dart';
 import 'admin/admin_screen.dart';
 import 'preferences/preferences_screen.dart';
@@ -35,6 +37,37 @@ GoRouter router(WidgetRef ref) => GoRouter(
               path: joinPath('/:site', NavPath.home.path),
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: HomeScreen(),
+              ),
+            ),
+            GoRoute(
+              name: NavPath.users.name,
+              path: joinPath('/:site', NavPath.users.path),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: GroupScreen(),
+              ),
+            ),
+            GoRoute(
+              name: NavPath.users.param,
+              path: joinPath(
+                joinPath('/:site', NavPath.users.path),
+                ':${NavPath.users.param}',
+              ),
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: UserScreen(
+                  user: state.pathParameters[NavPath.users.param],
+                ),
+              ),
+            ),
+            GoRoute(
+              name: NavPath.groups.name,
+              path: joinPath(
+                joinPath('/:site', NavPath.groups.path),
+                ':${NavPath.groups.param}',
+              ),
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: GroupScreen(
+                  group: state.pathParameters[NavPath.groups.param],
+                ),
               ),
             ),
             GoRoute(

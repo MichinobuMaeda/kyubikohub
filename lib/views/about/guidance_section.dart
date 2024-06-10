@@ -40,7 +40,8 @@ ${site.data.selected.forGuests}
         : null;
 
     return SliverToBoxAdapter(
-      child: SizedBox(
+      child: Container(
+        color: sectionColor(context),
         height: baseSize * 24.0,
         child: switch (site) {
           Loading() => Padding(

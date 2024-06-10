@@ -5,26 +5,32 @@ import '../../config.dart';
 
 // https://stackoverflow.com/questions/53085311/sticky-headers-on-sliverlist
 class SectionHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final String title;
-  final IconData? leading;
+  final Color? color;
   final double height;
+  final ListTile item;
 
   SectionHeaderDelegate({
-    required this.height,
-    required this.title,
-    this.leading,
-  });
+    this.color,
+    this.height = sectionHeaderHeight,
+    required Widget title,
+    Widget? leading,
+    Widget? trailing,
+    void Function()? onTap,
+  }) : item = ListTile(
+          leading: leading,
+          trailing: trailing,
+          title: title,
+          style: ListTileStyle.list,
+          onTap: onTap,
+        );
 
   @override
   Widget build(context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Theme.of(context).colorScheme.secondaryContainer,
+      color: color ??
+          Theme.of(context).colorScheme.primaryContainer.withAlpha(224),
       height: sectionHeaderHeight,
-      child: ListTile(
-        leading: Icon(leading),
-        title: Text(title),
-        style: ListTileStyle.list,
-      ),
+      child: item,
     );
   }
 
@@ -39,23 +45,28 @@ class SectionHeaderDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SectionHeader extends HookConsumerWidget {
-  final String title;
-  final IconData? leading;
-  final double height;
-  const SectionHeader({
+  final SectionHeaderDelegate delegate;
+
+  SectionHeader({
     super.key,
-    required this.title,
-    this.leading,
-    this.height = sectionHeaderHeight,
-  });
+    double height = sectionHeaderHeight,
+    required Widget title,
+    Widget? leading,
+    Widget? trailing,
+    Color? color,
+    void Function()? onTap,
+  }) : delegate = SectionHeaderDelegate(
+          height: height,
+          title: title,
+          leading: leading,
+          trailing: trailing,
+          color: color,
+          onTap: onTap,
+        );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => SliverPersistentHeader(
         pinned: true,
-        delegate: SectionHeaderDelegate(
-          title: title,
-          leading: leading,
-          height: height,
-        ),
+        delegate: delegate,
       );
 }

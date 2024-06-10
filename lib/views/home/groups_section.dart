@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/data_state.dart';
+import '../../models/nav_item.dart';
+import '../../providers/account_repository.dart';
 import '../../providers/groups_repository.dart';
-import '../widgets/modal_items_section.dart';
-import '../widgets/section_header.dart';
+import '../widgets/link_items_section.dart';
 import '../app_localizations.dart';
-import 'users_section.dart';
 
 class GroupsSection extends HookConsumerWidget {
   final String? user;
@@ -14,30 +15,38 @@ class GroupsSection extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final items = [
-      (title: t.allMembers, data: null),
-      ...(user == null
-              ? ref.watch(groupsRepositoryProvider)
-              : ref
-                  .watch(groupsRepositoryProvider)
-                  .where((group) => group.users.contains(user)))
-          .map((group) => (title: group.name, data: group)),
+    final account = ref.watch(accountRepositoryProvider);
+    final site = (account is Success<Account?>) ? account.data?.site ?? '' : '';
+    final groups = [
+      (
+        title: t.allMembers,
+        name: NavPath.users.name,
+        pathParameters: {'site': site},
+      ),
+      ...ref
+          .watch(groupsRepositoryProvider)
+          .where(
+            (group) => user == null || group.users.contains(user),
+          )
+          .map(
+            (group) => (
+              title: group.name,
+              name: NavPath.groups.name,
+              pathParameters: {
+                'site': site,
+                NavPath.groups.param!: group.id,
+              },
+            ),
+          ),
     ];
 
-    return ModalItemsSection(
-      childCount: items.length,
-      item: (index) => ModalItem(
-        title: items[index].title,
+    return LinkItemsSection(
+      childCount: groups.length,
+      item: (index) => LinkItem(
+        title: groups[index].title,
         trailing: const Icon(Icons.more_horiz),
-        child: CustomScrollView(
-          slivers: [
-            SectionHeader(
-              title: t.users,
-              leading: Icons.people,
-            ),
-            UsersSection(group: items[index].data),
-          ],
-        ),
+        name: groups[index].name,
+        pathParameters: groups[index].pathParameters,
       ),
     );
   }

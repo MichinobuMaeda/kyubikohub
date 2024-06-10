@@ -16,13 +16,13 @@ class HomeScreen extends HookConsumerWidget {
     return CustomScrollView(
       slivers: [
         SectionHeader(
-          title: t.notices,
-          leading: Icons.notifications,
+          title: Text(t.notices),
+          leading: const Icon(Icons.notifications),
         ),
         const NoticesSection(),
         SectionHeader(
-          title: t.groups,
-          leading: Icons.people,
+          title: Text(t.groups),
+          leading: const Icon(Icons.people),
         ),
         const GroupsSection(),
       ],
