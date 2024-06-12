@@ -86,6 +86,7 @@ ThemeData themeData(Brightness brightness) {
     fontSize: baseSize * 0.9,
     fontWeight: FontWeight.normal,
     color: colorScheme.onSurface,
+    fontFamily: defaultFontFamily,
   );
   final bodyMedium = bodySmall.copyWith(fontSize: baseSize);
   final bodyLarge = bodyMedium.copyWith(fontSize: baseSize * 1.1);
