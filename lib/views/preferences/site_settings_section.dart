@@ -7,7 +7,7 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/firebase_utils.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../widgets/modal_items_section.dart';
+import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 
 class SiteSettingsSection extends HookConsumerWidget {
@@ -68,7 +68,7 @@ class SiteSettingsSection extends HookConsumerWidget {
           },
         ),
       ].map(
-        (item) => ModalItem(
+        (item) => ModalSheetItemProps(
           title: item.title,
           trailing: const Icon(Icons.edit),
           initState: () {
@@ -107,9 +107,9 @@ class SiteSettingsSection extends HookConsumerWidget {
       ),
     ];
 
-    return ModalItemsSection(
+    return ListItemsSection(
       childCount: items.length,
-      item: (index) => items[index],
+      items: (index) => items[index],
     );
   }
 }

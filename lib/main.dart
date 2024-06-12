@@ -57,7 +57,7 @@ void main() async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   if (isTest) {
-    await prefs.remove('site');
+    await prefs.remove(LocalStorageKey.site.name);
   }
 
   debugPrint('INFO    : Show Widgets.');

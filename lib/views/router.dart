@@ -10,6 +10,7 @@ import 'home/user_screen.dart';
 import 'home/group_screen.dart';
 import 'about/about_screen.dart';
 import 'admin/admin_screen.dart';
+import 'admin/logs_screen.dart';
 import 'preferences/preferences_screen.dart';
 import 'navigation.dart';
 
@@ -17,10 +18,13 @@ GoRouter router(WidgetRef ref) => GoRouter(
       routes: [
         ShellRoute(
           builder: (context, state, child) {
-            final (site, navPath) = getNavPath(state);
             return Navigation(
-              site: site,
-              navPath: navPath,
+              site: state.uri.pathSegments.isNotEmpty
+                  ? state.uri.pathSegments[0]
+                  : null,
+              path: state.uri.pathSegments.length >= 2
+                  ? state.uri.pathSegments[1]
+                  : null,
               child: child,
             );
           },
@@ -37,6 +41,18 @@ GoRouter router(WidgetRef ref) => GoRouter(
               path: joinPath('/:site', NavPath.home.path),
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: HomeScreen(),
+              ),
+            ),
+            GoRoute(
+              name: NavPath.group.name,
+              path: joinPath(
+                joinPath('/:site', NavPath.group.path),
+                ':${NavPath.group.param}',
+              ),
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: GroupScreen(
+                  group: state.pathParameters[NavPath.group.param],
+                ),
               ),
             ),
             GoRoute(
@@ -59,15 +75,10 @@ GoRouter router(WidgetRef ref) => GoRouter(
               ),
             ),
             GoRoute(
-              name: NavPath.group.name,
-              path: joinPath(
-                joinPath('/:site', NavPath.group.path),
-                ':${NavPath.group.param}',
-              ),
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: GroupScreen(
-                  group: state.pathParameters[NavPath.group.param],
-                ),
+              name: NavPath.logs.name,
+              path: joinPath('/:site', NavPath.logs.path),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: LogsScreen(),
               ),
             ),
             GoRoute(
@@ -100,16 +111,6 @@ GoRouter router(WidgetRef ref) => GoRouter(
 String joinPath(String basePath, String subPath) =>
     subPath.isEmpty ? basePath : [basePath, subPath].join('/');
 
-(String?, NavPath?) getNavPath(GoRouterState state) {
-  final site = state.pathParameters['site'];
-  if (site == null) {
-    return (null, null);
-  }
-  final path =
-      state.uri.pathSegments.length < 2 ? '' : state.uri.pathSegments[1];
-  return (site, NavPath.values.firstWhere((navItem) => navItem.path == path));
-}
-
 @visibleForTesting
 Future<String?> guardPath(GoRouterState state, WidgetRef ref) async {
   final resAdmin = guardAdmin(state);
@@ -121,7 +122,7 @@ Future<String?> guardPath(GoRouterState state, WidgetRef ref) async {
 
 @visibleForTesting
 String? guardAdmin(GoRouterState state) {
-  final paramSite = state.pathParameters['site'];
+  final paramSite = state.pathParameters[paramSiteName];
 
   if (paramSite != null && paramSite != adminsSiteId) {
     final locationAdmin = state.namedLocation(

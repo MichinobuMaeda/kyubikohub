@@ -8,7 +8,7 @@ import '../app_localizations.dart';
 import '../account/select_site_form.dart';
 import '../account/login_section.dart';
 import '../widgets/section_header.dart';
-import '../widgets/modal_items_section.dart';
+import '../widgets/list_items_section.dart';
 import 'guidance_section.dart';
 import 'about_app_section.dart';
 import 'licenses_section.dart';
@@ -39,9 +39,9 @@ class AboutScreen extends HookConsumerWidget {
           ),
         if (isSite && !isMember) const LoginSection(),
         if (!isMember)
-          ModalItemsSection(
+          ListItemsSection(
             childCount: 1,
-            item: (index) => ModalItem(
+            items: (index) => ModalSheetItemProps(
               title: t.selectSite,
               leading: const Icon(Icons.exit_to_app),
               trailing: const Icon(Icons.more_horiz),

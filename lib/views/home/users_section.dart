@@ -6,7 +6,7 @@ import '../../models/group.dart';
 import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/users_repository.dart';
-import '../widgets/link_items_section.dart';
+import '../widgets/list_items_section.dart';
 
 class UsersSection extends HookConsumerWidget {
   final Group? group;
@@ -25,17 +25,17 @@ class UsersSection extends HookConsumerWidget {
           (user) => (
             title: user.name,
             name: NavPath.user.name,
-            pathParameters: {
-              'site': site,
-              NavPath.user.param!: user.id,
-            },
+            pathParameters: NavPath.user.pathParameters(
+              site: site,
+              param: user.id,
+            ),
           ),
         )
         .toList();
 
-    return LinkItemsSection(
+    return ListItemsSection(
       childCount: users.length,
-      item: (index) => LinkItem(
+      items: (index) => LinkItemProps(
         title: users[index].title,
         trailing: const Icon(Icons.more_horiz),
         name: users[index].name,

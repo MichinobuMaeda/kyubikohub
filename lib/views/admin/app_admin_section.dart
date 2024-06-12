@@ -5,21 +5,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/conf.dart';
+import '../../models/nav_item.dart';
 import '../../providers/conf_repository.dart';
+import '../../providers/account_repository.dart';
 import '../../providers/firebase_utils.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../widgets/modal_items_section.dart';
+import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 
-class AppSettingsSection extends HookConsumerWidget {
+class AppAdminSection extends HookConsumerWidget {
   final TextEditingController _editDescController = TextEditingController();
-  AppSettingsSection({super.key});
+  AppAdminSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
     final controller = ref.read(modalSheetControllerProviderProvider.notifier);
     final conf = (ref.watch(confRepositoryProvider) as Success<Conf>);
+    final account = ref.watch(accountRepositoryProvider);
+    final site = (account is Success<Account?>) ? account.data?.site ?? '' : '';
     final desc = useState(conf.data.desc ?? '');
     final forGuests = useState(conf.data.forGuests ?? '');
     final forMembers = useState(conf.data.forMembers ?? '');
@@ -57,7 +61,7 @@ class AppSettingsSection extends HookConsumerWidget {
           save: () => save('forMangers', forMangers),
         ),
       ].map(
-        (item) => ModalItem(
+        (item) => ModalSheetItemProps(
           title: item.title,
           trailing: const Icon(Icons.edit),
           initState: () {
@@ -94,11 +98,18 @@ class AppSettingsSection extends HookConsumerWidget {
           ),
         ),
       ),
+      LinkItemProps(
+        title: t.operationLog,
+        leading: const Icon(Icons.history),
+        trailing: const Icon(Icons.more_horiz),
+        name: NavPath.logs.name,
+        pathParameters: NavPath.logs.pathParameters(site: site)
+      ),
     ];
 
-    return ModalItemsSection(
+    return ListItemsSection(
       childCount: items.length,
-      item: (index) => items[index],
+      items: (index) => items[index],
     );
   }
 }

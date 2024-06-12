@@ -3,10 +3,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'nav_item.freezed.dart';
 
+const paramSiteName = 'site';
+
 enum NavPath {
   home(
     name: 'home',
     path: '',
+  ),
+  group(
+    name: 'group',
+    path: 'groups',
+    param: 'group',
   ),
   users(
     name: 'users',
@@ -16,11 +23,6 @@ enum NavPath {
     name: 'user',
     path: 'users',
     param: 'user',
-  ),
-  group(
-    name: 'group',
-    path: 'groups',
-    param: 'group',
   ),
   preferences(
     name: 'preferences',
@@ -33,6 +35,10 @@ enum NavPath {
   admin(
     name: 'admin',
     path: 'admin',
+  ),
+  logs(
+    name: 'logs',
+    path: 'logs',
   );
 
   final String name;
@@ -44,6 +50,19 @@ enum NavPath {
     required this.path,
     this.param,
   });
+
+  Map<String, String> pathParameters({
+    required String site,
+    String? param,
+  }) =>
+      param == null || this.param == null
+          ? {
+              paramSiteName: site,
+            }
+          : {
+              paramSiteName: site,
+              this.param!: param,
+            };
 }
 
 @freezed

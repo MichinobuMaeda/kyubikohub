@@ -13,12 +13,12 @@ import 'app_localizations.dart';
 class Navigation extends HookConsumerWidget {
   final Widget child;
   final String? site;
-  final NavPath? navPath;
+  final String? path;
 
   const Navigation({
     super.key,
     required this.site,
-    required this.navPath,
+    required this.path,
     required this.child,
   });
 
@@ -30,6 +30,7 @@ class Navigation extends HookConsumerWidget {
     final accountStatus = ref.watch(accountStatusProvider);
     final isMember = accountStatus.account != null;
     final showNav = site != null && isMember;
+    final navPath = getNavPath(path);
 
     final navItems = [
       NavItem(
@@ -144,7 +145,29 @@ class Navigation extends HookConsumerWidget {
   ) {
     context.pushNamed(
       navItems[index].navPath.name,
-      pathParameters: {'site': site ?? ''},
+      pathParameters: navItems[index].navPath.pathParameters(site: site ?? ''),
     );
   }
 }
+
+NavPath getNavPath(String? path) => [
+      NavPath.home.path,
+      NavPath.group.path,
+      NavPath.users.path,
+      NavPath.user.path,
+    ].contains(path)
+        ? NavPath.home
+        : [
+            NavPath.preferences.path,
+          ].contains(path)
+            ? NavPath.preferences
+            : [
+                NavPath.about.path,
+              ].contains(path)
+                ? NavPath.about
+                : [
+                    NavPath.admin.path,
+                    NavPath.logs.path,
+                  ].contains(path)
+                    ? NavPath.admin
+                    : NavPath.home;

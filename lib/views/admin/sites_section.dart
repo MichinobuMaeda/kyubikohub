@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
-import '../widgets/modal_items_section.dart';
+import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 import 'site_form.dart';
 
@@ -31,9 +31,9 @@ class SitesSection extends HookConsumerWidget {
               )),
     ];
 
-    return ModalItemsSection(
+    return ListItemsSection(
       childCount: sites.length,
-      item: (index) => ModalItem(
+      items: (index) => ModalSheetItemProps(
         title: sites[index].title ?? t.add,
         deleted: sites[index].deleted,
         trailing: Icon(sites[index].data == null ? Icons.add : Icons.edit),

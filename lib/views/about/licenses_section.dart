@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../models/license.dart';
-import '../widgets/modal_items_section.dart';
+import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 
 class LicensesSection extends HookConsumerWidget {
@@ -29,10 +29,10 @@ class LicensesSection extends HookConsumerWidget {
           .toList(),
     );
 
-    return ModalItemsSection(
+    return ListItemsSection(
       childCount: entries.data?.length ?? 0,
       height: listItemHeightWithSubtitle,
-      item: (index) => ModalItem(
+      items: (index) => ModalSheetItemProps(
         title: entries.data![index].title,
         subtitle: entries.data![index].body,
         trailing: const Icon(Icons.more_horiz),

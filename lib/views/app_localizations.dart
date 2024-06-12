@@ -19,7 +19,8 @@ class AppLocalizations {
   String get preferences => 'アプリの設定';
   String get accountSettings => 'アカウントの設定';
   String get siteSettings => 'サイトの設定';
-  String get appSettings => 'アプリの設定';
+  String get siteAdmin => 'サイトの管理';
+  String get appAdmin => 'アプリの管理';
   String get guidance => 'ご案内';
   String get aboutTheApp => 'アプリについて';
   String get forGuests => 'ログイン前の案内';

@@ -5,7 +5,7 @@ import '../../models/data_state.dart';
 import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/groups_repository.dart';
-import '../widgets/link_items_section.dart';
+import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 
 class GroupsSection extends HookConsumerWidget {
@@ -21,7 +21,7 @@ class GroupsSection extends HookConsumerWidget {
       (
         title: t.allMembers,
         name: NavPath.users.name,
-        pathParameters: {'site': site},
+        pathParameters: NavPath.users.pathParameters(site: site),
       ),
       ...ref
           .watch(groupsRepositoryProvider)
@@ -32,17 +32,17 @@ class GroupsSection extends HookConsumerWidget {
             (group) => (
               title: group.name,
               name: NavPath.group.name,
-              pathParameters: {
-                'site': site,
-                NavPath.group.param!: group.id,
-              },
+              pathParameters: NavPath.group.pathParameters(
+                site: site,
+                param: group.id,
+              ),
             ),
           ),
     ];
 
-    return LinkItemsSection(
+    return ListItemsSection(
       childCount: groups.length,
-      item: (index) => LinkItem(
+      items: (index) => LinkItemProps(
         title: groups[index].title,
         trailing: const Icon(Icons.more_horiz),
         name: groups[index].name,
