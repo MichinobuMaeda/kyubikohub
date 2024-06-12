@@ -74,7 +74,10 @@ const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
 const imagePadding = EdgeInsets.all(baseSize);
 const contentWidth = baseSize * 54;
-const sectionHeaderHeight = baseSize * 2.8;
+
+const listItemHeight = baseSize * 3.0;
+const listItemHeightWithSubtitle = baseSize * 4.4;
+const sectionHeaderHeight = listItemHeight;
 
 // Style -- relative settings
 ThemeData themeData(Brightness brightness) {
@@ -132,9 +135,6 @@ ThemeData themeData(Brightness brightness) {
     ),
   );
 }
-
-const listItemHeight = baseSize * 2.8;
-const listItemHeightWithSubtitle = baseSize * 4;
 
 Color sectionColor(BuildContext context) =>
     Theme.of(context).colorScheme.surfaceContainerLowest;
