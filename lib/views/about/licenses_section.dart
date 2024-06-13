@@ -3,11 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../config.dart';
-import '../../models/license.dart';
 import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
+
+typedef LicenseRecord = ({String title, String body});
+
+Future<List<LicenseRecord>> listLicense() async {
+  final list = <LicenseRecord>[];
+  await LicenseRegistry.licenses.forEach((entry) {
+    final title = entry.packages.toList().join(', ');
+    final body = entry.paragraphs.map((p) => p.text.trim()).join('\n\n');
+    if (list.any((item) => item.title == title)) {
+      final index = list.indexWhere((item) => item.title == title);
+      list[index] = (title: title, body: '${list[index].body}\n\n$body');
+    } else {
+      list.add((title: title, body: body));
+    }
+  });
+  return list;
+}
 
 class LicensesSection extends HookConsumerWidget {
   const LicensesSection({super.key});
@@ -15,19 +32,8 @@ class LicensesSection extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final entries = useFuture(
-      LicenseRegistry.licenses
-          .map(
-            (entry) => License(
-              title: entry.packages.toList().join(', '),
-              body: entry.paragraphs
-                  .toList()
-                  .map((p) => p.text.trim())
-                  .join('\n\n'),
-            ),
-          )
-          .toList(),
-    );
+    final licenseList = useMemoized(() => listLicense());
+    final entries = useFuture(licenseList);
 
     return ListItemsSection(
       childCount: entries.data?.length ?? 0,
@@ -55,8 +61,10 @@ class LicensesSection extends HookConsumerWidget {
               width: double.infinity,
               child: Text(
                 entries.data![index].body,
-                maxLines: 1000,
-                style: Theme.of(context).textTheme.bodyMedium,
+                maxLines: 10000,
+                style: GoogleFonts.courierPrime(
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -66,7 +74,7 @@ class LicensesSection extends HookConsumerWidget {
     );
   }
 
-  void copyText(License license) => Clipboard.setData(
+  void copyText(LicenseRecord license) => Clipboard.setData(
         ClipboardData(text: '${license.title}\n\n${license.body}'),
       );
 }

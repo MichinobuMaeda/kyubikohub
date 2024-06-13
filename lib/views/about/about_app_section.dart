@@ -10,9 +10,7 @@ import '../../providers/conf_repository.dart';
 import '../app_localizations.dart';
 
 class AboutAppSection extends HookConsumerWidget {
-  final _scrollController = ScrollController();
-
-  AboutAppSection({super.key});
+  const AboutAppSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,91 +20,87 @@ class AboutAppSection extends HookConsumerWidget {
         (conf) => (conf is Success<Conf>) ? conf.data.desc : null,
       ),
     );
+    const cardHeight = baseSize * 6.0;
 
-    return SliverToBoxAdapter(
-      child: Container(
-        color: sectionColor(context),
-        height: baseSize * 24.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Card(
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        height: baseSize * 6,
-                        width: baseSize * 6,
-                        child: Center(
-                          child: Padding(
-                            padding: imagePadding,
-                            child: Image(image: assetImageLogo),
-                          ),
+    return SliverList.list(
+      children: [
+        Container(
+          color: Theme.of(context).colorScheme.surface,
+          height: cardHeight,
+          child: Stack(
+            children: [
+              Card(
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      height: cardHeight,
+                      width: cardHeight,
+                      child: Center(
+                        child: Padding(
+                          padding: imagePadding,
+                          child: Image(image: assetImageLogo),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            appTitle,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Text(
-                            '${t.version}: $version',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        const SizedBox(height: buttonGap),
+                        Text(
+                          appTitle,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          '${t.version}: $version',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: cardItemPadding,
-                      child: IconButton(
-                        icon: const Icon(Icons.copy),
-                        color: Theme.of(context).colorScheme.outline,
-                        onPressed: () => Clipboard.setData(
-                          ClipboardData(text: '''
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: cardItemPadding,
+                    child: IconButton(
+                      icon: const Icon(Icons.copy),
+                      color: Theme.of(context).colorScheme.outline,
+                      onPressed: () => Clipboard.setData(
+                        ClipboardData(text: '''
 # $appTitle
 
 ${t.version}: $version
 
 $about
 '''),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            about == null
-                ? Padding(
-                    padding: cardItemPadding,
-                    child: Text(t.defaultLoadingMessage),
-                  )
-                : Expanded(
-                    child: Padding(
-                      padding: cardItemPadding,
-                      child: Scrollbar(
-                        controller: _scrollController,
-                        child: Markdown(
-                          controller: _scrollController,
-                          data: about,
-                          padding: const EdgeInsets.all(0.0),
-                          onTapLink: onTapLink,
-                          styleSheet: markdownStyleSheet(context),
-                        ),
                       ),
                     ),
                   ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
+        Padding(
+          padding: cardItemPaddingHalf.copyWith(top: 0.0),
+          child: ColoredBox(
+            color: sectionColor(context),
+            child: Padding(
+              padding: cardItemPaddingHalf,
+              child: about == null
+                  ? Text(t.defaultLoadingMessage)
+                  : MarkdownBody(
+                      // controller: _scrollController,
+                      data: about,
+                      // padding: const EdgeInsets.all(0.0),
+                      onTapLink: onTapLink,
+                      styleSheet: markdownStyleSheet(context),
+                    ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

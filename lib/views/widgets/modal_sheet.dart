@@ -31,7 +31,7 @@ class ModalSheet extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(
               baseSize * 1.5, // Left
-              baseSize * 0.25, // Top
+              baseSize * 1.0, // Top
               baseSize * 0.5, // Right
               baseSize * 0.25, // Bottom
             ),
@@ -71,7 +71,6 @@ class ModalSheet extends HookConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: baseSize * 0.5),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

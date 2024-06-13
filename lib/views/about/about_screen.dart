@@ -19,11 +19,9 @@ class AboutScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context)!;
-    final isMember = ref.watch(
-      accountStatusProvider.select(
-        (accountStatus) => accountStatus.account != null,
-      ),
-    );
+    final account = ref.watch(accountRepositoryProvider);
+    final isLoading = account is Loading<Account?>;
+    final isMember = account is Success<Account?> && account.data != null;
     final bool isSite = ref.watch(
       siteRepositoryProvider.select(
         (site) => site is Success<SiteRecord>,
@@ -32,12 +30,12 @@ class AboutScreen extends HookConsumerWidget {
 
     return CustomScrollView(
       slivers: [
-        if (isSite && !isMember)
+        if (!isLoading && !isMember && isSite)
           SectionHeader(
             title: Text(t.login),
             leading: const Icon(Icons.login),
           ),
-        if (isSite && !isMember) const LoginSection(),
+        if (!isLoading && !isMember && isSite) const LoginSection(),
         if (!isMember)
           ListItemsSection(
             childCount: 1,
@@ -53,12 +51,12 @@ class AboutScreen extends HookConsumerWidget {
             title: Text(t.guidance),
             leading: const Icon(Icons.support_agent),
           ),
-        if (isSite) GuidanceSection(),
+        if (isSite) const GuidanceSection(),
         SectionHeader(
           title: Text(t.aboutTheApp),
           leading: const Icon(Icons.code),
         ),
-        AboutAppSection(),
+        const AboutAppSection(),
         SectionHeader(
           title: Text(t.licenses),
           leading: const Icon(Icons.notes),

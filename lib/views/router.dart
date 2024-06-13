@@ -19,12 +19,8 @@ GoRouter router(WidgetRef ref) => GoRouter(
         ShellRoute(
           builder: (context, state, child) {
             return Navigation(
-              site: state.uri.pathSegments.isNotEmpty
-                  ? state.uri.pathSegments[0]
-                  : null,
-              path: state.uri.pathSegments.length >= 2
-                  ? state.uri.pathSegments[1]
-                  : null,
+              site: state.pathParameters[paramSiteName],
+              route: state.topRoute,
               child: child,
             );
           },
@@ -146,7 +142,7 @@ String? guardAdmin(GoRouterState state) {
 
 @visibleForTesting
 Future<String?> guardSite(GoRouterState state, WidgetRef ref) async {
-  final paramSite = state.pathParameters['site'];
+  final paramSite = state.pathParameters[paramSiteName];
   final checked = await ref
       .read(siteParamRepositoryProvider.notifier)
       .onSiteParamChanged(paramSite);

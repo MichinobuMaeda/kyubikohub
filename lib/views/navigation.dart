@@ -13,12 +13,12 @@ import 'app_localizations.dart';
 class Navigation extends HookConsumerWidget {
   final Widget child;
   final String? site;
-  final String? path;
+  final GoRoute? route;
 
   const Navigation({
     super.key,
     required this.site,
-    required this.path,
+    required this.route,
     required this.child,
   });
 
@@ -30,7 +30,7 @@ class Navigation extends HookConsumerWidget {
     final accountStatus = ref.watch(accountStatusProvider);
     final isMember = accountStatus.account != null;
     final showNav = site != null && isMember;
-    final navPath = getNavPath(path);
+    final navItem = getNavItem(route);
 
     final navItems = [
       NavItem(
@@ -63,7 +63,7 @@ class Navigation extends HookConsumerWidget {
 
     final selectedIndex = () {
       for (int index = 0; index < navItems.length; ++index) {
-        if (navPath == navItems[index].navPath) {
+        if (navItem == navItems[index].navPath) {
           return index;
         }
       }
@@ -150,24 +150,23 @@ class Navigation extends HookConsumerWidget {
   }
 }
 
-NavPath getNavPath(String? path) => [
-      NavPath.home.path,
-      NavPath.group.path,
-      NavPath.users.path,
-      NavPath.user.path,
-    ].contains(path)
-        ? NavPath.home
-        : [
-            NavPath.preferences.path,
-          ].contains(path)
-            ? NavPath.preferences
-            : [
-                NavPath.about.path,
-              ].contains(path)
-                ? NavPath.about
-                : [
-                    NavPath.admin.path,
-                    NavPath.logs.path,
-                  ].contains(path)
-                    ? NavPath.admin
-                    : NavPath.home;
+NavPath? getNavPath(GoRoute? route) {
+  for (final navPath in NavPath.values) {
+    if (navPath.name == route?.name) {
+      return navPath;
+    }
+  }
+  return null;
+}
+
+NavPath getNavItem(GoRoute? route) => switch (getNavPath(route)) {
+      null ||
+      NavPath.home ||
+      NavPath.group ||
+      NavPath.users ||
+      NavPath.user =>
+        NavPath.home,
+      NavPath.preferences => NavPath.preferences,
+      NavPath.about => NavPath.about,
+      NavPath.admin || NavPath.logs => NavPath.admin,
+    };

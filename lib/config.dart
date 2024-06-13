@@ -72,6 +72,7 @@ const buttonGap = baseSize * 0.75;
 const iconTextGap = baseSize * 0.5;
 const iconButtonTransformVerticalOffset = Offset(0, -baseSize * 2.5);
 const cardItemPadding = EdgeInsets.all(buttonGap);
+const cardItemPaddingHalf = EdgeInsets.all(buttonGap * 0.5);
 const imagePadding = EdgeInsets.all(baseSize);
 const contentWidth = baseSize * 54;
 

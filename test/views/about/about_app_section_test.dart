@@ -48,7 +48,7 @@ void main() {
         ProviderScope(
           overrides: overrides,
           child: getTestMaterialApp(
-            AboutAppSection(),
+            const AboutAppSection(),
           ),
         ),
       );
