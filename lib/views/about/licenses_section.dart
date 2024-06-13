@@ -9,7 +9,7 @@ import '../../config.dart';
 import '../widgets/list_items_section.dart';
 import '../app_localizations.dart';
 
-typedef LicenseRecord = ({String title, String body});
+typedef LicenseRecord = ({String title, List<String> bodies});
 
 Future<List<LicenseRecord>> listLicense() async {
   final list = <LicenseRecord>[];
@@ -17,10 +17,9 @@ Future<List<LicenseRecord>> listLicense() async {
     final title = entry.packages.toList().join(', ');
     final body = entry.paragraphs.map((p) => p.text.trim()).join('\n\n');
     if (list.any((item) => item.title == title)) {
-      final index = list.indexWhere((item) => item.title == title);
-      list[index] = (title: title, body: '${list[index].body}\n\n$body');
+      list[list.indexWhere((item) => item.title == title)].bodies.add(body);
     } else {
-      list.add((title: title, body: body));
+      list.add((title: title, bodies: [body]));
     }
   });
   return list;
@@ -40,7 +39,7 @@ class LicensesSection extends HookConsumerWidget {
       height: listItemHeightWithSubtitle,
       items: (index) => ModalSheetItemProps(
         title: entries.data![index].title,
-        subtitle: entries.data![index].body,
+        subtitle: entries.data![index].bodies[0],
         trailing: const Icon(Icons.more_horiz),
         topActions: [
           IconButton(
@@ -60,7 +59,7 @@ class LicensesSection extends HookConsumerWidget {
             child: SizedBox(
               width: double.infinity,
               child: Text(
-                entries.data![index].body,
+                entries.data![index].bodies.join('\n\n'),
                 maxLines: 10000,
                 style: GoogleFonts.courierPrime(
                   textStyle: Theme.of(context).textTheme.bodyMedium,
@@ -75,6 +74,6 @@ class LicensesSection extends HookConsumerWidget {
   }
 
   void copyText(LicenseRecord license) => Clipboard.setData(
-        ClipboardData(text: '${license.title}\n\n${license.body}'),
+        ClipboardData(text: '${license.title}\n\n${license.bodies.join('\n\n')}'),
       );
 }

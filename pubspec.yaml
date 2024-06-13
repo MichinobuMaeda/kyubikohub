@@ -1,7 +1,7 @@
 name: kyubikohub
 description: "Communication tool for labours unions."
 publish_to: "none"
-version: 0.0.2+8
+version: 0.0.2+9
 environment:
   sdk: ">=3.3.3 <4.0.0"
 dependencies:
