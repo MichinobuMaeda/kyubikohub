@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+const String projectId = 'kyubikohub';
 const String appTitle = 'Kyubiko Hub';
 const String appUrl = 'https://kyubikohub.web.app';
 const String testUrl = 'https://localhost:9099';
@@ -23,7 +24,6 @@ const int homeNoticesCount = 6;
 // Licenses to add manually
 const List<List<String>> licenseAssets = [
   // [text, product1, product2, ...]
-  ['LICENSE', 'kyubikohub'],
   ['assets/fonts/OFL.txt', 'Noto Sans JP'],
 ];
 

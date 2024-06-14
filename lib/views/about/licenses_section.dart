@@ -18,6 +18,8 @@ Future<List<LicenseRecord>> listLicense() async {
     final body = entry.paragraphs.map((p) => p.text.trim()).join('\n\n');
     if (list.any((item) => item.title == title)) {
       list[list.indexWhere((item) => item.title == title)].bodies.add(body);
+    } else if (title == projectId) {
+      list.insert(0, (title: title, bodies: [body]));
     } else {
       list.add((title: title, bodies: [body]));
     }
@@ -53,20 +55,21 @@ class LicensesSection extends HookConsumerWidget {
             child: Text(t.copy),
           ),
         ],
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: cardItemPadding,
-            child: SizedBox(
-              width: double.infinity,
-              child: Text(
-                entries.data![index].bodies.join('\n\n'),
-                maxLines: 10000,
-                style: GoogleFonts.courierPrime(
-                  textStyle: Theme.of(context).textTheme.bodyMedium,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+        child: Padding(
+          padding: cardItemPadding,
+          child: CustomScrollView(
+            slivers: [
+              SliverList.list(
+                children: entries.data![index].bodies
+                    .map(
+                      (body) => Text(
+                        '$body\n\n',
+                        style: GoogleFonts.courierPrime(),
+                      ),
+                    )
+                    .toList(),
+              )
+            ],
           ),
         ),
       ),
@@ -74,6 +77,7 @@ class LicensesSection extends HookConsumerWidget {
   }
 
   void copyText(LicenseRecord license) => Clipboard.setData(
-        ClipboardData(text: '${license.title}\n\n${license.bodies.join('\n\n')}'),
+        ClipboardData(
+            text: '${license.title}\n\n${license.bodies.join('\n\n')}'),
       );
 }
