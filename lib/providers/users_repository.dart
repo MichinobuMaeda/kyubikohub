@@ -52,9 +52,9 @@ class UsersRepository extends _$UsersRepository {
             users.add(
               User(
                 id: docChange.doc.id,
-                name: getStringValue(docChange.doc, "name") ?? '',
-                email: getStringValue(docChange.doc, "email") ?? '',
-                deletedAt: getDateTimeValue(docChange.doc, "deletedAt"),
+                name: getStringValue(docChange.doc, 'name') ?? '',
+                email: getStringValue(docChange.doc, 'email') ?? '',
+                deletedAt: getDateTimeValue(docChange.doc, 'deletedAt'),
               ),
             );
           }

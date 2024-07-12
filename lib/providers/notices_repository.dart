@@ -3,24 +3,25 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../config.dart';
 import '../models/data_state.dart';
-import '../models/group.dart';
+import '../models/notice.dart';
 import 'firebase_utils.dart';
 import 'account_repository.dart';
 
-part 'groups_repository.g.dart';
+part 'notices_repository.g.dart';
 
 @Riverpod(keepAlive: true)
-class GroupsRepository extends _$GroupsRepository {
+class NoticesRepository extends _$NoticesRepository {
   StreamSubscription? _sub;
 
   @override
-  List<Group> build() {
+  List<Notice> build() {
     ref.listen(
       accountRepositoryProvider,
       fireImmediately: true,
       (prev, next) {
-        debugPrint('INFO    : GroupsRepository.build next: $next');
+        debugPrint('INFO    : NoticesRepository.build next: $next');
         if ((next is Success<Account?>) && next.data != null) {
           listen(next.data!);
         } else {
@@ -37,25 +38,29 @@ class GroupsRepository extends _$GroupsRepository {
     _sub = FirebaseFirestore.instance
         .collection('sites')
         .doc(account.site)
-        .collection('groups')
+        .collection('notices')
+        .orderBy('createdAt', descending: true)
+        .limit(noticesLimit)
         .snapshots()
         .listen(
       (snap) {
-        final groups = List<Group>.from((state as List<Group>?) ?? []);
+        final groups = List<Notice>.from((state as List<Notice>?) ?? []);
         for (var docChange in snap.docChanges) {
           if (docChange.type == DocumentChangeType.modified ||
               docChange.type == DocumentChangeType.removed) {
-            groups.removeWhere((group) => group.id == docChange.doc.id);
+            groups.removeWhere((notice) => notice.id == docChange.doc.id);
           }
           if (docChange.type == DocumentChangeType.modified ||
               docChange.type == DocumentChangeType.added) {
             groups.add(
-              Group(
+              Notice(
                 id: docChange.doc.id,
-                name: getStringValue(docChange.doc, 'name') ?? '',
-                users: getStringList(docChange.doc, 'users')
-                    .whereType<String>()
-                    .toList(),
+                title: getStringValue(docChange.doc, 'title') ?? '',
+                message: getStringValue(docChange.doc, 'message') ?? '',
+                note: getStringValue(docChange.doc, 'note'),
+                createdAt: getDateTimeValue(docChange.doc, 'createdAt') ??
+                    DateTime(2000),
+                updatedAt: getDateTimeValue(docChange.doc, 'updatedAt'),
                 deletedAt: getDateTimeValue(docChange.doc, 'deletedAt'),
               ),
             );

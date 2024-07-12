@@ -1,4 +1,4 @@
-siteDescForGuests = "## はじめての皆さん"
-siteDescForMembers = "## メンバーの皆さん"
-siteDescForMangers = "## サイト管理者の皆さん"
-managersGroupName = "サイト管理者"
+siteDescForGuests = "## for gutests"
+siteDescForMembers = "## for members"
+siteDescForManagers = "## for site managers"
+managersGroupName = "Site-managers"

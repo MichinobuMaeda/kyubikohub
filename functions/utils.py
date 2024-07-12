@@ -5,7 +5,7 @@ def is_active_doc(
     doc: firestore.DocumentSnapshot,
 ) -> bool:
     return doc.exists and (
-        "deletedAt" not in doc.to_dict() or doc.get("deletedAt") is None
+        "deletedAt" not in (doc.to_dict() or {}) or doc.get("deletedAt") is None
     )
 
 

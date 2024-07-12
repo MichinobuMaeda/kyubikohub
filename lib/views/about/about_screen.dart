@@ -12,6 +12,7 @@ import '../widgets/list_items_section.dart';
 import 'guidance_section.dart';
 import 'about_app_section.dart';
 import 'licenses_section.dart';
+import 'subscribe_section.dart';
 
 class AboutScreen extends HookConsumerWidget {
   const AboutScreen({super.key});
@@ -57,6 +58,7 @@ class AboutScreen extends HookConsumerWidget {
           leading: const Icon(Icons.code),
         ),
         const AboutAppSection(),
+        const SubscribeSection(),
         SectionHeader(
           title: Text(t.licenses),
           leading: const Icon(Icons.notes),

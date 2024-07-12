@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'conf_repository.dart';
+part of 'notices_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$confRepositoryHash() => r'e802587d26d23d1127e910f89eab6f452b57bacf';
+String _$noticesRepositoryHash() => r'd0dbf538e849df13310b93a0addc648467c763c5';
 
-/// See also [ConfRepository].
-@ProviderFor(ConfRepository)
-final confRepositoryProvider =
-    NotifierProvider<ConfRepository, DataState<Conf>>.internal(
-  ConfRepository.new,
-  name: r'confRepositoryProvider',
+/// See also [NoticesRepository].
+@ProviderFor(NoticesRepository)
+final noticesRepositoryProvider =
+    NotifierProvider<NoticesRepository, List<Notice>>.internal(
+  NoticesRepository.new,
+  name: r'noticesRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$confRepositoryHash,
+      : _$noticesRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ConfRepository = Notifier<DataState<Conf>>;
+typedef _$NoticesRepository = Notifier<List<Notice>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

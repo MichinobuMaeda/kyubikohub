@@ -20,7 +20,7 @@ mixin _$Site {
   String get name => throw _privateConstructorUsedError;
   String get forGuests => throw _privateConstructorUsedError;
   String get forMembers => throw _privateConstructorUsedError;
-  String get forMangers => throw _privateConstructorUsedError;
+  String get forManagers => throw _privateConstructorUsedError;
   bool get deleted => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,7 +37,7 @@ abstract class $SiteCopyWith<$Res> {
       String name,
       String forGuests,
       String forMembers,
-      String forMangers,
+      String forManagers,
       bool deleted});
 }
 
@@ -58,7 +58,7 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
     Object? name = null,
     Object? forGuests = null,
     Object? forMembers = null,
-    Object? forMangers = null,
+    Object? forManagers = null,
     Object? deleted = null,
   }) {
     return _then(_value.copyWith(
@@ -78,9 +78,9 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
           ? _value.forMembers
           : forMembers // ignore: cast_nullable_to_non_nullable
               as String,
-      forMangers: null == forMangers
-          ? _value.forMangers
-          : forMangers // ignore: cast_nullable_to_non_nullable
+      forManagers: null == forManagers
+          ? _value.forManagers
+          : forManagers // ignore: cast_nullable_to_non_nullable
               as String,
       deleted: null == deleted
           ? _value.deleted
@@ -102,7 +102,7 @@ abstract class _$$SiteImplCopyWith<$Res> implements $SiteCopyWith<$Res> {
       String name,
       String forGuests,
       String forMembers,
-      String forMangers,
+      String forManagers,
       bool deleted});
 }
 
@@ -120,7 +120,7 @@ class __$$SiteImplCopyWithImpl<$Res>
     Object? name = null,
     Object? forGuests = null,
     Object? forMembers = null,
-    Object? forMangers = null,
+    Object? forManagers = null,
     Object? deleted = null,
   }) {
     return _then(_$SiteImpl(
@@ -140,9 +140,9 @@ class __$$SiteImplCopyWithImpl<$Res>
           ? _value.forMembers
           : forMembers // ignore: cast_nullable_to_non_nullable
               as String,
-      forMangers: null == forMangers
-          ? _value.forMangers
-          : forMangers // ignore: cast_nullable_to_non_nullable
+      forManagers: null == forManagers
+          ? _value.forManagers
+          : forManagers // ignore: cast_nullable_to_non_nullable
               as String,
       deleted: null == deleted
           ? _value.deleted
@@ -160,7 +160,7 @@ class _$SiteImpl implements _Site {
       required this.name,
       required this.forGuests,
       required this.forMembers,
-      required this.forMangers,
+      required this.forManagers,
       required this.deleted});
 
   @override
@@ -172,13 +172,13 @@ class _$SiteImpl implements _Site {
   @override
   final String forMembers;
   @override
-  final String forMangers;
+  final String forManagers;
   @override
   final bool deleted;
 
   @override
   String toString() {
-    return 'Site(id: $id, name: $name, forGuests: $forGuests, forMembers: $forMembers, forMangers: $forMangers, deleted: $deleted)';
+    return 'Site(id: $id, name: $name, forGuests: $forGuests, forMembers: $forMembers, forManagers: $forManagers, deleted: $deleted)';
   }
 
   @override
@@ -192,14 +192,14 @@ class _$SiteImpl implements _Site {
                 other.forGuests == forGuests) &&
             (identical(other.forMembers, forMembers) ||
                 other.forMembers == forMembers) &&
-            (identical(other.forMangers, forMangers) ||
-                other.forMangers == forMangers) &&
+            (identical(other.forManagers, forManagers) ||
+                other.forManagers == forManagers) &&
             (identical(other.deleted, deleted) || other.deleted == deleted));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, forGuests, forMembers, forMangers, deleted);
+      runtimeType, id, name, forGuests, forMembers, forManagers, deleted);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +214,7 @@ abstract class _Site implements Site {
       required final String name,
       required final String forGuests,
       required final String forMembers,
-      required final String forMangers,
+      required final String forManagers,
       required final bool deleted}) = _$SiteImpl;
 
   @override
@@ -226,7 +226,7 @@ abstract class _Site implements Site {
   @override
   String get forMembers;
   @override
-  String get forMangers;
+  String get forManagers;
   @override
   bool get deleted;
   @override

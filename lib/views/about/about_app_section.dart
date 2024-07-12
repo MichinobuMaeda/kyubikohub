@@ -91,9 +91,7 @@ $about
               child: about == null
                   ? Text(t.defaultLoadingMessage)
                   : MarkdownBody(
-                      // controller: _scrollController,
                       data: about,
-                      // padding: const EdgeInsets.all(0.0),
                       onTapLink: onTapLink,
                       styleSheet: markdownStyleSheet(context),
                     ),

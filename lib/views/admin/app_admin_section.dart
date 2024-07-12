@@ -27,7 +27,8 @@ class AppAdminSection extends HookConsumerWidget {
     final desc = useState(conf.data.desc ?? '');
     final forGuests = useState(conf.data.forGuests ?? '');
     final forMembers = useState(conf.data.forMembers ?? '');
-    final forMangers = useState(conf.data.forMangers ?? '');
+    final forManagers = useState(conf.data.forManagers ?? '');
+    final forSubscriber = useState(conf.data.forSubscriber ?? '');
 
     Future<void> save(String key, ValueNotifier<String> data) async {
       await updateDoc(confRef, {key: data.value});
@@ -40,25 +41,36 @@ class AppAdminSection extends HookConsumerWidget {
           title: t.aboutTheApp,
           init: conf.data.desc ?? '',
           value: desc,
+          maxLines: textBoxMaxLines,
           save: () => save('desc', desc),
         ),
         (
           title: '${t.sample}: ${t.forGuests}',
           init: conf.data.forGuests ?? '',
           value: forGuests,
+          maxLines: textBoxMaxLines,
           save: () => save('forGuests', forGuests),
         ),
         (
           title: '${t.sample}: ${t.forMembers}',
           init: conf.data.forMembers ?? '',
           value: forMembers,
+          maxLines: textBoxMaxLines,
           save: () => save('forMembers', forMembers),
         ),
         (
-          title: '${t.sample}: ${t.forMangers}',
-          init: conf.data.forMangers ?? '',
-          value: forMangers,
-          save: () => save('forMangers', forMangers),
+          title: '${t.sample}: ${t.forManagers}',
+          init: conf.data.forManagers ?? '',
+          value: forManagers,
+          maxLines: textBoxMaxLines,
+          save: () => save('forManagers', forManagers),
+        ),
+        (
+          title: t.forSubscriber,
+          init: conf.data.forSubscriber ?? '',
+          value: forSubscriber,
+          maxLines: textBoxMaxLines,
+          save: () => save('forSubscriber', forSubscriber),
         ),
       ].map(
         (item) => ModalSheetItemProps(
@@ -86,25 +98,27 @@ class AppAdminSection extends HookConsumerWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(bottom: baseSize),
-              child: TextField(
-                controller: _editDescController,
-                maxLines: 64,
-                autofocus: true,
-                onChanged: (value) {
-                  item.value.value = value;
-                },
+              child: Padding(
+                padding: cardItemPadding,
+                child: TextField(
+                  controller: _editDescController,
+                  maxLines: item.maxLines,
+                  autofocus: true,
+                  onChanged: (value) {
+                    item.value.value = value;
+                  },
+                ),
               ),
             ),
           ),
         ),
       ),
       LinkItemProps(
-        title: t.operationLog,
-        leading: const Icon(Icons.history),
-        trailing: const Icon(Icons.more_horiz),
-        name: NavPath.logs.name,
-        pathParameters: NavPath.logs.pathParameters(site: site)
-      ),
+          title: t.operationLog,
+          leading: const Icon(Icons.history),
+          trailing: const Icon(Icons.more_horiz),
+          name: NavPath.logs.name,
+          pathParameters: NavPath.logs.pathParameters(site: site)),
     ];
 
     return ListItemsSection(

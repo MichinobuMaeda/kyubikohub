@@ -27,7 +27,7 @@ class SiteSettingsSection extends HookConsumerWidget {
     );
     final forGuests = useState(site?.forGuests ?? '');
     final forMembers = useState(site?.forMembers ?? '');
-    final forMangers = useState(site?.forMangers ?? '');
+    final forManagers = useState(site?.forManagers ?? '');
 
     final items = [
       ...[
@@ -56,13 +56,13 @@ class SiteSettingsSection extends HookConsumerWidget {
           },
         ),
         (
-          title: t.forMangers,
-          init: site?.forMangers ?? '',
-          value: forMangers,
+          title: t.forManagers,
+          init: site?.forManagers ?? '',
+          value: forManagers,
           save: () async {
             await updateDoc(
               siteRef(id: site?.id ?? ''),
-              {'forMangers': forMangers.value},
+              {'forManagers': forManagers.value},
             );
             controller.close();
           },

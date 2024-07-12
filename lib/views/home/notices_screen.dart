@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../app_localizations.dart';
+import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
+import '../app_localizations.dart';
 import 'notices_section.dart';
-import 'groups_section.dart';
 
-class HomeScreen extends HookConsumerWidget {
-  const HomeScreen({super.key});
+class NoticesScreen extends HookConsumerWidget {
+  const NoticesScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,16 +15,12 @@ class HomeScreen extends HookConsumerWidget {
 
     return CustomScrollView(
       slivers: [
+        const GoBackHeader(),
         SectionHeader(
           title: Text(t.notices),
           leading: const Icon(Icons.notifications),
         ),
-        const NoticesSection(short: true),
-        SectionHeader(
-          title: Text(t.groups),
-          leading: const Icon(Icons.people),
-        ),
-        const GroupsSection(),
+        const NoticesSection(),
       ],
     );
   }

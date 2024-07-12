@@ -20,7 +20,8 @@ mixin _$Conf {
   String? get desc => throw _privateConstructorUsedError;
   String? get forGuests => throw _privateConstructorUsedError;
   String? get forMembers => throw _privateConstructorUsedError;
-  String? get forMangers => throw _privateConstructorUsedError;
+  String? get forManagers => throw _privateConstructorUsedError;
+  String? get forSubscriber => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ConfCopyWith<Conf> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $ConfCopyWith<$Res> {
       String? desc,
       String? forGuests,
       String? forMembers,
-      String? forMangers});
+      String? forManagers,
+      String? forSubscriber});
 }
 
 /// @nodoc
@@ -56,7 +58,8 @@ class _$ConfCopyWithImpl<$Res, $Val extends Conf>
     Object? desc = freezed,
     Object? forGuests = freezed,
     Object? forMembers = freezed,
-    Object? forMangers = freezed,
+    Object? forManagers = freezed,
+    Object? forSubscriber = freezed,
   }) {
     return _then(_value.copyWith(
       uiVersion: freezed == uiVersion
@@ -75,9 +78,13 @@ class _$ConfCopyWithImpl<$Res, $Val extends Conf>
           ? _value.forMembers
           : forMembers // ignore: cast_nullable_to_non_nullable
               as String?,
-      forMangers: freezed == forMangers
-          ? _value.forMangers
-          : forMangers // ignore: cast_nullable_to_non_nullable
+      forManagers: freezed == forManagers
+          ? _value.forManagers
+          : forManagers // ignore: cast_nullable_to_non_nullable
+              as String?,
+      forSubscriber: freezed == forSubscriber
+          ? _value.forSubscriber
+          : forSubscriber // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -95,7 +102,8 @@ abstract class _$$ConfImplCopyWith<$Res> implements $ConfCopyWith<$Res> {
       String? desc,
       String? forGuests,
       String? forMembers,
-      String? forMangers});
+      String? forManagers,
+      String? forSubscriber});
 }
 
 /// @nodoc
@@ -112,7 +120,8 @@ class __$$ConfImplCopyWithImpl<$Res>
     Object? desc = freezed,
     Object? forGuests = freezed,
     Object? forMembers = freezed,
-    Object? forMangers = freezed,
+    Object? forManagers = freezed,
+    Object? forSubscriber = freezed,
   }) {
     return _then(_$ConfImpl(
       uiVersion: freezed == uiVersion
@@ -131,9 +140,13 @@ class __$$ConfImplCopyWithImpl<$Res>
           ? _value.forMembers
           : forMembers // ignore: cast_nullable_to_non_nullable
               as String?,
-      forMangers: freezed == forMangers
-          ? _value.forMangers
-          : forMangers // ignore: cast_nullable_to_non_nullable
+      forManagers: freezed == forManagers
+          ? _value.forManagers
+          : forManagers // ignore: cast_nullable_to_non_nullable
+              as String?,
+      forSubscriber: freezed == forSubscriber
+          ? _value.forSubscriber
+          : forSubscriber // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -147,7 +160,8 @@ class _$ConfImpl implements _Conf {
       required this.desc,
       required this.forGuests,
       required this.forMembers,
-      required this.forMangers});
+      required this.forManagers,
+      required this.forSubscriber});
 
   @override
   final String? uiVersion;
@@ -158,11 +172,13 @@ class _$ConfImpl implements _Conf {
   @override
   final String? forMembers;
   @override
-  final String? forMangers;
+  final String? forManagers;
+  @override
+  final String? forSubscriber;
 
   @override
   String toString() {
-    return 'Conf(uiVersion: $uiVersion, desc: $desc, forGuests: $forGuests, forMembers: $forMembers, forMangers: $forMangers)';
+    return 'Conf(uiVersion: $uiVersion, desc: $desc, forGuests: $forGuests, forMembers: $forMembers, forManagers: $forManagers, forSubscriber: $forSubscriber)';
   }
 
   @override
@@ -177,13 +193,15 @@ class _$ConfImpl implements _Conf {
                 other.forGuests == forGuests) &&
             (identical(other.forMembers, forMembers) ||
                 other.forMembers == forMembers) &&
-            (identical(other.forMangers, forMangers) ||
-                other.forMangers == forMangers));
+            (identical(other.forManagers, forManagers) ||
+                other.forManagers == forManagers) &&
+            (identical(other.forSubscriber, forSubscriber) ||
+                other.forSubscriber == forSubscriber));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, uiVersion, desc, forGuests, forMembers, forMangers);
+  int get hashCode => Object.hash(runtimeType, uiVersion, desc, forGuests,
+      forMembers, forManagers, forSubscriber);
 
   @JsonKey(ignore: true)
   @override
@@ -198,7 +216,8 @@ abstract class _Conf implements Conf {
       required final String? desc,
       required final String? forGuests,
       required final String? forMembers,
-      required final String? forMangers}) = _$ConfImpl;
+      required final String? forManagers,
+      required final String? forSubscriber}) = _$ConfImpl;
 
   @override
   String? get uiVersion;
@@ -209,7 +228,9 @@ abstract class _Conf implements Conf {
   @override
   String? get forMembers;
   @override
-  String? get forMangers;
+  String? get forManagers;
+  @override
+  String? get forSubscriber;
   @override
   @JsonKey(ignore: true)
   _$$ConfImplCopyWith<_$ConfImpl> get copyWith =>

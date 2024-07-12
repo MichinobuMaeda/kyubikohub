@@ -22,12 +22,12 @@ class ConfRepository extends _$ConfRepository {
         }
         state = Success(
           data: Conf(
-            uiVersion: getStringValue(doc, "uiVersion"),
-            desc: getStringValue(doc, "desc"),
-            forGuests: getStringValue(doc, "forGuests"),
-            forMembers: getStringValue(doc, "forMembers"),
-            forMangers: getStringValue(doc, "forMangers"),
-
+            uiVersion: getStringValue(doc, 'uiVersion'),
+            desc: getStringValue(doc, 'desc'),
+            forGuests: getStringValue(doc, 'forGuests'),
+            forMembers: getStringValue(doc, 'forMembers'),
+            forManagers: getStringValue(doc, 'forManagers'),
+            forSubscriber: getStringValue(doc, 'forSubscriber'),
           ),
         );
       } catch (e, s) {

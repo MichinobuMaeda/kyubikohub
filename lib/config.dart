@@ -57,6 +57,9 @@ const FirebaseOptions testFirebaseOptions = FirebaseOptions(
 
 const functionsRegion = 'asia-northeast2';
 
+const noticesLimit = 1000;
+const noticesShort = 3;
+
 // Style -- key parameters
 const themeMode = ThemeMode.system;
 const seedColor = Color.fromARGB(255, 85, 107, 47);
@@ -79,6 +82,8 @@ const contentWidth = baseSize * 54;
 const listItemHeight = baseSize * 3.0;
 const listItemHeightWithSubtitle = baseSize * 4.4;
 const sectionHeaderHeight = listItemHeight;
+
+const textBoxMaxLines = 64;
 
 // Style -- relative settings
 ThemeData themeData(Brightness brightness) {
@@ -120,13 +125,15 @@ ThemeData themeData(Brightness brightness) {
     listTileTheme: ListTileThemeData(
       tileColor: colorScheme.onSurface,
       titleTextStyle: bodyLarge,
-      subtitleTextStyle: bodyMedium,
+      subtitleTextStyle: bodySmall,
     ),
     navigationRailTheme: NavigationRailThemeData(
       backgroundColor: colorScheme.surfaceContainerLow,
     ),
-    inputDecorationTheme: const InputDecorationTheme(
-      contentPadding: EdgeInsets.only(top: baseSize / 10),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.only(top: baseSize / 10),
+      labelStyle: TextStyle(color: colorScheme.primary),
+      helperStyle: TextStyle(color: colorScheme.tertiary),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       constraints: BoxConstraints(
@@ -193,6 +200,11 @@ String generatePassword() {
   return password;
 }
 
-bool validateEmail(email) => RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-    ).hasMatch(email);
+String formatYmdHms(DateTime ts) =>
+    ts.toIso8601String().substring(0, 19).replaceFirst('T', ' ');
+
+String formatYmdHm(DateTime ts) =>
+    ts.toIso8601String().substring(0, 16).replaceFirst('T', ' ');
+
+String formatYmd(DateTime ts) =>
+    ts.toIso8601String().substring(0, 10);

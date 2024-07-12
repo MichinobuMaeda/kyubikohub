@@ -24,7 +24,7 @@ ${site.data.selected.forGuests}
 
 ${site.data.selected.forMembers}
 
-${site.data.selected.forMangers}
+${site.data.selected.forManagers}
 '''
             : accountStatus.account != null
                 ? '''

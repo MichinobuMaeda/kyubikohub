@@ -1,10 +1,9 @@
 from datetime import datetime
 import time
-from firebase_admin import auth
+from firebase_admin import auth as firebase_auth
 from google.cloud import firestore
 import requests
 from admin import create_site
-from test.data import set_test_data
 import conf
 
 
@@ -57,40 +56,40 @@ def _set_ui_version(
 
 def _upgrade_data_v1(
     db: firestore.Client,
-    auth_client: auth.Client,
+    auth: firebase_auth.Client,
     data: dict,
 ):
     create_site(
-        auth_client=auth_client,
+        auth=auth,
         db=db,
         site_id="admins",
         site_name="Administrators",
-        uid=data["PRIMARY_USER_ID"],
-        email=data["PRIMARY_USER_EMAIL"],
-        password=data["PRIMARY_USER_PASSWORD"],
-        name="Primary user",
+        manager_uid=data["PRIMARY_USER_ID"],
+        manager_email=data["PRIMARY_USER_EMAIL"],
+        manager_password=data["PRIMARY_USER_PASSWORD"],
+        manager_name="Primary user",
     )
     create_site(
-        auth_client=auth_client,
+        auth=auth,
         db=db,
         site_id="test",
         site_name="Test",
-        uid=data["TEST_MANAGER_ID"],
-        email=data["TEST_MANAGER_EMAIL"],
-        password=data["TEST_MANAGER_PASSWORD"],
-        name="Manager",
+        manager_uid=data["TEST_MANAGER_ID"],
+        manager_email=data["TEST_MANAGER_EMAIL"],
+        manager_password=data["TEST_MANAGER_PASSWORD"],
+        manager_name="Manager",
     )
 
 
 def _upgrade_data_v2(
     db: firestore.Client,
-    auth_client: auth.Client,
+    auth: firebase_auth.Client,
     data: dict,
 ):
     conf_ref = db.collection("service").document("conf")
     conf_doc = conf_ref.get()
 
-    if "forGuests" not in conf_doc.to_dict():
+    if "forGuests" not in (conf_doc.to_dict() or {}):
         conf_ref.update(
             {
                 "forGuests": conf.siteDescForGuests,
@@ -98,7 +97,7 @@ def _upgrade_data_v2(
             }
         )
 
-    if "forMembers" not in conf_doc.to_dict():
+    if "forMembers" not in (conf_doc.to_dict() or {}):
         conf_ref.update(
             {
                 "forMembers": conf.siteDescForMembers,
@@ -106,10 +105,10 @@ def _upgrade_data_v2(
             }
         )
 
-    if "forMangers" not in conf_doc.to_dict():
+    if "forManagers" not in (conf_doc.to_dict() or {}):
         conf_ref.update(
             {
-                "forMangers": conf.siteDescForMangers,
+                "forManagers": conf.siteDescForManagers,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
         )
@@ -125,9 +124,9 @@ def _set_data_version(conf_ref, ver: int):
     )
 
 
-def _upgrade_data(
+def upgrade_data(
     db: firestore.Client,
-    auth_client: auth.Client,
+    auth: firebase_auth.Client,
     data: dict,
 ):
     print("START : upgrade_data")
@@ -164,7 +163,7 @@ def _upgrade_data(
             print(f"INFO  : upgrade {cur_ver} to {new_ver}")
 
             if cur_ver < new_ver:
-                upgrade(db=db, auth_client=auth_client, data=data)
+                upgrade(db=db, auth=auth, data=data)
                 _set_data_version(conf_ref, new_ver)
                 cur_ver = new_ver
 
@@ -173,21 +172,16 @@ def _upgrade_data(
 
 def deploy(
     db: firestore.Client,
-    auth_client: auth.Client,
-    deployment_key: str,
-    project_id: str,
+    auth: firebase_auth.Client,
+    project_id: str | None,
     data: dict,
 ):
+    if project_id is None:
+        print("ERROR : project_id is None")
+        return
     if not _get_deployment_handle(db):
         print("ERROR : get_handle()")
         return
 
-    test = deployment_key == "test"
-    print(f"TEST  : {test}")
-
-    _upgrade_data(db=db, auth_client=auth_client, data=data)
-
-    if test:
-        set_test_data(db=db, auth_client=auth_client)
-    else:
-        _set_ui_version(db=db, project_id=project_id)
+    upgrade_data(db=db, auth=auth, data=data)
+    _set_ui_version(db=db, project_id=project_id)

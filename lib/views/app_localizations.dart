@@ -14,7 +14,9 @@ class AppLocalizations {
   String get me => '設定';
   String get about => '情報';
   String get administration => '管理';
-  // Tab Items
+  // Items
+  String get admin => 'アプリ管理者';
+  String get manager => 'サイト管理者';
   String get notices => 'お知らせ';
   String get preferences => 'アプリの設定';
   String get accountSettings => 'アカウントの設定';
@@ -25,12 +27,12 @@ class AppLocalizations {
   String get aboutTheApp => 'アプリについて';
   String get forGuests => 'ログイン前の案内';
   String get forMembers => 'ログイン後の案内';
-  String get forMangers => 'サイト管理者向けの案内';
+  String get forManagers => 'サイト管理者向けの案内';
+  String get forSubscriber => '利用申込みの案内';
   String get licenses => 'ライセンス';
   String get users => 'メンバー';
   String get groups => 'グループ';
   String get sites => 'サイト';
-  // Items
   String get siteId => 'サイトID';
   String get email => 'メールアドレス';
   String get password => 'パスワード';
@@ -44,6 +46,17 @@ class AppLocalizations {
   String get groupMembership => '所属グループ';
   String get operationLog => '操作ログ';
   String get sample => 'サンプル';
+  String get subscriber => '利用者';
+  String get tel => '電話番号';
+  String get address => '住所';
+  String get zip => '郵便番号';
+  String get prefecture => '都道府県';
+  String get city => '市区町村';
+  String get address1 => '町丁目番地号';
+  String get address2 => '建物名・部屋番号';
+  String get subscriberName => '利用者名';
+  String get subscriberEmail => '利用者メール';
+  String get purposeSubscription => '利用の目的';
   // Actions
   String get login => 'ログイン';
   String get logout => 'ログアウト';
@@ -63,6 +76,7 @@ class AppLocalizations {
   String get goBack => '戻る';
   String get warning => '警告';
   String get showMore => '続きを見る';
+  String get subscribe => '利用申込み';
   // Errors
   String get authFailed => '認証に失敗しました。';
   String get systemError => 'システムエラーです。';
@@ -81,11 +95,20 @@ class AppLocalizations {
 $supportEmail からのメールを受信できるようにしておいてください。''';
   String get sendResetPasswordEmail => '''
 「$appTitle のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。''';
+  String get required => '必須';
+  String get alphaNumerics => '英数字';
+  String get lowercasesAndNumerics => '半角英数字';
+  String get emailFormat => 'メールアドレスの形式';
+  String get telFormat => '電話番号の形式';
+  String lengthNotLessThan({required int length}) => '$length文字以上';
+  String get notForIndividualApplication => '個人で申し込む場合は不要';
+  String get address2HelperText => '郵便物が届くように記載してください';
   String get saved => '保存しました。';
   String get deleted => '削除しました。';
   String get restored => '復活しました。';
   String get sentEmail => 'メールを送信しました。';
   String get whyLogout => '通常、ログアウトの操作は不要です。';
+  String get noData => '表示するデータがありません';
   String get version => 'バージョン';
   String get defaultLoadingMessage => 'データ受信中 ...';
   String get defaultErrorMessage => 'エラー';

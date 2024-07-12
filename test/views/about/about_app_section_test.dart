@@ -20,7 +20,8 @@ class ConfRepositoryStub extends ConfRepository {
           desc: testDescription,
           forGuests: '',
           forMembers: '',
-          forMangers: '',
+          forManagers: '',
+          forSubscriber: '',
           uiVersion: '',
         ),
       );

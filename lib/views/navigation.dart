@@ -164,7 +164,8 @@ NavPath getNavItem(GoRoute? route) => switch (getNavPath(route)) {
       NavPath.home ||
       NavPath.group ||
       NavPath.users ||
-      NavPath.user =>
+      NavPath.user ||
+      NavPath.notices =>
         NavPath.home,
       NavPath.preferences => NavPath.preferences,
       NavPath.about => NavPath.about,

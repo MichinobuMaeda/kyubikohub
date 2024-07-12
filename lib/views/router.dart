@@ -8,6 +8,7 @@ import '../providers/site_repository.dart';
 import 'home/home_screen.dart';
 import 'home/user_screen.dart';
 import 'home/group_screen.dart';
+import 'home/notices_screen.dart';
 import 'about/about_screen.dart';
 import 'admin/admin_screen.dart';
 import 'admin/logs_screen.dart';
@@ -68,6 +69,13 @@ GoRouter router(WidgetRef ref) => GoRouter(
                 child: UserScreen(
                   user: state.pathParameters[NavPath.user.param],
                 ),
+              ),
+            ),
+            GoRoute(
+              name: NavPath.notices.name,
+              path: joinPath('/:site', NavPath.notices.path),
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: NoticesScreen(),
               ),
             ),
             GoRoute(

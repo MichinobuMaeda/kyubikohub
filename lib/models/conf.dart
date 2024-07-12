@@ -9,6 +9,7 @@ class Conf with _$Conf {
     required String? desc,
     required String? forGuests,
     required String? forMembers,
-    required String? forMangers,
+    required String? forManagers,
+    required String? forSubscriber,
   }) = _Conf;
 }

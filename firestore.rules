@@ -46,6 +46,14 @@ service cloud.firestore {
       allow read, update: if group == "managers" && isManager(site);
       allow read, write: if group != "managers" && isManager(site);
     }
+    match /sites/{site}/notices/{notice} {
+      allow read: if isActiveAccount(site);
+      allow read, write: if isManager(site);
+    }
+    match /subscribers/{subscriber} {
+      allow create: if true;
+      allow read, write: if isAdmin();
+    }
     match /{document=**} {
       allow read, write: if false;
     }

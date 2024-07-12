@@ -31,7 +31,7 @@ class ModalSheet extends HookConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(
               baseSize * 1.5, // Left
-              baseSize * 1.0, // Top
+              baseSize * 0.5, // Top
               baseSize * 0.5, // Right
               baseSize * 0.25, // Bottom
             ),
@@ -40,7 +40,7 @@ class ModalSheet extends HookConsumerWidget {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: baseSize * 0.25),
+                    padding: const EdgeInsets.only(top: baseSize * 0.5),
                     child: Text(
                       title,
                       maxLines: 4,

@@ -1,8 +1,21 @@
 from google.cloud import firestore
-from firebase_admin import auth
+from firebase_admin import auth as firebase_auth
+
+test_param = {
+    "DEPLOYMENT_KEY": "test",
+    "PRIMARY_USER_ID": "primary_id",
+    "PRIMARY_USER_EMAIL": "primary@example.com",
+    "PRIMARY_USER_PASSWORD": "password",
+    "TEST_MANAGER_ID": "manager_id",
+    "TEST_MANAGER_EMAIL": "manager@example.com",
+    "TEST_MANAGER_PASSWORD": "password",
+}
 
 
-def set_test_data(db: firestore.Client, auth_client: auth.Client):
+def set_test_data(
+    db: firestore.Client,
+    auth: firebase_auth.Client,
+):
     print("START : set_test_data")
 
     db.collection("service").document("conf").update(
@@ -89,12 +102,12 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
         }
     )
 
-    auth_client.create_user(
+    auth.create_user(
         uid="user01_id",
         email="user01@example.com",
         password="password",
     )
-    auth_client.create_user(
+    auth.create_user(
         uid="user02_id",
         email="user02@example.com",
         password="password",
@@ -117,5 +130,18 @@ def set_test_data(db: firestore.Client, auth_client: auth.Client):
             "updatedAt": firestore.SERVER_TIMESTAMP,
         }
     )
+
+    for site in ["admins", "test"]:
+        for index in range(1, 5):
+            site_ref = db.collection("sites").document(site)
+            notices_ref = site_ref.collection("notices")
+            notices_ref.add(
+                {
+                    "title": f"Notice {site} {index}",
+                    "message": f"Message Message Message Message {site}.\n" * index,
+                    "createdAt": firestore.SERVER_TIMESTAMP,
+                    "updatedAt": firestore.SERVER_TIMESTAMP,
+                }
+            )
 
     print("END   : set_test_data")

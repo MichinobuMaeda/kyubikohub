@@ -24,6 +24,10 @@ enum NavPath {
     path: 'users',
     param: 'user',
   ),
+  notices(
+    name: 'notices',
+    path: 'notices',
+  ),
   preferences(
     name: 'preferences',
     path: 'preferences',

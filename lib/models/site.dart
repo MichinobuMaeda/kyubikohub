@@ -9,7 +9,7 @@ class Site with _$Site {
     required String name,
     required String forGuests,
     required String forMembers,
-    required String forMangers,
+    required String forManagers,
     required bool deleted,
   }) = _Site;
 }

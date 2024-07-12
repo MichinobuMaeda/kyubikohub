@@ -72,7 +72,7 @@ INFO    : listen(siteParamRepositoryProvider, (
         name: getStringValue(doc, 'name') ?? '-',
         forGuests: getStringValue(doc, 'forGuests') ?? '',
         forMembers: getStringValue(doc, 'forMembers') ?? '',
-        forMangers: getStringValue(doc, 'forMangers') ?? '',
+        forManagers: getStringValue(doc, 'forManagers') ?? '',
         deleted: isDeleted(doc),
       );
 
