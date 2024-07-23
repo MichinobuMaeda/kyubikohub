@@ -6,6 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/conf.dart';
+import '../../providers/firebase_utils.dart';
 import '../../providers/conf_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';
@@ -58,6 +59,28 @@ class SubscribeForm extends HookConsumerWidget {
     final managerName = useState<FieldValue>((val: '', err: null));
     final managerEmail = useState<FieldValue>((val: '', err: null));
     final savedMessage = useState('');
+
+    @visibleForTesting
+    Future<void> save(
+      BuildContext context,
+      WidgetRef ref,
+    ) async {
+      await subscribe(
+        site: site.value.val,
+        name: name.value.val,
+        email: email.value.val,
+        tel: tel.value.val,
+        zip: zip.value.val,
+        prefecture: prefecture.value.val,
+        city: city.value.val,
+        address1: address1.value.val,
+        address2: address2.value.val,
+        desc: desc.value.val,
+        managerName: managerName.value.val,
+        managerEmail: managerEmail.value.val,
+      );
+      ref.read(modalSheetControllerProviderProvider.notifier).close();
+    }
 
     return FocusTraversalGroup(
       child: CustomScrollView(
@@ -356,13 +379,5 @@ class SubscribeForm extends HookConsumerWidget {
         ],
       ),
     );
-  }
-
-  @visibleForTesting
-  Future<void> save(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    ref.read(modalSheetControllerProviderProvider.notifier).close();
   }
 }

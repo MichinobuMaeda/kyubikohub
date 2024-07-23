@@ -30,16 +30,17 @@ mixin _$Subscriber {
   String get managerName => throw _privateConstructorUsedError;
   String get managerEmail => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  String get createdBy => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String get updatedBy => throw _privateConstructorUsedError;
-  DateTime get deletedAt => throw _privateConstructorUsedError;
-  String get deletedBy => throw _privateConstructorUsedError;
-  DateTime get approvedAt => throw _privateConstructorUsedError;
-  String get approvedBy => throw _privateConstructorUsedError;
-  DateTime get rejectedAt => throw _privateConstructorUsedError;
-  String get rejectedBy => throw _privateConstructorUsedError;
-  DateTime get completedAt => throw _privateConstructorUsedError;
-  String get completedBy => throw _privateConstructorUsedError;
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
+  String? get deletedBy => throw _privateConstructorUsedError;
+  DateTime? get approvedAt => throw _privateConstructorUsedError;
+  String? get approvedBy => throw _privateConstructorUsedError;
+  DateTime? get rejectedAt => throw _privateConstructorUsedError;
+  String? get rejectedBy => throw _privateConstructorUsedError;
+  DateTime? get completedAt => throw _privateConstructorUsedError;
+  String? get completedBy => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SubscriberCopyWith<Subscriber> get copyWith =>
@@ -67,16 +68,17 @@ abstract class $SubscriberCopyWith<$Res> {
       String managerName,
       String managerEmail,
       DateTime createdAt,
+      String createdBy,
       DateTime updatedAt,
       String updatedBy,
-      DateTime deletedAt,
-      String deletedBy,
-      DateTime approvedAt,
-      String approvedBy,
-      DateTime rejectedAt,
-      String rejectedBy,
-      DateTime completedAt,
-      String completedBy});
+      DateTime? deletedAt,
+      String? deletedBy,
+      DateTime? approvedAt,
+      String? approvedBy,
+      DateTime? rejectedAt,
+      String? rejectedBy,
+      DateTime? completedAt,
+      String? completedBy});
 }
 
 /// @nodoc
@@ -106,16 +108,17 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
     Object? managerName = null,
     Object? managerEmail = null,
     Object? createdAt = null,
+    Object? createdBy = null,
     Object? updatedAt = null,
     Object? updatedBy = null,
-    Object? deletedAt = null,
-    Object? deletedBy = null,
-    Object? approvedAt = null,
-    Object? approvedBy = null,
-    Object? rejectedAt = null,
-    Object? rejectedBy = null,
-    Object? completedAt = null,
-    Object? completedBy = null,
+    Object? deletedAt = freezed,
+    Object? deletedBy = freezed,
+    Object? approvedAt = freezed,
+    Object? approvedBy = freezed,
+    Object? rejectedAt = freezed,
+    Object? rejectedBy = freezed,
+    Object? completedAt = freezed,
+    Object? completedBy = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -174,6 +177,10 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdBy: null == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -182,38 +189,38 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
           ? _value.updatedBy
           : updatedBy // ignore: cast_nullable_to_non_nullable
               as String,
-      deletedAt: null == deletedAt
+      deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deletedBy: null == deletedBy
+              as DateTime?,
+      deletedBy: freezed == deletedBy
           ? _value.deletedBy
           : deletedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      approvedAt: null == approvedAt
+              as String?,
+      approvedAt: freezed == approvedAt
           ? _value.approvedAt
           : approvedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      approvedBy: null == approvedBy
+              as DateTime?,
+      approvedBy: freezed == approvedBy
           ? _value.approvedBy
           : approvedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      rejectedAt: null == rejectedAt
+              as String?,
+      rejectedAt: freezed == rejectedAt
           ? _value.rejectedAt
           : rejectedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      rejectedBy: null == rejectedBy
+              as DateTime?,
+      rejectedBy: freezed == rejectedBy
           ? _value.rejectedBy
           : rejectedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      completedAt: null == completedAt
+              as String?,
+      completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      completedBy: null == completedBy
+              as DateTime?,
+      completedBy: freezed == completedBy
           ? _value.completedBy
           : completedBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -241,16 +248,17 @@ abstract class _$$SubscriberImplCopyWith<$Res>
       String managerName,
       String managerEmail,
       DateTime createdAt,
+      String createdBy,
       DateTime updatedAt,
       String updatedBy,
-      DateTime deletedAt,
-      String deletedBy,
-      DateTime approvedAt,
-      String approvedBy,
-      DateTime rejectedAt,
-      String rejectedBy,
-      DateTime completedAt,
-      String completedBy});
+      DateTime? deletedAt,
+      String? deletedBy,
+      DateTime? approvedAt,
+      String? approvedBy,
+      DateTime? rejectedAt,
+      String? rejectedBy,
+      DateTime? completedAt,
+      String? completedBy});
 }
 
 /// @nodoc
@@ -278,16 +286,17 @@ class __$$SubscriberImplCopyWithImpl<$Res>
     Object? managerName = null,
     Object? managerEmail = null,
     Object? createdAt = null,
+    Object? createdBy = null,
     Object? updatedAt = null,
     Object? updatedBy = null,
-    Object? deletedAt = null,
-    Object? deletedBy = null,
-    Object? approvedAt = null,
-    Object? approvedBy = null,
-    Object? rejectedAt = null,
-    Object? rejectedBy = null,
-    Object? completedAt = null,
-    Object? completedBy = null,
+    Object? deletedAt = freezed,
+    Object? deletedBy = freezed,
+    Object? approvedAt = freezed,
+    Object? approvedBy = freezed,
+    Object? rejectedAt = freezed,
+    Object? rejectedBy = freezed,
+    Object? completedAt = freezed,
+    Object? completedBy = freezed,
   }) {
     return _then(_$SubscriberImpl(
       id: null == id
@@ -346,6 +355,10 @@ class __$$SubscriberImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      createdBy: null == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as String,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -354,38 +367,38 @@ class __$$SubscriberImplCopyWithImpl<$Res>
           ? _value.updatedBy
           : updatedBy // ignore: cast_nullable_to_non_nullable
               as String,
-      deletedAt: null == deletedAt
+      deletedAt: freezed == deletedAt
           ? _value.deletedAt
           : deletedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      deletedBy: null == deletedBy
+              as DateTime?,
+      deletedBy: freezed == deletedBy
           ? _value.deletedBy
           : deletedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      approvedAt: null == approvedAt
+              as String?,
+      approvedAt: freezed == approvedAt
           ? _value.approvedAt
           : approvedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      approvedBy: null == approvedBy
+              as DateTime?,
+      approvedBy: freezed == approvedBy
           ? _value.approvedBy
           : approvedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      rejectedAt: null == rejectedAt
+              as String?,
+      rejectedAt: freezed == rejectedAt
           ? _value.rejectedAt
           : rejectedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      rejectedBy: null == rejectedBy
+              as DateTime?,
+      rejectedBy: freezed == rejectedBy
           ? _value.rejectedBy
           : rejectedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      completedAt: null == completedAt
+              as String?,
+      completedAt: freezed == completedAt
           ? _value.completedAt
           : completedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      completedBy: null == completedBy
+              as DateTime?,
+      completedBy: freezed == completedBy
           ? _value.completedBy
           : completedBy // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -408,6 +421,7 @@ class _$SubscriberImpl implements _Subscriber {
       required this.managerName,
       required this.managerEmail,
       required this.createdAt,
+      required this.createdBy,
       required this.updatedAt,
       required this.updatedBy,
       required this.deletedAt,
@@ -448,29 +462,31 @@ class _$SubscriberImpl implements _Subscriber {
   @override
   final DateTime createdAt;
   @override
+  final String createdBy;
+  @override
   final DateTime updatedAt;
   @override
   final String updatedBy;
   @override
-  final DateTime deletedAt;
+  final DateTime? deletedAt;
   @override
-  final String deletedBy;
+  final String? deletedBy;
   @override
-  final DateTime approvedAt;
+  final DateTime? approvedAt;
   @override
-  final String approvedBy;
+  final String? approvedBy;
   @override
-  final DateTime rejectedAt;
+  final DateTime? rejectedAt;
   @override
-  final String rejectedBy;
+  final String? rejectedBy;
   @override
-  final DateTime completedAt;
+  final DateTime? completedAt;
   @override
-  final String completedBy;
+  final String? completedBy;
 
   @override
   String toString() {
-    return 'Subscriber(id: $id, site: $site, name: $name, email: $email, tel: $tel, zip: $zip, prefecture: $prefecture, city: $city, address1: $address1, address2: $address2, desc: $desc, managerName: $managerName, managerEmail: $managerEmail, createdAt: $createdAt, updatedAt: $updatedAt, updatedBy: $updatedBy, deletedAt: $deletedAt, deletedBy: $deletedBy, approvedAt: $approvedAt, approvedBy: $approvedBy, rejectedAt: $rejectedAt, rejectedBy: $rejectedBy, completedAt: $completedAt, completedBy: $completedBy)';
+    return 'Subscriber(id: $id, site: $site, name: $name, email: $email, tel: $tel, zip: $zip, prefecture: $prefecture, city: $city, address1: $address1, address2: $address2, desc: $desc, managerName: $managerName, managerEmail: $managerEmail, createdAt: $createdAt, createdBy: $createdBy, updatedAt: $updatedAt, updatedBy: $updatedBy, deletedAt: $deletedAt, deletedBy: $deletedBy, approvedAt: $approvedAt, approvedBy: $approvedBy, rejectedAt: $rejectedAt, rejectedBy: $rejectedBy, completedAt: $completedAt, completedBy: $completedBy)';
   }
 
   @override
@@ -498,6 +514,8 @@ class _$SubscriberImpl implements _Subscriber {
                 other.managerEmail == managerEmail) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.updatedBy, updatedBy) ||
@@ -537,6 +555,7 @@ class _$SubscriberImpl implements _Subscriber {
         managerName,
         managerEmail,
         createdAt,
+        createdBy,
         updatedAt,
         updatedBy,
         deletedAt,
@@ -572,16 +591,17 @@ abstract class _Subscriber implements Subscriber {
       required final String managerName,
       required final String managerEmail,
       required final DateTime createdAt,
+      required final String createdBy,
       required final DateTime updatedAt,
       required final String updatedBy,
-      required final DateTime deletedAt,
-      required final String deletedBy,
-      required final DateTime approvedAt,
-      required final String approvedBy,
-      required final DateTime rejectedAt,
-      required final String rejectedBy,
-      required final DateTime completedAt,
-      required final String completedBy}) = _$SubscriberImpl;
+      required final DateTime? deletedAt,
+      required final String? deletedBy,
+      required final DateTime? approvedAt,
+      required final String? approvedBy,
+      required final DateTime? rejectedAt,
+      required final String? rejectedBy,
+      required final DateTime? completedAt,
+      required final String? completedBy}) = _$SubscriberImpl;
 
   @override
   String get id;
@@ -612,25 +632,27 @@ abstract class _Subscriber implements Subscriber {
   @override
   DateTime get createdAt;
   @override
+  String get createdBy;
+  @override
   DateTime get updatedAt;
   @override
   String get updatedBy;
   @override
-  DateTime get deletedAt;
+  DateTime? get deletedAt;
   @override
-  String get deletedBy;
+  String? get deletedBy;
   @override
-  DateTime get approvedAt;
+  DateTime? get approvedAt;
   @override
-  String get approvedBy;
+  String? get approvedBy;
   @override
-  DateTime get rejectedAt;
+  DateTime? get rejectedAt;
   @override
-  String get rejectedBy;
+  String? get rejectedBy;
   @override
-  DateTime get completedAt;
+  DateTime? get completedAt;
   @override
-  String get completedBy;
+  String? get completedBy;
   @override
   @JsonKey(ignore: true)
   _$$SubscriberImplCopyWith<_$SubscriberImpl> get copyWith =>

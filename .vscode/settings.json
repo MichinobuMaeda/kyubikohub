@@ -18,18 +18,24 @@
     "LNBW",
     "LTRB",
     "mktemp",
+    "Nishi",
     "NKBCK",
     "nodoc",
     "prefs",
     "pyenv",
     "QFVJ",
+    "Shinjuku",
     "sublist",
     "tracefile",
     "uids",
     "venv",
     "Zabcdefghijkmnopqrstuvwxyz"
   ],
-  "dart.flutterSdkPath": ".fvm/versions/3.22.2",
+  "[dart]": {
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+    "editor.formatOnSave": true
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.22.3",
   "python.createEnvironment.trigger": "off",
   "files.trimTrailingWhitespace": true,
   "editor.formatOnSave": true

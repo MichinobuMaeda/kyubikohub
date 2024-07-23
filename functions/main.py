@@ -16,7 +16,7 @@ if os.environ.get("DEPLOYMENT_KEY") == "test":
     cov.start()
 
 from test_utils import test_deploy, run_test
-from admin import is_admin, create_site
+from admin import is_admin, create_site, accept_subscription
 from deployment import deploy
 
 app = initialize_app()
@@ -56,15 +56,16 @@ def deployment(
     req: https_fn.CallableRequest,
 ):
     if os.environ.get("DEPLOYMENT_KEY") == "test":
-        return "error"
+        return "Error"
     if os.environ.get("DEPLOYMENT_KEY") != req.data["DEPLOYMENT_KEY"]:
-        return "error"
+        return "Error"
     deploy(
         auth=auth,
         db=db,
         project_id=(os.environ.get("GCLOUD_PROJECT") or ""),
         data=req.data,
     )
+    return "OK"
 
 
 @https_fn.on_call(
@@ -75,11 +76,12 @@ def test_deployment(
     req: https_fn.CallableRequest,
 ):
     if os.environ.get("DEPLOYMENT_KEY") != "test":
-        return "error"
+        return "Error"
     test_deploy(
         auth=auth,
         db=db,
     )
+    return "OK"
 
 
 @https_fn.on_call(
@@ -97,3 +99,26 @@ def test_functions(
         auth=auth,
     )
     return "OK" if res else "NG"
+
+
+@https_fn.on_call(
+    region=region,
+)
+def subscribe(
+    req: https_fn.CallableRequest,
+):
+    return accept_subscription(
+        db=db,
+        site=req.data["site"],
+        name=req.data["name"],
+        email=req.data["email"],
+        tel=req.data["tel"],
+        zip=req.data["zip"],
+        prefecture=req.data["prefecture"],
+        city=req.data["city"],
+        address1=req.data["address1"],
+        address2=req.data["address2"],
+        desc=req.data["desc"],
+        managerName=req.data["managerName"],
+        managerEmail=req.data["managerEmail"],
+    )
