@@ -69,16 +69,37 @@
   "authFailed": "認証に失敗しました。",
   "systemError": "システムエラーです。",
   "itemIsRequired": "{item}を入力してください。",
+  "@itemIsRequired": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
   "passwordMismatch": "新しいパスワードの確認の入力が一致しません。",
   "weakPassword": "弱いパスワードです。",
   "changedPassword": "パスワードを変更しました。",
   "invalidEmail": "正しい書式のメールアドレスを入力してください。",
   "userDisabled": "メールアドレスまたはパスワードが間違っています。",
-  "userNotFound": "userDisabled",
-  "wrongPassword": "userDisabled",
+  "userNotFound": "メールアドレスまたはパスワードが間違っています。",
+  "wrongPassword": "メールアドレスまたはパスワードが間違っています。",
   "confirmTo": "本当に{action}しますか？",
   "currentSiteId": "現在のサイトID: {site}",
+  "@currentSiteId": {
+    "placeholders": {
+      "site": {
+        "type": "String"
+      }
+    }
+  },
   "acceptEmail": "{supportEmail} からのメールを受信できるようにしておいてください。",
+  "@acceptEmail": {
+    "placeholders": {
+      "supportEmail": {
+        "type": "String"
+      }
+    }
+  },
   "sendResetPasswordEmail": "「Kyubiko Hub のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。",
   "required": "必須",
   "alphaNumerics": "英数字",
@@ -86,6 +107,13 @@
   "emailFormat": "メールアドレスの形式",
   "telFormat": "電話番号の形式",
   "lengthNotLessThan": "{length}文字以上",
+  "@lengthNotLessThan": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "notForIndividualApplication": "個人で申し込む場合は不要",
   "address2HelperText": "郵便物が届くように記載してください",
   "saved": "保存しました。",

@@ -12,7 +12,7 @@
     "test": "npm run test:functions && npm run test:firestore && npm run test:ui",
     "start": "npx firebase emulators:exec --only auth,functions,firestore,storage --ui 'npm run test:data && fvm flutter run -d chrome --web-port=3000'",
     "build_runner": "fvm dart run build_runner watch",
-    "gen-l10n": "fvm flutter gen-l10n",
+    "gen_intl": "fvm flutter gen-l10n",
     "analyze": "fvm dart analyze"
   },
   "author": "Michinobu Maeda",

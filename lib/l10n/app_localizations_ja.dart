@@ -209,7 +209,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get systemError => 'システムエラーです。';
 
   @override
-  String itemIsRequired(Object item) {
+  String itemIsRequired(String item) {
     return '$itemを入力してください。';
   }
 
@@ -229,10 +229,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get userDisabled => 'メールアドレスまたはパスワードが間違っています。';
 
   @override
-  String get userNotFound => 'userDisabled';
+  String get userNotFound => 'メールアドレスまたはパスワードが間違っています。';
 
   @override
-  String get wrongPassword => 'userDisabled';
+  String get wrongPassword => 'メールアドレスまたはパスワードが間違っています。';
 
   @override
   String confirmTo(Object action) {
@@ -240,12 +240,12 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String currentSiteId(Object site) {
+  String currentSiteId(String site) {
     return '現在のサイトID: $site';
   }
 
   @override
-  String acceptEmail(Object supportEmail) {
+  String acceptEmail(String supportEmail) {
     return '$supportEmail からのメールを受信できるようにしておいてください。';
   }
 
@@ -268,7 +268,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get telFormat => '電話番号の形式';
 
   @override
-  String lengthNotLessThan(Object length) {
+  String lengthNotLessThan(int length) {
     return '$length文字以上';
   }
 

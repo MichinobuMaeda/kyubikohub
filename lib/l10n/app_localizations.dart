@@ -503,7 +503,7 @@ abstract class AppLocalizations {
   ///
   /// In ja, this message translates to:
   /// **'{item}を入力してください。'**
-  String itemIsRequired(Object item);
+  String itemIsRequired(String item);
 
   /// No description provided for @passwordMismatch.
   ///
@@ -538,13 +538,13 @@ abstract class AppLocalizations {
   /// No description provided for @userNotFound.
   ///
   /// In ja, this message translates to:
-  /// **'userDisabled'**
+  /// **'メールアドレスまたはパスワードが間違っています。'**
   String get userNotFound;
 
   /// No description provided for @wrongPassword.
   ///
   /// In ja, this message translates to:
-  /// **'userDisabled'**
+  /// **'メールアドレスまたはパスワードが間違っています。'**
   String get wrongPassword;
 
   /// No description provided for @confirmTo.
@@ -557,13 +557,13 @@ abstract class AppLocalizations {
   ///
   /// In ja, this message translates to:
   /// **'現在のサイトID: {site}'**
-  String currentSiteId(Object site);
+  String currentSiteId(String site);
 
   /// No description provided for @acceptEmail.
   ///
   /// In ja, this message translates to:
   /// **'{supportEmail} からのメールを受信できるようにしておいてください。'**
-  String acceptEmail(Object supportEmail);
+  String acceptEmail(String supportEmail);
 
   /// No description provided for @sendResetPasswordEmail.
   ///
@@ -605,7 +605,7 @@ abstract class AppLocalizations {
   ///
   /// In ja, this message translates to:
   /// **'{length}文字以上'**
-  String lengthNotLessThan(Object length);
+  String lengthNotLessThan(int length);
 
   /// No description provided for @notForIndividualApplication.
   ///
