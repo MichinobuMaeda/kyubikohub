@@ -7,7 +7,7 @@ import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class GuidanceSection extends HookConsumerWidget {
   const GuidanceSection({super.key});

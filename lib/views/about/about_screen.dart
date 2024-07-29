@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../account/select_site_form.dart';
 import '../account/login_section.dart';
 import '../widgets/section_header.dart';

@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../config.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 typedef LicenseRecord = ({String title, List<String> bodies});
 

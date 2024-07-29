@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kyubikohub/views/account/logout_form.dart';
 
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../account/select_site_form.dart';
 import '../account/change_password_form.dart';
 

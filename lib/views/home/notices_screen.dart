@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'notices_section.dart';
 
 class NoticesScreen extends HookConsumerWidget {

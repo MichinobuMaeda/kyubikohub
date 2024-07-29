@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../widgets/section_header.dart';
 import 'app_admin_section.dart';
 import 'sites_section.dart';

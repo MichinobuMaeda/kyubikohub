@@ -8,7 +8,7 @@ import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/notices_repository.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class NoticesSection extends HookConsumerWidget {
   final bool short;
@@ -23,8 +23,7 @@ class NoticesSection extends HookConsumerWidget {
         .watch(noticesRepositoryProvider)
         .map(
           (notice) => (
-            title:
-                '${formatYmdHms(notice.createdAt)} ${notice.title}',
+            title: '${formatYmdHms(notice.createdAt)} ${notice.title}',
             message: notice.message,
             note: notice.note,
             deleted: notice.deletedAt != null,

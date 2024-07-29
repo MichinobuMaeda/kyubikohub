@@ -11,7 +11,7 @@ import '../../providers/conf_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';
 import '../validators.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class SubscribeSection extends HookConsumerWidget {
   const SubscribeSection({super.key});
@@ -278,13 +278,13 @@ class SubscribeForm extends HookConsumerWidget {
                       desc.value = (
                         val: value,
                         err: value.length < 200
-                            ? t.lengthNotLessThan(length: 200)
+                            ? t.lengthNotLessThan(200)
                             : null,
                       );
                     },
                     decoration: InputDecoration(
                       labelText: t.purposeSubscription,
-                      helperText: t.lengthNotLessThan(length: 200),
+                      helperText: t.lengthNotLessThan(200),
                       errorText: desc.value.err,
                     ),
                   ),

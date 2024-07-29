@@ -12,7 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
 
-import 'views/app_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';

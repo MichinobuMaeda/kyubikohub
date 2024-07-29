@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../providers/groups_repository.dart';
 import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'users_section.dart';
 
 class GroupScreen extends HookConsumerWidget {

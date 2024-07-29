@@ -9,7 +9,7 @@ import 'package:kyubikohub/models/conf.dart';
 import 'package:kyubikohub/providers/conf_repository.dart';
 import 'package:kyubikohub/providers/account_repository.dart';
 import 'package:kyubikohub/views/about/about_app_section.dart';
-import 'package:kyubikohub/views/app_localizations.dart';
+import 'package:kyubikohub/l10n/app_localizations_ja.dart';
 
 const testDescription = 'Test data';
 
@@ -32,7 +32,7 @@ void main() {
     'AboutAppSection shows the app title, version, description.',
     (WidgetTester tester) async {
       // Prepare
-      final t = AppLocalizations();
+      final t = AppLocalizationsJa();
       final overrides = [
         confRepositoryProvider.overrideWith(() => ConfRepositoryStub()),
         accountStatusProvider.overrideWith(

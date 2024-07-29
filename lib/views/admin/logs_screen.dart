@@ -13,7 +13,7 @@ import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
 import '../widgets/modal_sheet.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class LogsScreen extends HookConsumerWidget {
   const LogsScreen({super.key});

@@ -8,7 +8,7 @@ import '../../config.dart';
 import '../../providers/log_repository.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class SelectSiteForm extends HookConsumerWidget {
   const SelectSiteForm({super.key});
@@ -33,7 +33,7 @@ class SelectSiteForm extends HookConsumerWidget {
             children: [
               if (oldSite != null)
                 Text(
-                  t.currentSiteId(site: oldSite),
+                  t.currentSiteId(oldSite),
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               if (oldSite != null) const SizedBox(height: buttonGap),

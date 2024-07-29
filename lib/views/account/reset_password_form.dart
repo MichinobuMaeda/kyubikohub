@@ -7,7 +7,7 @@ import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import '../widgets/modal_sheet.dart';
 import 'auth_error_message.dart';
 

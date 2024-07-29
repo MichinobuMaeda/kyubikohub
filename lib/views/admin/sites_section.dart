@@ -8,7 +8,7 @@ import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class SitesSection extends HookConsumerWidget {
   const SitesSection({super.key});
@@ -282,15 +282,15 @@ Future<(bool, String)> onSaveNewSite({
   required String password,
 }) async {
   if (siteId.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteId));
+    return (false, t.itemIsRequired(t.siteId));
   } else if (siteName.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteName));
+    return (false, t.itemIsRequired(t.siteName));
   } else if (name.isEmpty) {
-    return (false, t.itemIsRequired(item: t.displayName));
+    return (false, t.itemIsRequired(t.displayName));
   } else if (email.isEmpty) {
-    return (false, t.itemIsRequired(item: t.email));
+    return (false, t.itemIsRequired(t.email));
   } else if (password.isEmpty) {
-    return (false, t.itemIsRequired(item: t.password));
+    return (false, t.itemIsRequired(t.password));
   } else {
     final ret = await createSite(
       siteId: siteId,
@@ -314,9 +314,9 @@ Future<(bool, String)> onSaveEditedSite({
   required String siteName,
 }) async {
   if (siteId.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteId));
+    return (false, t.itemIsRequired(t.siteId));
   } else if (siteName.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteName));
+    return (false, t.itemIsRequired(t.siteName));
   } else {
     try {
       await updateDoc(
@@ -337,7 +337,7 @@ Future<(bool, String)> onDeleteSite({
   required String siteId,
 }) async {
   if (siteId.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteId));
+    return (false, t.itemIsRequired(t.siteId));
   } else {
     try {
       await deleteDoc(siteRef(id: siteId));
@@ -355,7 +355,7 @@ Future<(bool, String)> onRestoreSite({
   required String siteId,
 }) async {
   if (siteId.isEmpty) {
-    return (false, t.itemIsRequired(item: t.siteId));
+    return (false, t.itemIsRequired(t.siteId));
   } else {
     try {
       await restoreDoc(siteRef(id: siteId));

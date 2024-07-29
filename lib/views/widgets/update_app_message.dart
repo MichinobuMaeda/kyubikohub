@@ -6,7 +6,7 @@ import '../../models/data_state.dart';
 import '../../models/conf.dart';
 import '../../providers/update_app_provider.dart';
 import '../../providers/conf_repository.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class UpdateAppMessage extends HookConsumerWidget {
   const UpdateAppMessage({super.key});
@@ -43,8 +43,7 @@ class UpdateAppMessage extends HookConsumerWidget {
                     onPressed: updateApp,
                     style: FilledButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.error,
-                      foregroundColor:
-                          Theme.of(context).colorScheme.onError,
+                      foregroundColor: Theme.of(context).colorScheme.onError,
                     ),
                     child: Row(
                       children: [

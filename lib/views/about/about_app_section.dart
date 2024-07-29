@@ -7,7 +7,7 @@ import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/conf.dart';
 import '../../providers/conf_repository.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class AboutAppSection extends HookConsumerWidget {
   const AboutAppSection({super.key});

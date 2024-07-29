@@ -11,7 +11,7 @@ import '../../providers/account_repository.dart';
 import '../../providers/firebase_utils.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class AppAdminSection extends HookConsumerWidget {
   final TextEditingController _editDescController = TextEditingController();

@@ -6,7 +6,7 @@ import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/groups_repository.dart';
 import '../widgets/list_items_section.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class GroupsSection extends HookConsumerWidget {
   final String? user;

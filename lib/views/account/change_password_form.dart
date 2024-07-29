@@ -8,7 +8,7 @@ import '../../providers/site_repository.dart';
 import '../../providers/auth_repository.dart';
 import '../../providers/log_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'auth_error_message.dart';
 import 'reset_password_form.dart';
 

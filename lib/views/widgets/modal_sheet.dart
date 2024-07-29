@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../config.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class ModalSheet extends HookConsumerWidget {
   final String title;

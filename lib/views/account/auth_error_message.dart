@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class AuthErrorMessage extends HookConsumerWidget {
   final String? status;
@@ -33,9 +33,9 @@ String statusToMessage(AppLocalizations t, String? status) {
     case null || '' || 'ok':
       return '';
     case 'email-required':
-      return t.itemIsRequired(item: t.email);
+      return t.itemIsRequired(t.email);
     case 'password-required':
-      return t.itemIsRequired(item: t.password);
+      return t.itemIsRequired(t.password);
     case 'invalid-email':
       return t.invalidEmail;
     case 'user-disabled':
@@ -45,11 +45,11 @@ String statusToMessage(AppLocalizations t, String? status) {
     case 'wrong-password':
       return t.wrongPassword;
     case 'curPassword-required':
-      return t.itemIsRequired(item: t.curPassword);
+      return t.itemIsRequired(t.curPassword);
     case 'newPassword-required':
-      return t.itemIsRequired(item: t.newPassword);
+      return t.itemIsRequired(t.newPassword);
     case 'conPassword-required':
-      return t.itemIsRequired(item: t.conPassword);
+      return t.itemIsRequired(t.conPassword);
     case 'password-mismatch':
       return t.passwordMismatch;
     case 'weak-password':

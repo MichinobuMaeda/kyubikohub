@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../providers/account_repository.dart';
 import '../widgets/section_header.dart';
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'site_settings_section.dart';
 import 'account_settings_section.dart';
 

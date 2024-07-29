@@ -8,7 +8,7 @@ import '../models/nav_item.dart';
 import '../providers/account_repository.dart';
 import 'about/about_screen.dart';
 import 'widgets/update_app_message.dart';
-import 'app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 
 class Navigation extends HookConsumerWidget {
   final Widget child;

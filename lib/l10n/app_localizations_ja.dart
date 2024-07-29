@@ -1,163 +1,322 @@
-import 'dart:async';
+import 'app_localizations.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart' as intl;
+/// The translations for Japanese (`ja`).
+class AppLocalizationsJa extends AppLocalizations {
+  AppLocalizationsJa([String locale = 'ja']) : super(locale);
 
-import '../../config.dart';
+  @override
+  String get title => 'Kyubiko Hub';
 
-class AppLocalizations {
-  String get title => appTitle;
-  // Nav Items
+  @override
   String get home => 'ホーム';
+
+  @override
   String get me => '設定';
+
+  @override
   String get about => '情報';
+
+  @override
   String get administration => '管理';
-  // Items
+
+  @override
   String get admin => 'アプリ管理者';
+
+  @override
   String get manager => 'サイト管理者';
+
+  @override
   String get notices => 'お知らせ';
+
+  @override
   String get preferences => 'アプリの設定';
+
+  @override
   String get accountSettings => 'アカウントの設定';
+
+  @override
   String get siteSettings => 'サイトの設定';
+
+  @override
   String get siteAdmin => 'サイトの管理';
+
+  @override
   String get appAdmin => 'アプリの管理';
+
+  @override
   String get guidance => 'ご案内';
+
+  @override
   String get aboutTheApp => 'アプリについて';
+
+  @override
   String get forGuests => 'ログイン前の案内';
+
+  @override
   String get forMembers => 'ログイン後の案内';
+
+  @override
   String get forManagers => 'サイト管理者向けの案内';
+
+  @override
   String get forSubscriber => '利用申込みの案内';
+
+  @override
   String get licenses => 'ライセンス';
+
+  @override
   String get users => 'メンバー';
+
+  @override
   String get groups => 'グループ';
+
+  @override
   String get sites => 'サイト';
+
+  @override
   String get siteId => 'サイトID';
+
+  @override
   String get email => 'メールアドレス';
+
+  @override
   String get password => 'パスワード';
+
+  @override
   String get curPassword => '現在のパスワード';
+
+  @override
   String get newPassword => '新しいパスワード';
+
+  @override
   String get conPassword => '新しいパスワード（確認）';
+
+  @override
   String get allMembers => 'すべてのメンバー';
+
+  @override
   String get id => 'ID';
+
+  @override
   String get siteName => 'サイト名';
+
+  @override
   String get displayName => '表示名';
+
+  @override
   String get groupMembership => '所属グループ';
+
+  @override
   String get operationLog => '操作ログ';
+
+  @override
   String get sample => 'サンプル';
+
+  @override
   String get subscriber => '利用者';
+
+  @override
   String get tel => '電話番号';
+
+  @override
   String get address => '住所';
+
+  @override
   String get zip => '郵便番号';
+
+  @override
   String get prefecture => '都道府県';
+
+  @override
   String get city => '市区町村';
+
+  @override
   String get address1 => '町丁目番地号';
+
+  @override
   String get address2 => '建物名・部屋番号';
+
+  @override
   String get subscriberName => '利用者名';
+
+  @override
   String get subscriberEmail => '利用者メール';
+
+  @override
   String get purposeSubscription => '利用の目的';
-  // Actions
+
+  @override
   String get login => 'ログイン';
+
+  @override
   String get logout => 'ログアウト';
+
+  @override
   String get copy => 'コピー';
+
+  @override
   String get edit => '編集';
+
+  @override
   String get update => '更新';
+
+  @override
   String get add => '新規追加';
+
+  @override
   String get save => '保存';
+
+  @override
   String get delete => '削除';
+
+  @override
   String get restore => '復活';
+
+  @override
   String get close => '閉じる';
+
+  @override
   String get selectSite => 'サイトを選択する';
+
+  @override
   String get changePassword => 'パスワード変更';
+
+  @override
   String get resetPassword => 'パスワード再設定';
+
+  @override
   String get forgetYourPassword => 'パスワードを忘れた場合';
+
+  @override
   String get send => '送信';
+
+  @override
   String get goBack => '戻る';
+
+  @override
   String get warning => '警告';
+
+  @override
   String get showMore => '続きを見る';
+
+  @override
   String get subscribe => '利用申込み';
-  // Errors
+
+  @override
   String get authFailed => '認証に失敗しました。';
+
+  @override
   String get systemError => 'システムエラーです。';
-  String itemIsRequired({required String item}) => '$itemを入力してください。';
+
+  @override
+  String itemIsRequired(Object item) {
+    return '$itemを入力してください。';
+  }
+
+  @override
   String get passwordMismatch => '新しいパスワードの確認の入力が一致しません。';
+
+  @override
   String get weakPassword => '弱いパスワードです。';
+
+  @override
   String get changedPassword => 'パスワードを変更しました。';
+
+  @override
   String get invalidEmail => '正しい書式のメールアドレスを入力してください。';
+
+  @override
   String get userDisabled => 'メールアドレスまたはパスワードが間違っています。';
-  String get userNotFound => userDisabled;
-  String get wrongPassword => userDisabled;
-  // Message
-  String confirmTo({required String action}) => '本当に$actionしますか？';
-  String currentSiteId({required String site}) => '現在のサイトID: $site';
-  String get acceptEmail => '''
-$supportEmail からのメールを受信できるようにしておいてください。''';
-  String get sendResetPasswordEmail => '''
-「$appTitle のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。''';
+
+  @override
+  String get userNotFound => 'userDisabled';
+
+  @override
+  String get wrongPassword => 'userDisabled';
+
+  @override
+  String confirmTo(Object action) {
+    return '本当に$actionしますか？';
+  }
+
+  @override
+  String currentSiteId(Object site) {
+    return '現在のサイトID: $site';
+  }
+
+  @override
+  String acceptEmail(Object supportEmail) {
+    return '$supportEmail からのメールを受信できるようにしておいてください。';
+  }
+
+  @override
+  String get sendResetPasswordEmail => '「Kyubiko Hub のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。';
+
+  @override
   String get required => '必須';
+
+  @override
   String get alphaNumerics => '英数字';
+
+  @override
   String get lowercasesAndNumerics => '半角英数字';
+
+  @override
   String get emailFormat => 'メールアドレスの形式';
+
+  @override
   String get telFormat => '電話番号の形式';
-  String lengthNotLessThan({required int length}) => '$length文字以上';
+
+  @override
+  String lengthNotLessThan(Object length) {
+    return '$length文字以上';
+  }
+
+  @override
   String get notForIndividualApplication => '個人で申し込む場合は不要';
+
+  @override
   String get address2HelperText => '郵便物が届くように記載してください';
+
+  @override
   String get saved => '保存しました。';
+
+  @override
   String get deleted => '削除しました。';
+
+  @override
   String get restored => '復活しました。';
+
+  @override
   String get sentEmail => 'メールを送信しました。';
+
+  @override
   String get whyLogout => '通常、ログアウトの操作は不要です。';
+
+  @override
   String get noData => '表示するデータがありません';
+
+  @override
   String get version => 'バージョン';
+
+  @override
   String get defaultLoadingMessage => 'データ受信中 ...';
+
+  @override
   String get defaultErrorMessage => 'エラー';
+
+  @override
   String get updateThisApp => 'アプリを更新してください';
+
+  @override
   String get adminPrivRequired => '管理者権限が必要です。';
+
+  @override
   String get askAdminSiteId => 'サイトIDがわからない場合はサイト管理者に問い合わせてください。';
+
+  @override
   String get askAdminHowToLogin => 'ログイン方法がわからない場合はサイト管理者に問い合わせてください。';
 
-  AppLocalizations() : localeName = intl.Intl.canonicalizedLocale('ja');
-
-  final String localeName;
-
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
-
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
-
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
-
-  /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('ja')];
-}
-
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
-  const _AppLocalizationsDelegate();
-
   @override
-  Future<AppLocalizations> load(Locale locale) {
-    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
-  }
-
-  @override
-  bool isSupported(Locale locale) =>
-      <String>['ja'].contains(locale.languageCode);
-
-  @override
-  bool shouldReload(_AppLocalizationsDelegate old) => false;
-}
-
-AppLocalizations lookupAppLocalizations(Locale locale) {
-  // Lookup logic when only language code is specified.
-  return AppLocalizations();
+  String get unknown => '不明';
 }

@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kyubikohub/models/nav_item.dart';
 
-import '../app_localizations.dart';
+import '../../l10n/app_localizations.dart';
 import 'section_header.dart';
 
 class GoBackHeader extends HookConsumerWidget {
