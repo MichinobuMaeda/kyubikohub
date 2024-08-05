@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/data_state.dart';
 import '../models/conf.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
 
 part 'conf_repository.g.dart';
 

@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../config.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
 import '../models/data_state.dart';
 import '../models/site.dart';
-import 'local_storage_repository.dart';
+import '../repositories/local_storage_repository.dart';
 
 part 'site_repository.g.dart';
 

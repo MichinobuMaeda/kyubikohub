@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../config.dart';
-import '../../providers/firebase_utils.dart';
+import '../../repositories/firebase_repository.dart';
 import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';

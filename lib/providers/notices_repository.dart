@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../config.dart';
 import '../models/data_state.dart';
 import '../models/notice.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
 import 'account_repository.dart';
 
 part 'notices_repository.g.dart';

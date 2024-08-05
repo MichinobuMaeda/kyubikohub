@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kyubikohub/config.dart';
@@ -7,8 +8,8 @@ import 'package:kyubikohub/providers/groups_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/data_state.dart';
-import 'auth_repository.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
+import '../repositories/firebase_repository.dart';
 import 'site_repository.dart';
 
 part 'account_repository.g.dart';
@@ -196,4 +197,37 @@ AccountStatus accountStatus(AccountStatusRef ref) {
     manager: manager,
     admin: account?.site == adminsSiteId,
   );
+}
+
+@visibleForTesting
+@freezed
+class AuthUser with _$AuthUser {
+  const factory AuthUser({
+    required String uid,
+    required String? email,
+  }) = _AuthUser;
+}
+
+@visibleForTesting
+@Riverpod(keepAlive: true)
+class AuthRepository extends _$AuthRepository {
+  @override
+  DataState<AuthUser?> build() {
+    FirebaseAuth.instance.authStateChanges().listen(
+      (user) {
+        state = Success(
+          data: user == null
+              ? null
+              : AuthUser(
+                  uid: user.uid,
+                  email: user.email,
+                ),
+        );
+      },
+      onError: (error, stackTrace) {
+        state = Error.fromError(error);
+      },
+    );
+    return const Loading();
+  }
 }

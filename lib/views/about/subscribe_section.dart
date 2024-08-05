@@ -6,7 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/conf.dart';
-import '../../providers/firebase_utils.dart';
+import '../../repositories/firebase_repository.dart';
 import '../../providers/conf_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';

@@ -8,7 +8,7 @@ import '../../models/conf.dart';
 import '../../models/nav_item.dart';
 import '../../providers/conf_repository.dart';
 import '../../providers/account_repository.dart';
-import '../../providers/firebase_utils.dart';
+import '../../repositories/firebase_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';
 import '../../l10n/app_localizations.dart';

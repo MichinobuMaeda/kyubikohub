@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/data_state.dart';
 import '../models/group.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
 import 'account_repository.dart';
 
 part 'groups_repository.g.dart';

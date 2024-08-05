@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/data_state.dart';
 import '../models/user.dart';
-import 'firebase_utils.dart';
+import '../repositories/firebase_utils.dart';
 import 'account_repository.dart';
 
 part 'users_repository.g.dart';

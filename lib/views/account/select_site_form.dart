@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kyubikohub/models/data_state.dart';
 
 import '../../config.dart';
-import '../../providers/log_repository.dart';
+import '../../repositories/log_repository.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../../l10n/app_localizations.dart';

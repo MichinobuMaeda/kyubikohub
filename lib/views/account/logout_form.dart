@@ -5,9 +5,9 @@ import 'package:kyubikohub/providers/modal_sheet_controller_provider.dart';
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
-import '../../providers/auth_repository.dart';
+import '../../repositories/firebase_repository.dart';
 import '../../providers/account_repository.dart';
-import '../../providers/log_repository.dart';
+import '../../repositories/log_repository.dart';
 import '../../l10n/app_localizations.dart';
 
 class LogoutForm extends HookConsumerWidget {

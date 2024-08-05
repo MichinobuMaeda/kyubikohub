@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
-import '../../providers/firebase_utils.dart';
+import '../../repositories/firebase_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
 import '../widgets/list_items_section.dart';
 import '../../l10n/app_localizations.dart';

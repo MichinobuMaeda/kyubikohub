@@ -8,7 +8,7 @@ import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../../providers/log_repository.dart';
+import '../../repositories/log_repository.dart';
 import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
 import '../widgets/modal_sheet.dart';

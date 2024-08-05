@@ -16,7 +16,7 @@ import 'l10n/app_localizations.dart';
 import 'views/router.dart';
 import 'providers/update_app_provider.dart';
 import 'providers/provider_logger.dart';
-import 'providers/local_storage_repository.dart';
+import 'repositories/local_storage_repository.dart';
 import 'config.dart';
 import 'platforms.dart';
 
