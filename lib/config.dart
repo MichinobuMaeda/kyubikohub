@@ -82,6 +82,8 @@ const contentWidth = baseSize * 54;
 const listItemHeight = baseSize * 3.0;
 const listItemHeightWithSubtitle = baseSize * 4.4;
 const sectionHeaderHeight = listItemHeight;
+Color sectionHeaderColor(BuildContext context) =>
+    Theme.of(context).colorScheme.primaryContainer.withAlpha(224);
 
 const textBoxMaxLines = 64;
 
@@ -206,5 +208,4 @@ String formatYmdHms(DateTime ts) =>
 String formatYmdHm(DateTime ts) =>
     ts.toIso8601String().substring(0, 16).replaceFirst('T', ' ');
 
-String formatYmd(DateTime ts) =>
-    ts.toIso8601String().substring(0, 10);
+String formatYmd(DateTime ts) => ts.toIso8601String().substring(0, 10);

@@ -55,7 +55,7 @@
     "editor.defaultFormatter": "Dart-Code.dart-code",
     "editor.formatOnSave": true
   },
-  "dart.flutterSdkPath": ".fvm/versions/3.22.3",
+  "dart.flutterSdkPath": ".fvm/versions/3.24.0",
   "python.createEnvironment.trigger": "off",
   "files.trimTrailingWhitespace": true,
   "editor.formatOnSave": true,
