@@ -1,22 +1,22 @@
 {
   "recommendations": [
-    "google.arb-editor",
-    "gaetschwartz.build-runner",
-    "streetsidesoftware.code-spell-checker",
-    "dart-code.dart-code",
-    "editorconfig.editorconfig",
-    "dbaeumer.vscode-eslint",
-    "dart-code.flutter",
-    "ms-ceintl.vscode-language-pack-ja",
     "bierner.markdown-mermaid",
-    "davidanson.vscode-markdownlint",
-    "redhat.vscode-yaml",
     "charliermarsh.ruff",
-    "donjayamanne.python-extension-pack",
+    "dart-code.dart-code",
+    "dart-code.flutter",
+    "davidanson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
     "donjayamanne.python-environment-manager",
+    "donjayamanne.python-extension-pack",
+    "editorconfig.editorconfig",
+    "gaetschwartz.build-runner",
+    "google.arb-editor",
+    "ms-ceintl.vscode-language-pack-ja",
     "ms-python.debugpy",
     "ms-python.python",
     "ms-python.vscode-pylance",
-    "robert-brunhage.flutter-riverpod-snippets"
+    "redhat.vscode-yaml",
+    "robert-brunhage.flutter-riverpod-snippets",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

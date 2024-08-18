@@ -1,0 +1,34 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [
+    3000,
+    4040
+  ],
+  "name": "Flutter",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bierner.markdown-mermaid",
+        "charliermarsh.ruff",
+        "dart-code.dart-code",
+        "dart-code.flutter",
+        "davidanson.vscode-markdownlint",
+        "dbaeumer.vscode-eslint",
+        "donjayamanne.python-environment-manager",
+        "donjayamanne.python-extension-pack",
+        "editorconfig.editorconfig",
+        "gaetschwartz.build-runner",
+        "google.arb-editor",
+        "ms-ceintl.vscode-language-pack-ja",
+        "ms-python.debugpy",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
+        "robert-brunhage.flutter-riverpod-snippets",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  }
+}
