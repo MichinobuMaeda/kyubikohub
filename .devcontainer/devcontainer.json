@@ -4,7 +4,12 @@
   },
   "forwardPorts": [
     3000,
-    4040
+    4040,
+    9099,
+    5001,
+    8080,
+    8085,
+    9199
   ],
   "name": "Flutter",
   "customizations": {

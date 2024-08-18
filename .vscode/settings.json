@@ -71,5 +71,4 @@
   "editor.formatOnSave": true,
   "dart.flutterGenerateLocalizationsOnSave": "allIfDirty",
   "build-runner.flutterPath": ".fvm/flutter_sdk/bin/flutter",
-  "github.codespaces.usePortForwardingServiceForHTTPS": false
 }
