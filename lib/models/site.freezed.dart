@@ -23,7 +23,9 @@ mixin _$Site {
   String get forManagers => throw _privateConstructorUsedError;
   bool get deleted => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Site
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SiteCopyWith<Site> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -51,6 +53,8 @@ class _$SiteCopyWithImpl<$Res, $Val extends Site>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Site
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,6 +117,8 @@ class __$$SiteImplCopyWithImpl<$Res>
   __$$SiteImplCopyWithImpl(_$SiteImpl _value, $Res Function(_$SiteImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Site
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -201,7 +207,9 @@ class _$SiteImpl implements _Site {
   int get hashCode => Object.hash(
       runtimeType, id, name, forGuests, forMembers, forManagers, deleted);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Site
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SiteImplCopyWith<_$SiteImpl> get copyWith =>
@@ -229,8 +237,11 @@ abstract class _Site implements Site {
   String get forManagers;
   @override
   bool get deleted;
+
+  /// Create a copy of Site
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SiteImplCopyWith<_$SiteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

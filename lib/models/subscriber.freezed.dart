@@ -42,7 +42,9 @@ mixin _$Subscriber {
   DateTime? get completedAt => throw _privateConstructorUsedError;
   String? get completedBy => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Subscriber
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SubscriberCopyWith<Subscriber> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -91,6 +93,8 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Subscriber
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -269,6 +273,8 @@ class __$$SubscriberImplCopyWithImpl<$Res>
       _$SubscriberImpl _value, $Res Function(_$SubscriberImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Subscriber
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -568,7 +574,9 @@ class _$SubscriberImpl implements _Subscriber {
         completedBy
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Subscriber
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SubscriberImplCopyWith<_$SubscriberImpl> get copyWith =>
@@ -653,8 +661,11 @@ abstract class _Subscriber implements Subscriber {
   DateTime? get completedAt;
   @override
   String? get completedBy;
+
+  /// Create a copy of Subscriber
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SubscriberImplCopyWith<_$SubscriberImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

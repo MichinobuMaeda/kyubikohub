@@ -36,52 +36,6 @@ DocumentReference<Map<String, dynamic>> siteRef({
 }) =>
     FirebaseFirestore.instance.collection('sites').doc(id);
 
-Future<String> subscribe({
-  required String site,
-  required String name,
-  required String email,
-  required String tel,
-  required String zip,
-  required String prefecture,
-  required String city,
-  required String address1,
-  required String address2,
-  required String desc,
-  required String managerName,
-  required String managerEmail,
-}) async {
-  try {
-    final result = await FirebaseFunctions.instanceFor(
-      region: functionsRegion,
-    ).httpsCallable('subscribe').call(
-      {
-        "site": site,
-        "name": name,
-        "email": email,
-        "tel": tel,
-        "zip": zip,
-        "prefecture": prefecture,
-        "city": city,
-        "address1": address1,
-        "address2": address2,
-        "desc": desc,
-        "managerName": managerName,
-        "managerEmail": managerEmail,
-      },
-    );
-    return result.data as String;
-  } on FirebaseFunctionsException catch (e, s) {
-    debugPrint(e.code);
-    debugPrint(e.details);
-    debugPrint(e.message);
-    debugPrintStack(label: 'ERROR   : ${e.toString()}', stackTrace: s);
-    return 'Error';
-  } catch (e, s) {
-    debugPrintStack(label: 'ERROR   : ${e.toString()}', stackTrace: s);
-    return 'Error';
-  }
-}
-
 Future<bool> createSite({
   required String siteId,
   required String siteName,

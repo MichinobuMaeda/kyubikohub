@@ -1,4 +1,5 @@
 siteDescForGuests = "## for guests"
 siteDescForMembers = "## for members"
 siteDescForManagers = "## for site managers"
+siteDescForSubscriber = "## for subscriber"
 managersGroupName = "Site-managers"

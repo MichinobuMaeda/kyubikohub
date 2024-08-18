@@ -205,38 +205,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subscribe => '利用申込み';
 
   @override
-  String get authFailed => '認証に失敗しました。';
-
-  @override
-  String get systemError => 'システムエラーです。';
-
-  @override
-  String itemIsRequired(String item) {
-    return '$itemを入力してください。';
-  }
-
-  @override
-  String get passwordMismatch => '新しいパスワードの確認の入力が一致しません。';
-
-  @override
-  String get weakPassword => '弱いパスワードです。';
-
-  @override
-  String get changedPassword => 'パスワードを変更しました。';
-
-  @override
-  String get invalidEmail => '正しい書式のメールアドレスを入力してください。';
-
-  @override
-  String get userDisabled => 'メールアドレスまたはパスワードが間違っています。';
-
-  @override
-  String get userNotFound => 'メールアドレスまたはパスワードが間違っています。';
-
-  @override
-  String get wrongPassword => 'メールアドレスまたはパスワードが間違っています。';
-
-  @override
   String confirmTo(Object action) {
     return '本当に$actionしますか？';
   }
@@ -255,13 +223,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get sendResetPasswordEmail => '「Kyubiko Hub のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。';
 
   @override
+  String errorOf(String item) {
+    return 'エラー: $item';
+  }
+
+  @override
   String get required => '必須';
 
   @override
-  String get alphaNumerics => '英数字';
+  String get alphaNumerics => '半角英数字';
 
   @override
-  String get lowercasesAndNumerics => '半角英数字';
+  String get lCasesAndNumerics => '半角の小文字と数字';
+
+  @override
+  String get uCasesAndNumerics => '半角の大文字と数字';
 
   @override
   String get emailFormat => 'メールアドレスの形式';
@@ -270,15 +246,64 @@ class AppLocalizationsJa extends AppLocalizations {
   String get telFormat => '電話番号の形式';
 
   @override
+  String get zipFormat => '郵便番号の形式';
+
+  @override
+  String lengthNotMoreThan(int length) {
+    return '$length文字以下';
+  }
+
+  @override
   String lengthNotLessThan(int length) {
     return '$length文字以上';
   }
+
+  @override
+  String get authFailed => '認証に失敗しました。';
+
+  @override
+  String systemError(String message) {
+    return 'システムエラー: $message';
+  }
+
+  @override
+  String itemIsRequired(String item) {
+    return '$itemを入力してください。';
+  }
+
+  @override
+  String itemIsDuplicated(String item) {
+    return '$itemが重複しています。';
+  }
+
+  @override
+  String get passwordMismatch => '新しいパスワードの確認の入力が一致しません。';
+
+  @override
+  String get weakPassword => '弱いパスワードです。';
+
+  @override
+  String get changedPassword => 'パスワードを変更しました。';
+
+  @override
+  String get userDisabled => 'メールアドレスまたはパスワードが間違っています。';
+
+  @override
+  String get userNotFound => 'メールアドレスまたはパスワードが間違っています。';
+
+  @override
+  String get wrongPassword => 'メールアドレスまたはパスワードが間違っています。';
 
   @override
   String get notForIndividualApplication => '個人で申し込む場合は不要';
 
   @override
   String get address2HelperText => '郵便物が届くように記載してください';
+
+  @override
+  String tooManyRequestsFrom(String from) {
+    return '$from からのリクエストが多すぎます。';
+  }
 
   @override
   String get saved => '保存しました。';

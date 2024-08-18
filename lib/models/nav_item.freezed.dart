@@ -21,7 +21,9 @@ mixin _$NavItem {
   String get label => throw _privateConstructorUsedError;
   NavPath get navPath => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NavItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NavItemCopyWith<NavItem> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -44,6 +46,8 @@ class _$NavItemCopyWithImpl<$Res, $Val extends NavItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NavItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,6 +96,8 @@ class __$$NavItemImplCopyWithImpl<$Res>
       _$NavItemImpl _value, $Res Function(_$NavItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NavItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,7 +166,9 @@ class _$NavItemImpl implements _NavItem {
   int get hashCode =>
       Object.hash(runtimeType, icon, selectedIcon, label, navPath);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NavItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NavItemImplCopyWith<_$NavItemImpl> get copyWith =>
@@ -182,8 +190,11 @@ abstract class _NavItem implements NavItem {
   String get label;
   @override
   NavPath get navPath;
+
+  /// Create a copy of NavItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NavItemImplCopyWith<_$NavItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

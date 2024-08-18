@@ -37,7 +37,7 @@ String statusToMessage(AppLocalizations t, String? status) {
     case 'password-required':
       return t.itemIsRequired(t.password);
     case 'invalid-email':
-      return t.invalidEmail;
+      return t.errorOf(t.emailFormat);
     case 'user-disabled':
       return t.userDisabled;
     case 'user-not-found':

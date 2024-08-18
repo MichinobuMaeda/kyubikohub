@@ -489,66 +489,6 @@ abstract class AppLocalizations {
   /// **'利用申込み'**
   String get subscribe;
 
-  /// No description provided for @authFailed.
-  ///
-  /// In ja, this message translates to:
-  /// **'認証に失敗しました。'**
-  String get authFailed;
-
-  /// No description provided for @systemError.
-  ///
-  /// In ja, this message translates to:
-  /// **'システムエラーです。'**
-  String get systemError;
-
-  /// No description provided for @itemIsRequired.
-  ///
-  /// In ja, this message translates to:
-  /// **'{item}を入力してください。'**
-  String itemIsRequired(String item);
-
-  /// No description provided for @passwordMismatch.
-  ///
-  /// In ja, this message translates to:
-  /// **'新しいパスワードの確認の入力が一致しません。'**
-  String get passwordMismatch;
-
-  /// No description provided for @weakPassword.
-  ///
-  /// In ja, this message translates to:
-  /// **'弱いパスワードです。'**
-  String get weakPassword;
-
-  /// No description provided for @changedPassword.
-  ///
-  /// In ja, this message translates to:
-  /// **'パスワードを変更しました。'**
-  String get changedPassword;
-
-  /// No description provided for @invalidEmail.
-  ///
-  /// In ja, this message translates to:
-  /// **'正しい書式のメールアドレスを入力してください。'**
-  String get invalidEmail;
-
-  /// No description provided for @userDisabled.
-  ///
-  /// In ja, this message translates to:
-  /// **'メールアドレスまたはパスワードが間違っています。'**
-  String get userDisabled;
-
-  /// No description provided for @userNotFound.
-  ///
-  /// In ja, this message translates to:
-  /// **'メールアドレスまたはパスワードが間違っています。'**
-  String get userNotFound;
-
-  /// No description provided for @wrongPassword.
-  ///
-  /// In ja, this message translates to:
-  /// **'メールアドレスまたはパスワードが間違っています。'**
-  String get wrongPassword;
-
   /// No description provided for @confirmTo.
   ///
   /// In ja, this message translates to:
@@ -573,6 +513,12 @@ abstract class AppLocalizations {
   /// **'「Kyubiko Hub のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。'**
   String get sendResetPasswordEmail;
 
+  /// No description provided for @errorOf.
+  ///
+  /// In ja, this message translates to:
+  /// **'エラー: {item}'**
+  String errorOf(String item);
+
   /// No description provided for @required.
   ///
   /// In ja, this message translates to:
@@ -582,14 +528,20 @@ abstract class AppLocalizations {
   /// No description provided for @alphaNumerics.
   ///
   /// In ja, this message translates to:
-  /// **'英数字'**
+  /// **'半角英数字'**
   String get alphaNumerics;
 
-  /// No description provided for @lowercasesAndNumerics.
+  /// No description provided for @lCasesAndNumerics.
   ///
   /// In ja, this message translates to:
-  /// **'半角英数字'**
-  String get lowercasesAndNumerics;
+  /// **'半角の小文字と数字'**
+  String get lCasesAndNumerics;
+
+  /// No description provided for @uCasesAndNumerics.
+  ///
+  /// In ja, this message translates to:
+  /// **'半角の大文字と数字'**
+  String get uCasesAndNumerics;
 
   /// No description provided for @emailFormat.
   ///
@@ -603,11 +555,83 @@ abstract class AppLocalizations {
   /// **'電話番号の形式'**
   String get telFormat;
 
+  /// No description provided for @zipFormat.
+  ///
+  /// In ja, this message translates to:
+  /// **'郵便番号の形式'**
+  String get zipFormat;
+
+  /// No description provided for @lengthNotMoreThan.
+  ///
+  /// In ja, this message translates to:
+  /// **'{length}文字以下'**
+  String lengthNotMoreThan(int length);
+
   /// No description provided for @lengthNotLessThan.
   ///
   /// In ja, this message translates to:
   /// **'{length}文字以上'**
   String lengthNotLessThan(int length);
+
+  /// No description provided for @authFailed.
+  ///
+  /// In ja, this message translates to:
+  /// **'認証に失敗しました。'**
+  String get authFailed;
+
+  /// No description provided for @systemError.
+  ///
+  /// In ja, this message translates to:
+  /// **'システムエラー: {message}'**
+  String systemError(String message);
+
+  /// No description provided for @itemIsRequired.
+  ///
+  /// In ja, this message translates to:
+  /// **'{item}を入力してください。'**
+  String itemIsRequired(String item);
+
+  /// No description provided for @itemIsDuplicated.
+  ///
+  /// In ja, this message translates to:
+  /// **'{item}が重複しています。'**
+  String itemIsDuplicated(String item);
+
+  /// No description provided for @passwordMismatch.
+  ///
+  /// In ja, this message translates to:
+  /// **'新しいパスワードの確認の入力が一致しません。'**
+  String get passwordMismatch;
+
+  /// No description provided for @weakPassword.
+  ///
+  /// In ja, this message translates to:
+  /// **'弱いパスワードです。'**
+  String get weakPassword;
+
+  /// No description provided for @changedPassword.
+  ///
+  /// In ja, this message translates to:
+  /// **'パスワードを変更しました。'**
+  String get changedPassword;
+
+  /// No description provided for @userDisabled.
+  ///
+  /// In ja, this message translates to:
+  /// **'メールアドレスまたはパスワードが間違っています。'**
+  String get userDisabled;
+
+  /// No description provided for @userNotFound.
+  ///
+  /// In ja, this message translates to:
+  /// **'メールアドレスまたはパスワードが間違っています。'**
+  String get userNotFound;
+
+  /// No description provided for @wrongPassword.
+  ///
+  /// In ja, this message translates to:
+  /// **'メールアドレスまたはパスワードが間違っています。'**
+  String get wrongPassword;
 
   /// No description provided for @notForIndividualApplication.
   ///
@@ -620,6 +644,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'郵便物が届くように記載してください'**
   String get address2HelperText;
+
+  /// No description provided for @tooManyRequestsFrom.
+  ///
+  /// In ja, this message translates to:
+  /// **'{from} からのリクエストが多すぎます。'**
+  String tooManyRequestsFrom(String from);
 
   /// No description provided for @saved.
   ///

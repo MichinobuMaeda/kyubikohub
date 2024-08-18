@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/conf.dart';
-import '../../repositories/firebase_repository.dart';
+import '../../repositories/subscribe_repository.dart';
 import '../../providers/conf_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../widgets/list_items_section.dart';
-import '../validators.dart';
 import '../../l10n/app_localizations.dart';
+import '../widgets/list_items_section.dart';
+import '../widgets/text_input.dart';
+import '../validators.dart';
 
 class SubscribeSection extends HookConsumerWidget {
   const SubscribeSection({super.key});
@@ -32,8 +34,6 @@ class SubscribeSection extends HookConsumerWidget {
   }
 }
 
-typedef FieldValue = ({String val, String? err});
-
 @visibleForTesting
 class SubscribeForm extends HookConsumerWidget {
   const SubscribeForm({super.key});
@@ -46,47 +46,22 @@ class SubscribeForm extends HookConsumerWidget {
         (conf) => (conf is Success<Conf>) ? conf.data.forSubscriber : null,
       ),
     );
-    final site = useState<FieldValue>((val: '', err: null));
-    final email = useState<FieldValue>((val: '', err: null));
-    final name = useState<FieldValue>((val: '', err: null));
-    final tel = useState<FieldValue>((val: '', err: null));
-    final zip = useState<FieldValue>((val: '', err: null));
-    final prefecture = useState<FieldValue>((val: '', err: null));
-    final city = useState<FieldValue>((val: '', err: null));
-    final address1 = useState<FieldValue>((val: '', err: null));
-    final address2 = useState<FieldValue>((val: '', err: null));
-    final desc = useState<FieldValue>((val: '', err: null));
-    final managerName = useState<FieldValue>((val: '', err: null));
-    final managerEmail = useState<FieldValue>((val: '', err: null));
-    final savedMessage = useState('');
+    final message = useState<Either<String, void>>(Either.of(null));
+    final task = SubscribeRepository(t: t, useState: useState);
 
-    @visibleForTesting
-    Future<void> save(
-      BuildContext context,
-      WidgetRef ref,
-    ) async {
-      await subscribe(
-        site: site.value.val,
-        name: name.value.val,
-        email: email.value.val,
-        tel: tel.value.val,
-        zip: zip.value.val,
-        prefecture: prefecture.value.val,
-        city: city.value.val,
-        address1: address1.value.val,
-        address2: address2.value.val,
-        desc: desc.value.val,
-        managerName: managerName.value.val,
-        managerEmail: managerEmail.value.val,
-      );
-      ref.read(modalSheetControllerProviderProvider.notifier).close();
+    Future<void> save() async {
+      message.value = await task.run();
+      if (message.value.isRight()) {
+        ref.read(modalSheetControllerProviderProvider.notifier).close();
+      }
     }
 
     return FocusTraversalGroup(
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
               padding: cardItemPadding,
               child: forSubscriber == null
                   ? Text(t.defaultLoadingMessage)
@@ -96,287 +71,43 @@ class SubscribeForm extends HookConsumerWidget {
                       styleSheet: markdownStyleSheet(context),
                     ),
             ),
-          ),
-          SliverList.list(
-            children: [
-              Padding(
+            ...task.params.map(
+              (param) => Padding(
                 padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      site.value = (
-                        val: value,
-                        err: validateRequired(value)
-                            ? validateLowercasesAndNumerics(value)
-                                ? null
-                                : t.lowercasesAndNumerics
-                            : '${t.required} ${t.lowercasesAndNumerics}',
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.siteId,
-                      helperText: '${t.required} ${t.lowercasesAndNumerics}',
-                      errorText: site.value.err,
-                    ),
-                  ),
+                child: TextInput(param: param),
+              ),
+            ),
+            const SizedBox(height: buttonGap),
+            message.value.match(
+              (l) => Padding(
+                padding: cardItemPadding,
+                child: Text(
+                  l,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
               ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      name.value = (
-                        val: value,
-                        err: validateRequired(value) ? null : t.required,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.subscriberName,
-                      helperText: t.required,
-                      errorText: name.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      email.value = (
-                        val: value,
-                        err: validateRequired(value)
-                            ? validateLowercasesAndNumerics(value)
-                                ? null
-                                : t.emailFormat
-                            : '${t.required} ${t.emailFormat}',
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.subscriberEmail,
-                      helperText: '${t.required} ${t.emailFormat}',
-                      errorText: email.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      tel.value = (
-                        val: value,
-                        err: validateTel(value) ? null : t.telFormat,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.tel,
-                      helperText: t.telFormat,
-                      errorText: tel.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      zip.value = (
-                        val: value,
-                        err: validateRequired(value) ? null : t.required,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.zip,
-                      helperText: t.required,
-                      errorText: zip.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      prefecture.value = (
-                        val: value,
-                        err: validateRequired(value) ? null : t.required,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.prefecture,
-                      helperText: t.required,
-                      errorText: prefecture.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      city.value = (
-                        val: value,
-                        err: validateRequired(value) ? null : t.required,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.city,
-                      helperText: t.required,
-                      errorText: city.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      address1.value = (
-                        val: value,
-                        err: validateRequired(value) ? null : t.required,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.address1,
-                      helperText: t.required,
-                      errorText: address1.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      address2.value = (
-                        val: value,
-                        err: null,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.address2,
-                      helperText: t.address2HelperText,
-                      errorText: address2.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    maxLines: 6,
-                    onChanged: (value) {
-                      desc.value = (
-                        val: value,
-                        err: value.length < 200
-                            ? t.lengthNotLessThan(200)
-                            : null,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: t.purposeSubscription,
-                      helperText: t.lengthNotLessThan(200),
-                      errorText: desc.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      managerName.value = (val: value, err: null);
-                    },
-                    decoration: InputDecoration(
-                      labelText: '${t.manager} ${t.displayName}',
-                      helperText: t.notForIndividualApplication,
-                      errorText: managerName.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: cardItemPadding,
-                child: SizedBox(
-                  child: TextField(
-                    onChanged: (value) {
-                      managerEmail.value = (
-                        val: value,
-                        err: validateEmail(value) ? null : t.emailFormat,
-                      );
-                    },
-                    decoration: InputDecoration(
-                      labelText: '${t.manager} ${t.email}',
-                      helperText: t.notForIndividualApplication,
-                      errorText: managerEmail.value.err,
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: cardItemPadding,
-                    child: Flex(
-                      direction: Axis.horizontal,
+              (r) => const SizedBox.shrink(),
+            ),
+            Flex(
+              direction: Axis.horizontal,
+              children: [
+                Padding(
+                  padding: cardItemPadding,
+                  child: FilledButton(
+                    onPressed: validateAll(task.params) ? () => save() : null,
+                    child: Row(
                       children: [
-                        FilledButton(
-                          onPressed: site.value.err == null &&
-                                  site.value.val.isNotEmpty &&
-                                  email.value.err == null &&
-                                  email.value.val.isNotEmpty &&
-                                  name.value.err == null &&
-                                  name.value.val.isNotEmpty &&
-                                  tel.value.err == null &&
-                                  zip.value.err == null &&
-                                  zip.value.val.isNotEmpty &&
-                                  prefecture.value.err == null &&
-                                  prefecture.value.val.isNotEmpty &&
-                                  city.value.err == null &&
-                                  city.value.val.isNotEmpty &&
-                                  address1.value.err == null &&
-                                  address1.value.val.isNotEmpty &&
-                                  address2.value.err == null &&
-                                  desc.value.err == null &&
-                                  desc.value.val.isNotEmpty &&
-                                  managerName.value.err == null &&
-                                  managerEmail.value.err == null
-                              ? () => save(context, ref)
-                              : null,
-                          child: Row(
-                            children: [
-                              const Icon(Icons.send),
-                              const SizedBox(width: buttonGap),
-                              Text(t.send),
-                            ],
-                          ),
-                        ),
+                        const Icon(Icons.send),
+                        const SizedBox(width: buttonGap),
+                        Text(t.send),
                       ],
                     ),
                   ),
-                  const SizedBox(height: buttonGap),
-                  Text(
-                    savedMessage.value,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -19,7 +19,9 @@ mixin _$SiteAuth {
   String? get site => throw _privateConstructorUsedError;
   String? get uid => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SiteAuth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SiteAuthCopyWith<SiteAuth> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$SiteAuthCopyWithImpl<$Res, $Val extends SiteAuth>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SiteAuth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +84,8 @@ class __$$SiteAuthImplCopyWithImpl<$Res>
       _$SiteAuthImpl _value, $Res Function(_$SiteAuthImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SiteAuth
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -135,7 +141,9 @@ class _$SiteAuthImpl with DiagnosticableTreeMixin implements _SiteAuth {
   @override
   int get hashCode => Object.hash(runtimeType, site, uid);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SiteAuth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SiteAuthImplCopyWith<_$SiteAuthImpl> get copyWith =>
@@ -151,8 +159,11 @@ abstract class _SiteAuth implements SiteAuth {
   String? get site;
   @override
   String? get uid;
+
+  /// Create a copy of SiteAuth
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SiteAuthImplCopyWith<_$SiteAuthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -164,7 +175,9 @@ mixin _$Account {
   String? get user => throw _privateConstructorUsedError;
   DateTime? get deletedAt => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AccountCopyWith<Account> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -186,6 +199,8 @@ class _$AccountCopyWithImpl<$Res, $Val extends Account>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -233,6 +248,8 @@ class __$$AccountImplCopyWithImpl<$Res>
       _$AccountImpl _value, $Res Function(_$AccountImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -311,7 +328,9 @@ class _$AccountImpl with DiagnosticableTreeMixin implements _Account {
   @override
   int get hashCode => Object.hash(runtimeType, site, id, user, deletedAt);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
@@ -333,8 +352,11 @@ abstract class _Account implements Account {
   String? get user;
   @override
   DateTime? get deletedAt;
+
+  /// Create a copy of Account
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccountImplCopyWith<_$AccountImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -345,7 +367,9 @@ mixin _$AccountStatus {
   bool get manager => throw _privateConstructorUsedError;
   bool get admin => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AccountStatusCopyWith<AccountStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -371,6 +395,8 @@ class _$AccountStatusCopyWithImpl<$Res, $Val extends AccountStatus>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -394,6 +420,8 @@ class _$AccountStatusCopyWithImpl<$Res, $Val extends AccountStatus>
     ) as $Val);
   }
 
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AccountCopyWith<$Res>? get account {
@@ -429,6 +457,8 @@ class __$$AccountStatusImplCopyWithImpl<$Res>
       _$AccountStatusImpl _value, $Res Function(_$AccountStatusImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -496,7 +526,9 @@ class _$AccountStatusImpl
   @override
   int get hashCode => Object.hash(runtimeType, account, manager, admin);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AccountStatusImplCopyWith<_$AccountStatusImpl> get copyWith =>
@@ -515,8 +547,11 @@ abstract class _AccountStatus implements AccountStatus {
   bool get manager;
   @override
   bool get admin;
+
+  /// Create a copy of AccountStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AccountStatusImplCopyWith<_$AccountStatusImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -526,7 +561,9 @@ mixin _$AuthUser {
   String get uid => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthUserCopyWith<AuthUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -549,6 +586,8 @@ class _$AuthUserCopyWithImpl<$Res, $Val extends AuthUser>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AuthUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -587,6 +626,8 @@ class __$$AuthUserImplCopyWithImpl<$Res>
       _$AuthUserImpl _value, $Res Function(_$AuthUserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -642,7 +683,9 @@ class _$AuthUserImpl with DiagnosticableTreeMixin implements _AuthUser {
   @override
   int get hashCode => Object.hash(runtimeType, uid, email);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthUserImplCopyWith<_$AuthUserImpl> get copyWith =>
@@ -658,8 +701,11 @@ abstract class _AuthUser implements AuthUser {
   String get uid;
   @override
   String? get email;
+
+  /// Create a copy of AuthUser
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthUserImplCopyWith<_$AuthUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

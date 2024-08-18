@@ -87,6 +87,13 @@ Color sectionHeaderColor(BuildContext context) =>
 
 const textBoxMaxLines = 64;
 
+const inputDecorationThemeContentPadding = EdgeInsets.only(
+  left: baseSize / 2,
+  right: baseSize / 2,
+  top: baseSize,
+  bottom: baseSize,
+);
+
 // Style -- relative settings
 ThemeData themeData(Brightness brightness) {
   final ColorScheme colorScheme = ColorScheme.fromSeed(
@@ -133,9 +140,10 @@ ThemeData themeData(Brightness brightness) {
       backgroundColor: colorScheme.surfaceContainerLow,
     ),
     inputDecorationTheme: InputDecorationTheme(
-      contentPadding: const EdgeInsets.only(top: baseSize / 10),
+      contentPadding: inputDecorationThemeContentPadding,
       labelStyle: TextStyle(color: colorScheme.primary),
       helperStyle: TextStyle(color: colorScheme.tertiary),
+      border: const OutlineInputBorder(),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       constraints: BoxConstraints(
@@ -209,3 +217,11 @@ String formatYmdHm(DateTime ts) =>
     ts.toIso8601String().substring(0, 16).replaceFirst('T', ' ');
 
 String formatYmd(DateTime ts) => ts.toIso8601String().substring(0, 10);
+
+const regAlphaNumerics = r"^[a-zA-Z0-9]+$";
+const regLCasesAndNumerics = r"^[a-z0-9]+$";
+const regUCasesAndNumerics = r"^[A-Z0-9]+$";
+const regEmail =
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$";
+const regTel = r"^([0-9]+)(-[0-9]+)*$";
+const regZip = r"^([0-9]+)(-[0-9]+)*$";

@@ -66,23 +66,6 @@
   "warning": "警告",
   "showMore": "続きを見る",
   "subscribe": "利用申込み",
-  "authFailed": "認証に失敗しました。",
-  "systemError": "システムエラーです。",
-  "itemIsRequired": "{item}を入力してください。",
-  "@itemIsRequired": {
-    "placeholders": {
-      "item": {
-        "type": "String"
-      }
-    }
-  },
-  "passwordMismatch": "新しいパスワードの確認の入力が一致しません。",
-  "weakPassword": "弱いパスワードです。",
-  "changedPassword": "パスワードを変更しました。",
-  "invalidEmail": "正しい書式のメールアドレスを入力してください。",
-  "userDisabled": "メールアドレスまたはパスワードが間違っています。",
-  "userNotFound": "メールアドレスまたはパスワードが間違っています。",
-  "wrongPassword": "メールアドレスまたはパスワードが間違っています。",
   "confirmTo": "本当に{action}しますか？",
   "currentSiteId": "現在のサイトID: {site}",
   "@currentSiteId": {
@@ -101,11 +84,29 @@
     }
   },
   "sendResetPasswordEmail": "「Kyubiko Hub のパスワードを再設定してください」という表題のメールをお送りします。そのメールに記載したリンクを使ってパスワードを再設定してください。",
+  "errorOf": "エラー: {item}",
+  "@errorOf": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
   "required": "必須",
-  "alphaNumerics": "英数字",
-  "lowercasesAndNumerics": "半角英数字",
+  "alphaNumerics": "半角英数字",
+  "lCasesAndNumerics": "半角の小文字と数字",
+  "uCasesAndNumerics": "半角の大文字と数字",
   "emailFormat": "メールアドレスの形式",
   "telFormat": "電話番号の形式",
+  "zipFormat": "郵便番号の形式",
+  "lengthNotMoreThan": "{length}文字以下",
+  "@lengthNotMoreThan": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
   "lengthNotLessThan": "{length}文字以上",
   "@lengthNotLessThan": {
     "placeholders": {
@@ -114,8 +115,47 @@
       }
     }
   },
+  "authFailed": "認証に失敗しました。",
+  "systemError": "システムエラー: {message}",
+  "@systemError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "itemIsRequired": "{item}を入力してください。",
+  "@itemIsRequired": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "itemIsDuplicated": "{item}が重複しています。",
+  "@itemIsDuplicated": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordMismatch": "新しいパスワードの確認の入力が一致しません。",
+  "weakPassword": "弱いパスワードです。",
+  "changedPassword": "パスワードを変更しました。",
+  "userDisabled": "メールアドレスまたはパスワードが間違っています。",
+  "userNotFound": "メールアドレスまたはパスワードが間違っています。",
+  "wrongPassword": "メールアドレスまたはパスワードが間違っています。",
   "notForIndividualApplication": "個人で申し込む場合は不要",
   "address2HelperText": "郵便物が届くように記載してください",
+  "tooManyRequestsFrom": "{from} からのリクエストが多すぎます。",
+  "@tooManyRequestsFrom": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      }
+    }
+  },
   "saved": "保存しました。",
   "deleted": "削除しました。",
   "restored": "復活しました。",

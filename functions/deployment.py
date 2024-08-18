@@ -143,6 +143,7 @@ def upgrade_data(
                 "dataVersion": 0,
                 "uiVersion": "",
                 "desc": "## Privacy policy",
+                "forSubscriber": "## for subscriber",
                 "createdAt": firestore.SERVER_TIMESTAMP,
                 "updatedAt": firestore.SERVER_TIMESTAMP,
             }
