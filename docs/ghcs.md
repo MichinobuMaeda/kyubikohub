@@ -49,7 +49,6 @@ java --version
 npm i
 fvm flutter pub get
 cd functions
-npm i
 python -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
@@ -87,6 +86,6 @@ VS Code のターミナルで
 npm start
 ```
 
-アプリ <http://localhost:3000>
+アプリ: <http://localhost:3000>
 
-エミュレータ <http://localhost:4040>
+エミュレータ: <http://localhost:4040>
