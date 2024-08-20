@@ -2,7 +2,8 @@
 
 目次
 
-- [開発手順](development.md)
+- [開発手順: Local](local.md)
+- [開発手順: GitHub Codespaces](ghcs.md)
 - [データ構造](data_structure.md)
 - [テストデータ](test_data.md)
 - [認証](authentication.md)

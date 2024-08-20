@@ -11,6 +11,8 @@
     "ceintl",
     "charliermarsh",
     "codecov",
+    "codespace",
+    "Codespaces",
     "Cupertino",
     "davidanson",
     "dbaeumer",
@@ -32,6 +34,7 @@
     "Kyubiko",
     "kyubikohub",
     "lcov",
+    "linuxbrew",
     "LNBW",
     "LTRB",
     "Maeda",
@@ -70,5 +73,5 @@
   "files.trimTrailingWhitespace": true,
   "editor.formatOnSave": true,
   "dart.flutterGenerateLocalizationsOnSave": "allIfDirty",
-  "build-runner.flutterPath": ".fvm/flutter_sdk/bin/flutter",
+  "build-runner.flutterPath": ".fvm/flutter_sdk/bin/flutter"
 }
