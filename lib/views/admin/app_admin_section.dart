@@ -10,12 +10,12 @@ import '../../providers/conf_repository.dart';
 import '../../providers/account_repository.dart';
 import '../../repositories/firebase_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../widgets/list_items_section.dart';
+import '../widgets/list_item.dart';
+import '../widgets/modal_sheet.dart';
 import '../../l10n/app_localizations.dart';
 
 class AppAdminSection extends HookConsumerWidget {
-  final TextEditingController _editDescController = TextEditingController();
-  AppAdminSection({super.key});
+  const AppAdminSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,94 +36,105 @@ class AppAdminSection extends HookConsumerWidget {
     }
 
     final items = [
-      ...[
-        (
-          title: t.aboutTheApp,
-          init: conf.data.desc ?? '',
-          value: desc,
-          maxLines: textBoxMaxLines,
-          save: () => save('desc', desc),
-        ),
-        (
-          title: '${t.sample}: ${t.forGuests}',
-          init: conf.data.forGuests ?? '',
-          value: forGuests,
-          maxLines: textBoxMaxLines,
-          save: () => save('forGuests', forGuests),
-        ),
-        (
-          title: '${t.sample}: ${t.forMembers}',
-          init: conf.data.forMembers ?? '',
-          value: forMembers,
-          maxLines: textBoxMaxLines,
-          save: () => save('forMembers', forMembers),
-        ),
-        (
-          title: '${t.sample}: ${t.forManagers}',
-          init: conf.data.forManagers ?? '',
-          value: forManagers,
-          maxLines: textBoxMaxLines,
-          save: () => save('forManagers', forManagers),
-        ),
-        (
-          title: t.forSubscriber,
-          init: conf.data.forSubscriber ?? '',
-          value: forSubscriber,
-          maxLines: textBoxMaxLines,
-          save: () => save('forSubscriber', forSubscriber),
-        ),
-      ].map(
-        (item) => ModalSheetItemProps(
-          title: item.title,
-          trailing: const Icon(Icons.edit),
-          initState: () {
-            _editDescController.text = item.init;
-          },
-          topActions: [
-            IconButton(
-              icon: const Icon(Icons.save_alt),
-              onPressed: item.save,
-            ),
-          ],
-          bottomActions: [
-            TextButton(
-              onPressed: item.save,
-              child: Text(t.save),
-            ),
-          ],
-          child: ConstrainedBox(
-            constraints: const BoxConstraints.expand(
-              width: double.infinity,
-              height: double.infinity,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: baseSize),
-              child: Padding(
-                padding: cardItemPadding,
-                child: TextField(
-                  controller: _editDescController,
-                  maxLines: item.maxLines,
-                  autofocus: true,
-                  onChanged: (value) {
-                    item.value.value = value;
-                  },
-                ),
-              ),
-            ),
-          ),
-        ),
+      // ...[
+      (
+        title: t.aboutTheApp,
+        init: conf.data.desc ?? '',
+        value: desc,
+        controller: TextEditingController(),
+        maxLines: textBoxMaxLines,
+        save: () => save('desc', desc),
       ),
-      LinkItemProps(
-          title: t.operationLog,
-          leading: const Icon(Icons.history),
-          trailing: const Icon(Icons.more_horiz),
-          name: NavPath.logs.name,
-          pathParameters: NavPath.logs.pathParameters(site: site)),
+      (
+        title: '${t.sample}: ${t.forGuests}',
+        init: conf.data.forGuests ?? '',
+        value: forGuests,
+        controller: TextEditingController(),
+        maxLines: textBoxMaxLines,
+        save: () => save('forGuests', forGuests),
+      ),
+      (
+        title: '${t.sample}: ${t.forMembers}',
+        init: conf.data.forMembers ?? '',
+        value: forMembers,
+        controller: TextEditingController(),
+        maxLines: textBoxMaxLines,
+        save: () => save('forMembers', forMembers),
+      ),
+      (
+        title: '${t.sample}: ${t.forManagers}',
+        init: conf.data.forManagers ?? '',
+        value: forManagers,
+        controller: TextEditingController(),
+        maxLines: textBoxMaxLines,
+        save: () => save('forManagers', forManagers),
+      ),
+      (
+        title: t.forSubscriber,
+        init: conf.data.forSubscriber ?? '',
+        value: forSubscriber,
+        controller: TextEditingController(),
+        maxLines: textBoxMaxLines,
+        save: () => save('forSubscriber', forSubscriber),
+      ),
     ];
 
     return ListItemsSection(
-      childCount: items.length,
-      items: (index) => items[index],
+      childCount: items.length + 1,
+      height: listItemHeight,
+      (context, ref, index, height) => index < items.length
+          ? ListItem.modalAction(
+              index: index,
+              height: height,
+              title: items[index].title,
+              trailing: const Icon(Icons.edit),
+              initState: () {
+                items[index].controller.text = items[index].init;
+              },
+              child: ModalSheet(
+                title: items[index].title,
+                topActions: [
+                  IconButton(
+                    icon: const Icon(Icons.save_alt),
+                    onPressed: items[index].save,
+                  ),
+                ],
+                bottomActions: [
+                  TextButton(
+                    onPressed: items[index].save,
+                    child: Text(t.save),
+                  ),
+                ],
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints.expand(
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: baseSize),
+                    child: Padding(
+                      padding: cardItemPadding,
+                      child: TextField(
+                        controller: items[index].controller,
+                        maxLines: items[index].maxLines,
+                        autofocus: true,
+                        onChanged: (value) {
+                          items[index].value.value = value;
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : ListItem.linkAction(
+              index: index,
+              height: height,
+              title: t.subscribe,
+              leading: const Icon(Icons.outgoing_mail),
+              pathName: NavPath.logs.name,
+              pathParameters: NavPath.logs.pathParameters(site: site),
+            ),
     );
   }
 }

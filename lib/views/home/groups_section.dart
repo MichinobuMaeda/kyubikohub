@@ -5,7 +5,7 @@ import '../../models/data_state.dart';
 import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/groups_repository.dart';
-import '../widgets/list_items_section.dart';
+import '../widgets/list_item.dart';
 import '../../l10n/app_localizations.dart';
 
 class GroupsSection extends HookConsumerWidget {
@@ -42,10 +42,11 @@ class GroupsSection extends HookConsumerWidget {
 
     return ListItemsSection(
       childCount: groups.length,
-      items: (index) => LinkItemProps(
+      (context, ref, index, height) => ListItem.linkAction(
+        index: index,
+        height: height,
         title: groups[index].title,
-        trailing: const Icon(Icons.more_horiz),
-        name: groups[index].name,
+        pathName: groups[index].name,
         pathParameters: groups[index].pathParameters,
       ),
     );

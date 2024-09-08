@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../../config.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
-import '../../l10n/app_localizations.dart';
 
 class GuidanceSection extends HookConsumerWidget {
   const GuidanceSection({super.key});

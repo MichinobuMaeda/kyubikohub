@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../config.dart';
-import '../widgets/list_items_section.dart';
 import '../../l10n/app_localizations.dart';
+import '../widgets/list_item.dart';
+import '../widgets/modal_sheet.dart';
 
 typedef LicenseRecord = ({String title, List<String> bodies});
 
@@ -37,39 +38,43 @@ class LicensesSection extends HookConsumerWidget {
     final entries = useFuture(licenseList);
 
     return ListItemsSection(
-      childCount: entries.data?.length ?? 0,
       height: listItemHeightWithSubtitle,
-      items: (index) => ModalSheetItemProps(
+      childCount: entries.data?.length ?? 0,
+      (context, ref, index, height) => ListItem.modalAction(
+        index: index,
+        height: height,
         title: entries.data![index].title,
         subtitle: entries.data![index].bodies[0],
-        trailing: const Icon(Icons.more_horiz),
-        topActions: [
-          IconButton(
-            icon: const Icon(Icons.copy),
-            onPressed: () => copyText(entries.data![index]),
-          ),
-        ],
-        bottomActions: [
-          TextButton(
-            onPressed: () => copyText(entries.data![index]),
-            child: Text(t.copy),
-          ),
-        ],
-        child: Padding(
-          padding: cardItemPadding,
-          child: CustomScrollView(
-            slivers: [
-              SliverList.list(
-                children: entries.data![index].bodies
-                    .map(
-                      (body) => Text(
-                        '$body\n\n',
-                        style: GoogleFonts.courierPrime(),
-                      ),
-                    )
-                    .toList(),
-              )
-            ],
+        child: ModalSheet(
+          title: entries.data![index].title,
+          topActions: [
+            IconButton(
+              icon: const Icon(Icons.copy),
+              onPressed: () => copyText(entries.data![index]),
+            ),
+          ],
+          bottomActions: [
+            TextButton(
+              onPressed: () => copyText(entries.data![index]),
+              child: Text(t.copy),
+            ),
+          ],
+          child: Padding(
+            padding: cardItemPadding,
+            child: CustomScrollView(
+              slivers: [
+                SliverList.list(
+                  children: entries.data![index].bodies
+                      .map(
+                        (body) => Text(
+                          '$body\n\n',
+                          style: GoogleFonts.courierPrime(),
+                        ),
+                      )
+                      .toList(),
+                )
+              ],
+            ),
           ),
         ),
       ),

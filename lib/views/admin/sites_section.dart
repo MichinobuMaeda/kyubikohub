@@ -3,12 +3,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../config.dart';
-import '../../repositories/firebase_repository.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/data_state.dart';
 import '../../models/site.dart';
 import '../../providers/site_repository.dart';
-import '../widgets/list_items_section.dart';
-import '../../l10n/app_localizations.dart';
+import '../../repositories/firebase_repository.dart';
+import '../widgets/list_item.dart';
+import '../widgets/modal_sheet.dart';
 
 class SitesSection extends HookConsumerWidget {
   const SitesSection({super.key});
@@ -35,11 +36,17 @@ class SitesSection extends HookConsumerWidget {
 
     return ListItemsSection(
       childCount: sites.length,
-      items: (index) => ModalSheetItemProps(
+      height: listItemHeight,
+      (context, ref, index, height) => ListItem.modalAction(
+        index: index,
+        height: height,
         title: sites[index].title ?? t.add,
         deleted: sites[index].deleted,
         trailing: Icon(sites[index].data == null ? Icons.add : Icons.edit),
-        child: SiteForm(site: sites[index].data),
+        child: ModalSheet(
+          title: sites[index].title ?? t.add,
+          child: SiteForm(site: sites[index].data),
+        ),
       ),
     );
   }

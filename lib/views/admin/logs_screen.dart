@@ -12,7 +12,7 @@ import '../../repositories/log_repository.dart';
 import '../widgets/go_back_header.dart';
 import '../widgets/section_header.dart';
 import '../widgets/modal_sheet.dart';
-import '../widgets/list_items_section.dart';
+import '../widgets/list_item.dart';
 import '../../l10n/app_localizations.dart';
 
 class LogsScreen extends HookConsumerWidget {
@@ -78,13 +78,16 @@ class LogsScreen extends HookConsumerWidget {
                           backgroundColor: modalColor(context),
                           builder: (context) => ModalSheet(
                             title: t.sites,
-                            body: CustomScrollView(
+                            child: CustomScrollView(
                               slivers: [
                                 ListItemsSection(
                                   childCount: sites.length,
-                                  items: (index) => ActionItemProps(
+                                  height: listItemHeight,
+                                  (context, ref, index, height) => ListItem(
+                                    index: index,
+                                    height: height,
                                     title: sites[index].title,
-                                    onTap: () {
+                                    action: (context, ref) => () {
                                       site.value = sites[index];
                                       controller.close();
                                     },
@@ -107,25 +110,31 @@ class LogsScreen extends HookConsumerWidget {
           ListItemsSection(
             childCount: logs.data!.length,
             height: listItemHeightWithSubtitle,
-            items: (index) => ModalSheetItemProps(
-              title:
-                  logs.data![index].ts.toIso8601String().replaceAll('T', ' '),
-              subtitle: logs.data![index].message,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: cardItemPadding,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      logs.data![index].message,
-                      style: GoogleFonts.courierPrime(),
+            (context, ref, index, height) => ListItem.modalAction(
+                index: index,
+                height: height,
+                title: formatTitle(logs.data![index].ts),
+                subtitle: logs.data![index].message,
+                child: ModalSheet(
+                  closeOnTapOutside: true,
+                  title: formatTitle(logs.data![index].ts),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: cardItemPadding,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          logs.data![index].message,
+                          style: GoogleFonts.courierPrime(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
+                )),
           ),
       ],
     );
   }
+
+  String formatTitle(DateTime ts) => ts.toIso8601String().replaceAll('T', ' ');
 }

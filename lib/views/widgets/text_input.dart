@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../validators.dart';
+import '../../validators.dart';
 
 class TextInput extends HookConsumerWidget {
   final TextInputParam param;

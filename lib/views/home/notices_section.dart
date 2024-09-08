@@ -1,13 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kyubikohub/views/widgets/modal_sheet.dart';
 
 import '../../config.dart';
 import '../../models/data_state.dart';
 import '../../models/nav_item.dart';
 import '../../providers/account_repository.dart';
 import '../../providers/notices_repository.dart';
-import '../widgets/list_items_section.dart';
+import '../widgets/list_item.dart';
 import '../../l10n/app_localizations.dart';
 
 class NoticesSection extends HookConsumerWidget {
@@ -56,28 +57,41 @@ class NoticesSection extends HookConsumerWidget {
 
     return ListItemsSection(
       childCount: notices.length,
-      items: (index) => noticeList.isEmpty
-          ? ActionItemProps(title: notices[index].title, onTap: () {})
+      (context, ref, index, height) => noticeList.isEmpty
+          ? ListItem(
+              index: index,
+              height: height,
+              title: notices[index].title,
+            )
           : short &&
                   noticeList.length > noticesShort &&
                   index == (notices.length - 1)
-              ? LinkItemProps(
+              ? ListItem.linkAction(
+                  index: index,
+                  height: height,
                   title: notices[index].title,
-                  leading: const Icon(Icons.more_vert),
-                  name: NavPath.notices.name,
+                  pathName: NavPath.notices.name,
                   pathParameters: {paramSiteName: site},
                 )
-              : ModalSheetItemProps(
+              : ListItem.modalAction(
+                  index: index,
+                  height: height,
                   title: notices[index].title,
-                  trailing: const Icon(Icons.more_horiz),
                   deleted: notices[index].deleted,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverList.list(children: [
-                        Text(notices[index].title),
-                        Text(notices[index].message, maxLines: 1000),
-                      ]),
-                    ],
+                  child: ModalSheet(
+                    title: notices[index].title,
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            [
+                              Text(notices[index].title),
+                              Text(notices[index].message, maxLines: 1000),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
     );

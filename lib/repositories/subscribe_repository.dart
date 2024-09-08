@@ -4,7 +4,7 @@ import 'package:fpdart/fpdart.dart';
 
 import '../config.dart';
 import '../l10n/app_localizations.dart';
-import '../views/validators.dart';
+import '../validators.dart';
 
 class SubscribeRepository {
   final AppLocalizations t;

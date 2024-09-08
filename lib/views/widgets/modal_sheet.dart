@@ -7,16 +7,18 @@ import '../../l10n/app_localizations.dart';
 
 class ModalSheet extends HookConsumerWidget {
   final String title;
-  final Widget body;
+  final Widget child;
   final List<Widget> topActions;
   final List<Widget> bottomActions;
+  final bool closeOnTapOutside;
 
   const ModalSheet({
     super.key,
     required this.title,
-    required this.body,
+    required this.child,
     this.topActions = const [],
     this.bottomActions = const [],
+    this.closeOnTapOutside = false,
   });
 
   @override
@@ -25,7 +27,7 @@ class ModalSheet extends HookConsumerWidget {
     final controller = ref.read(modalSheetControllerProviderProvider.notifier);
 
     return TapRegion(
-      onTapOutside: (_) => controller.close(),
+      onTapOutside: closeOnTapOutside ? (_) => controller.close() : null,
       child: Column(
         children: [
           Padding(
@@ -67,7 +69,7 @@ class ModalSheet extends HookConsumerWidget {
               padding: const EdgeInsets.all(baseSize * 0.25),
               child: ColoredBox(
                 color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                child: body,
+                child: child,
               ),
             ),
           ),

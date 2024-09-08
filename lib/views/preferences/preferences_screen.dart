@@ -22,7 +22,7 @@ class MeScreen extends HookConsumerWidget {
             title: Text(t.siteSettings),
             leading: const Icon(Icons.build_circle),
           ),
-        if (accountStatus.manager) SiteSettingsSection(),
+        if (accountStatus.manager) const SiteSettingsSection(),
         SectionHeader(
           title: Text(t.accountSettings),
           leading: const Icon(Icons.account_circle),

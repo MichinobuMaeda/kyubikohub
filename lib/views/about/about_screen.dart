@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../config.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/data_state.dart';
 import '../../providers/site_repository.dart';
 import '../../providers/account_repository.dart';
-import '../../l10n/app_localizations.dart';
-import '../account/select_site_form.dart';
 import '../account/login_section.dart';
+import '../account/select_site_form.dart';
+import '../widgets/list_item.dart';
+import '../widgets/modal_sheet.dart';
 import '../widgets/section_header.dart';
-import '../widgets/list_items_section.dart';
 import 'guidance_section.dart';
 import 'about_app_section.dart';
 import 'licenses_section.dart';
@@ -40,12 +42,16 @@ class AboutScreen extends HookConsumerWidget {
         if (!isMember)
           ListItemsSection(
             childCount: 1,
-            items: (index) => ModalSheetItemProps(
-              title: t.selectSite,
-              leading: const Icon(Icons.exit_to_app),
-              trailing: const Icon(Icons.more_horiz),
-              child: const SelectSiteForm(),
-            ),
+            height: listItemHeight,
+            (context, ref, index, height) => ListItem.modalAction(
+                index: index,
+                height: height,
+                title: t.selectSite,
+                leading: const Icon(Icons.exit_to_app),
+                child: ModalSheet(
+                  title: t.selectSite,
+                  child: const SelectSiteForm(),
+                )),
           ),
         if (isSite)
           SectionHeader(

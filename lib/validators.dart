@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
-import '../l10n/app_localizations.dart';
-import '../config.dart';
+import 'l10n/app_localizations.dart';
+import 'config.dart';
 
 typedef TextInputValue = Either<String, String>;
 

@@ -5,15 +5,16 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../config.dart';
-import '../../models/data_state.dart';
+import '../../validators.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/conf.dart';
-import '../../repositories/subscribe_repository.dart';
+import '../../models/data_state.dart';
 import '../../providers/conf_repository.dart';
 import '../../providers/modal_sheet_controller_provider.dart';
-import '../../l10n/app_localizations.dart';
-import '../widgets/list_items_section.dart';
+import '../../repositories/subscribe_repository.dart';
+import '../widgets/list_item.dart';
+import '../widgets/modal_sheet.dart';
 import '../widgets/text_input.dart';
-import '../validators.dart';
 
 class SubscribeSection extends HookConsumerWidget {
   const SubscribeSection({super.key});
@@ -24,11 +25,16 @@ class SubscribeSection extends HookConsumerWidget {
 
     return ListItemsSection(
       childCount: 1,
-      items: (index) => ModalSheetItemProps(
+      height: listItemHeight,
+      (context, ref, index, height) => ListItem.modalAction(
+        index: index,
+        height: height,
         title: t.subscribe,
         leading: const Icon(Icons.outgoing_mail),
-        trailing: const Icon(Icons.more_horiz),
-        child: const SubscribeForm(),
+        child: ModalSheet(
+          title: t.subscribe,
+          child: const SubscribeForm(),
+        ),
       ),
     );
   }

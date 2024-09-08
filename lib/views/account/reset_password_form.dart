@@ -28,7 +28,7 @@ class ResetPasswordForm extends HookConsumerWidget {
 
     return ModalSheet(
       title: title,
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Padding(
           padding: cardItemPadding,
           child: SizedBox(

@@ -19,7 +19,7 @@ class AdminScreen extends HookConsumerWidget {
           title: Text(t.appAdmin),
           leading: const Icon(Icons.code),
         ),
-        AppAdminSection(),
+        const AppAdminSection(),
         SectionHeader(
           title: Text(t.siteAdmin),
           leading: const Icon(Icons.domain),
