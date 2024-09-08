@@ -1,7 +1,14 @@
 from firebase_admin import auth as firebase_auth
 from google.cloud import firestore
 import conf
-from utils import is_active_doc
+from utils import (
+    is_lower_cases_and_numerics,
+    is_email_format,
+    is_zip_format,
+    is_tel_format,
+    has_string_value_of_key,
+    is_active_doc,
+)
 
 
 def is_admin(
@@ -110,131 +117,81 @@ def create_site(
     return True
 
 
-def subscribers_email_count(
-    db: firestore.Client,
-    email: str,
-) -> int:
-    return (
-        sum(
-            1
-            for _ in filter(
-                lambda x: (
-                    "deletedAt" not in (x.to_dict() or {}) or x.get("deletedAt") is None
-                )
-                and (
-                    "rejectedAt" not in (x.to_dict() or {})
-                    or x.get("rejectedAt") is None
-                ),
-                db.collection("subscribers")
-                .where(filter=firestore.FieldFilter("email", "==", email))
-                .get(),
-            )
-        )
-    ) + (
-        sum(
-            1
-            for _ in filter(
-                lambda x: (
-                    "deletedAt" not in (x.to_dict() or {}) or x.get("deletedAt") is None
-                )
-                and (
-                    "rejectedAt" not in (x.to_dict() or {})
-                    or x.get("rejectedAt") is None
-                )
-                and ("email" not in (x.to_dict() or {}) or x.get("email") != email),
-                db.collection("subscribers")
-                .where(filter=firestore.FieldFilter("managerEmail", "==", email))
-                .get(),
-            )
-        )
-    )
-
-
+# Return the new subscriber ID
 def accept_subscription(
     db: firestore.Client,
-    site: str,
-    name: str,
-    email: str,
-    tel: str | None,
-    zip: str,
-    prefecture: str,
-    city: str,
-    address1: str,
-    address2: str | None,
-    desc: str,
-    managerName: str | None,
-    managerEmail: str | None,
-) -> str:
-    print(f"INFO  : accept_subscription site:{site} email:{email}")
+    data: dict,
+) -> tuple[str | None, str | None]:
+    try:
+        for key in (
+            "siteId",
+            "siteName",
+            "name",
+            "email",
+            "zip",
+            "pref",
+            "city",
+            "addr",
+            "desc",
+        ):
+            if not has_string_value_of_key(data, key):
+                print(f"ERROR : {key} is empty")
+                return (f"required: {key}", None)
 
-    if site is None or len(site) == 0:
-        print("ERROR : site is empty")
-        return "required: site"
+        if not is_lower_cases_and_numerics(data["siteId"]):
+            print(f"ERROR : {data['siteId']} is invalid")
+            return ("invalid: siteId", None)
 
-    if name is None or len(name) == 0:
-        print("ERROR : name is empty")
-        return "required: name"
+        if not is_email_format(data["email"]):
+            print(f"ERROR : {data['email']} is invalid")
+            return ("invalid: email", None)
 
-    if email is None or len(email) == 0:
-        print("ERROR : email is empty")
-        return "required: email"
+        if has_string_value_of_key(data, "tel") and not is_tel_format(data["tel"]):
+            print(f"ERROR : {data['tel']} is invalid")
+            return ("invalid: tel", None)
 
-    if zip is None or len(zip) == 0:
-        print("ERROR : zip is empty")
-        return "required: zip"
+        if not is_zip_format(data["zip"]):
+            print(f"ERROR : {data['zip']} is invalid")
+            return ("invalid: zip", None)
 
-    if prefecture is None or len(prefecture) == 0:
-        print("ERROR : prefecture is empty")
-        return "required: prefecture"
+        if len(data["desc"]) < 200:
+            print(f"ERROR : {data['desc']} is too short")
+            return ("too short: desc", None)
 
-    if city is None or len(city) == 0:
-        print("ERROR : city is empty")
-        return "required: city"
+        if db.collection("sites").document(data["siteId"]).get().exists:
+            print(f"ERROR : {data['siteId']} has already been created")
+            return ("duplicated: siteId", None)
 
-    if address1 is None or len(address1) == 0:
-        print("ERROR : address1 is empty")
-        return "required: address1"
+        if (
+            len(
+                db.collection("subscribers")
+                .where(filter=firestore.FieldFilter("siteId", "==", data["siteId"]))
+                .get()
+            )
+            > 0
+        ):
+            print(f"ERROR : {data['siteId']} has already been requested")
+            return ("duplicated: siteId", None)
 
-    if desc is None or len(desc) == 0:
-        print("ERROR : desc is empty")
-        return "required: desc"
+        if (
+            len(
+                db.collection("subscribers")
+                .where(filter=firestore.FieldFilter("email", "==", data["email"]))
+                .get()
+            )
+            > 2
+        ):
+            print(f"ERROR : {data['email']} has already been requested")
+            return ("too many request from: email", None)
 
-    emailCount = subscribers_email_count(db, email)
-    if emailCount >= 3:
-        print(f"ERROR : emailCount: too many requests from {email}")
-        return f"too many requests: {email}"
-
-    if db.collection("sites").document(site).get().exists:
-        print(f"ERROR : {site} has already been created")
-        return "duplicate: site"
-
-    if (
-        len(
-            db.collection("subscribers")
-            .where(filter=firestore.FieldFilter("site", "==", site))
-            .get()
+        (_, ref) = db.collection("subscribers").add(
+            {
+                **data,
+                "createdAt": firestore.SERVER_TIMESTAMP,
+                "updatedAt": firestore.SERVER_TIMESTAMP,
+            }
         )
-        > 0
-    ):
-        print(f"ERROR : {site} has already been requested")
-        return "duplicate: site"
-
-    db.collection("subscribers").add(
-        {
-            "site": site,
-            "name": name,
-            "email": email,
-            "tel": tel,
-            "zip": zip,
-            "prefecture": prefecture,
-            "city": city,
-            "address1": address1,
-            "address2": address2,
-            "desc": desc,
-            "managerName": managerName,
-            "managerEmail": managerEmail,
-            "createdAt": firestore.SERVER_TIMESTAMP,
-            "updatedAt": firestore.SERVER_TIMESTAMP,
-        }
-    )
-    return "ok"
+        return (None, ref.id)
+    except Exception as e:
+        print(f"ERROR : {e}")
+        return ("unknown", None)

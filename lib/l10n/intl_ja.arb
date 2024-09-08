@@ -24,6 +24,7 @@
   "groups": "グループ",
   "sites": "サイト",
   "siteId": "サイトID",
+  "siteName": "サイト名",
   "email": "メールアドレス",
   "password": "パスワード",
   "curPassword": "現在のパスワード",
@@ -31,7 +32,8 @@
   "conPassword": "新しいパスワード（確認）",
   "allMembers": "すべてのメンバー",
   "id": "ID",
-  "siteName": "サイト名",
+  "name": "名称",
+  "fullName": "氏名",
   "displayName": "表示名",
   "groupMembership": "所属グループ",
   "operationLog": "操作ログ",
@@ -42,10 +44,7 @@
   "zip": "郵便番号",
   "prefecture": "都道府県",
   "city": "市区町村",
-  "address1": "町丁目番地号",
-  "address2": "建物名・部屋番号",
-  "subscriberName": "利用者名",
-  "subscriberEmail": "利用者メール",
+  "bldg": "建物名・部屋番号",
   "purposeSubscription": "利用の目的",
   "login": "ログイン",
   "logout": "ログアウト",
@@ -126,6 +125,14 @@
   },
   "itemIsRequired": "{item}を入力してください。",
   "@itemIsRequired": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "itemIsInvalid": "{item}を正しい書式で入力してください。",
+  "@itemIsInvalid": {
     "placeholders": {
       "item": {
         "type": "String"

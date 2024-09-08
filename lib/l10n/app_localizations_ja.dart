@@ -79,6 +79,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get siteId => 'サイトID';
 
   @override
+  String get siteName => 'サイト名';
+
+  @override
   String get email => 'メールアドレス';
 
   @override
@@ -100,7 +103,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get id => 'ID';
 
   @override
-  String get siteName => 'サイト名';
+  String get name => '名称';
+
+  @override
+  String get fullName => '氏名';
 
   @override
   String get displayName => '表示名';
@@ -133,16 +139,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get city => '市区町村';
 
   @override
-  String get address1 => '町丁目番地号';
-
-  @override
-  String get address2 => '建物名・部屋番号';
-
-  @override
-  String get subscriberName => '利用者名';
-
-  @override
-  String get subscriberEmail => '利用者メール';
+  String get bldg => '建物名・部屋番号';
 
   @override
   String get purposeSubscription => '利用の目的';
@@ -269,6 +266,11 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String itemIsRequired(String item) {
     return '$itemを入力してください。';
+  }
+
+  @override
+  String itemIsInvalid(String item) {
+    return '$itemを正しい書式で入力してください。';
   }
 
   @override

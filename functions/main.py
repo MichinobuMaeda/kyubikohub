@@ -107,18 +107,8 @@ def test_functions(
 def subscribe(
     req: https_fn.CallableRequest,
 ):
-    return accept_subscription(
+    (err, ret) = accept_subscription(
         db=db,
-        site=req.data["site"],
-        name=req.data["name"],
-        email=req.data["email"],
-        tel=req.data["tel"],
-        zip=req.data["zip"],
-        prefecture=req.data["prefecture"],
-        city=req.data["city"],
-        address1=req.data["address1"],
-        address2=req.data["address2"],
-        desc=req.data["desc"],
-        managerName=req.data["managerName"],
-        managerEmail=req.data["managerEmail"],
+        data=req.data,
     )
+    return {"err": err, "val": ret}

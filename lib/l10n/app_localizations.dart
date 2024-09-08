@@ -237,6 +237,12 @@ abstract class AppLocalizations {
   /// **'サイトID'**
   String get siteId;
 
+  /// No description provided for @siteName.
+  ///
+  /// In ja, this message translates to:
+  /// **'サイト名'**
+  String get siteName;
+
   /// No description provided for @email.
   ///
   /// In ja, this message translates to:
@@ -279,11 +285,17 @@ abstract class AppLocalizations {
   /// **'ID'**
   String get id;
 
-  /// No description provided for @siteName.
+  /// No description provided for @name.
   ///
   /// In ja, this message translates to:
-  /// **'サイト名'**
-  String get siteName;
+  /// **'名称'**
+  String get name;
+
+  /// No description provided for @fullName.
+  ///
+  /// In ja, this message translates to:
+  /// **'氏名'**
+  String get fullName;
 
   /// No description provided for @displayName.
   ///
@@ -345,29 +357,11 @@ abstract class AppLocalizations {
   /// **'市区町村'**
   String get city;
 
-  /// No description provided for @address1.
-  ///
-  /// In ja, this message translates to:
-  /// **'町丁目番地号'**
-  String get address1;
-
-  /// No description provided for @address2.
+  /// No description provided for @bldg.
   ///
   /// In ja, this message translates to:
   /// **'建物名・部屋番号'**
-  String get address2;
-
-  /// No description provided for @subscriberName.
-  ///
-  /// In ja, this message translates to:
-  /// **'利用者名'**
-  String get subscriberName;
-
-  /// No description provided for @subscriberEmail.
-  ///
-  /// In ja, this message translates to:
-  /// **'利用者メール'**
-  String get subscriberEmail;
+  String get bldg;
 
   /// No description provided for @purposeSubscription.
   ///
@@ -590,6 +584,12 @@ abstract class AppLocalizations {
   /// In ja, this message translates to:
   /// **'{item}を入力してください。'**
   String itemIsRequired(String item);
+
+  /// No description provided for @itemIsInvalid.
+  ///
+  /// In ja, this message translates to:
+  /// **'{item}を正しい書式で入力してください。'**
+  String itemIsInvalid(String item);
 
   /// No description provided for @itemIsDuplicated.
   ///

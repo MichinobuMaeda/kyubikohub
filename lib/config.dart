@@ -222,6 +222,6 @@ const regAlphaNumerics = r"^[a-zA-Z0-9]+$";
 const regLCasesAndNumerics = r"^[a-z0-9]+$";
 const regUCasesAndNumerics = r"^[A-Z0-9]+$";
 const regEmail =
-    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+$";
+    r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$";
 const regTel = r"^([0-9]+)(-[0-9]+)*$";
 const regZip = r"^([0-9]+)(-[0-9]+)*$";

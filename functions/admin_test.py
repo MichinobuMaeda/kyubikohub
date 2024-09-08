@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+import unittest.mock
 from google.cloud import firestore
 from firebase_admin import (
     get_app,
@@ -9,7 +9,6 @@ from firebase_admin import (
 from admin import (
     is_admin,
     create_site,
-    subscribers_email_count,
     accept_subscription,
 )
 import conf
@@ -38,7 +37,7 @@ class TestMain(unittest.TestCase):
         # Run
         ret = is_admin(db=self.db, uid="account_id")
 
-        # Check
+        # Evaluate
         assert ret
 
     def test_is_admin_with_deleted_doc(self):
@@ -56,7 +55,7 @@ class TestMain(unittest.TestCase):
         # Run
         ret = is_admin(db=self.db, uid="account_id")
 
-        # Check
+        # Evaluate
         assert not ret
 
     def test_is_admin_without_doc(self):
@@ -67,7 +66,7 @@ class TestMain(unittest.TestCase):
         # Run
         ret = is_admin(db=self.db, uid="account_id")
 
-        # Check
+        # Evaluate
         assert not ret
 
     def test_is_admin_without_uid(self):
@@ -78,7 +77,7 @@ class TestMain(unittest.TestCase):
         # Run
         ret = is_admin(db=self.db, uid=None)
 
-        # Check
+        # Evaluate
         assert not ret
 
     def test_create_site_with_uid(self):
@@ -96,7 +95,7 @@ class TestMain(unittest.TestCase):
             manager_password="testpassword",
         )
 
-        # Check
+        # Evaluate
         assert ret
 
         auth_user = self.auth.get_user(uid="account_id")
@@ -145,7 +144,7 @@ class TestMain(unittest.TestCase):
             manager_name="User name",
         )
 
-        # Check
+        # Evaluate
         assert ret
 
         auth_user = self.auth.get_user_by_email(email="user12@example.com")
@@ -181,7 +180,7 @@ class TestMain(unittest.TestCase):
         assert managers.get("createdAt") is not None
         assert managers.get("updatedAt") is not None
 
-    def test_create_site_with_existing_site_id(self):
+    def test_create_site_with_existing_site01(self):
         # Prepare
 
         # Run
@@ -196,344 +195,428 @@ class TestMain(unittest.TestCase):
             manager_password="dummy_password",
         )
 
-        # Check
+        # Evaluate
         assert not ret
 
-    def test_subscribers_email_count(self):
-        # Prepare
-        col_ref = self.db.collection("subscribers")
-        col_ref.document("id01").set(
-            {
-                "site": "site01",
-                "email": "01@example.com",
-            },
-        )
-        col_ref.document("id02").set(
-            {
-                "site": "site02",
-                "email": "02@example.com",
-                "managerEmail": "01@example.com",
-            },
-        )
-        col_ref.document("id03").set(
-            {
-                "site": "site03",
-                "email": "03@example.com",
-                "managerEmail": "01@example.com",
-            },
-        )
-        col_ref.document("id04").set(
-            {
-                "site": "site04",
-                "email": "04@example.com",
-                "managerEmail": "02@example.com",
-                "deletedAt": firestore.SERVER_TIMESTAMP,
-            },
-        )
-        col_ref.document("id05").set(
-            {
-                "site": "site05",
-                "email": "05@example.com",
-                "managerEmail": "02@example.com",
-                "rejectedAt": firestore.SERVER_TIMESTAMP,
-            },
-        )
-
-        # Run
-        ret01 = subscribers_email_count(db=self.db, email="01@example.com")
-        ret02 = subscribers_email_count(db=self.db, email="02@example.com")
-
-        # Check
-        assert ret01 == 3
-        assert ret02 == 1
+    subscription = {
+        "siteId": "site01",
+        "siteName": "Site name",
+        "name": "Name",
+        "email": "test@example.com",
+        "tel": "090-1234-5678",
+        "zip": "123-4567",
+        "pref": "Tokyo",
+        "city": "Shinjuku",
+        "addr": "1-2-3 Nishi-Shinjuku",
+        "bldg": "Shinjuku bldg. 1F",
+        "desc": "t" * 200,
+    }
 
     def test_accept_subscription_without_site_id(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "siteId": None,
+            },
         )
 
-        assert ret == "required: site"
+        # Evaluate
+        assert err == "required: siteId"
+        assert ret is None
+
+    def test_accept_subscription_without_site_name(self):
+        # Prepare
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "siteName": None,
+            },
+        )
+
+        # Evaluate
+        assert err == "required: siteName"
+        assert ret is None
 
     def test_accept_subscription_without_name(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "name": None,
+            },
         )
 
-        assert ret == "required: name"
+        # Evaluate
+        assert err == "required: name"
+        assert ret is None
 
     def test_accept_subscription_without_email(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "email": None,
+            },
         )
 
-        assert ret == "required: email"
+        # Evaluate
+        assert err == "required: email"
+        assert ret is None
 
     def test_accept_subscription_without_zip(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "zip": None,
+            },
         )
 
-        assert ret == "required: zip"
+        # Evaluate
+        assert err == "required: zip"
+        assert ret is None
 
-    def test_accept_subscription_without_prefecture(self):
+    def test_accept_subscription_without_pref(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "pref": None,
+            },
         )
 
-        assert ret == "required: prefecture"
+        # Evaluate
+        assert err == "required: pref"
+        assert ret is None
 
     def test_accept_subscription_without_city(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "city": None,
+            },
         )
 
-        assert ret == "required: city"
+        # Evaluate
+        assert err == "required: city"
+        assert ret is None
 
-    def test_accept_subscription_without_address1(self):
+    def test_accept_subscription_without_addr(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "addr": None,
+            },
         )
 
-        assert ret == "required: address1"
+        # Evaluate
+        assert err == "required: addr"
+        assert ret is None
 
     def test_accept_subscription_without_desc(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "desc": None,
+            },
         )
 
-        assert ret == "required: desc"
+        # Evaluate
+        assert err == "required: desc"
+        assert ret is None
 
-    @patch("admin.subscribers_email_count", side_effect=[3])
-    def test_accept_subscription_too_many_requests_from_unique_email_address(
-        self,
-        _,
-    ):
+    def test_accept_subscription_with_invalid_site_id(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "siteId": "Site01",
+            },
         )
 
-        assert ret == "too many requests: test@example.com"
+        # Evaluate
+        assert err == "invalid: siteId"
+        assert ret is None
 
-    @patch("admin.subscribers_email_count", side_effect=[2])
-    def test_accept_subscription_for_created_site(
-        self,
-        _,
-    ):
+    def test_accept_subscription_with_invalid_email(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="test",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "email": "test",
+            },
         )
 
-        assert ret == "duplicate: site"
+        # Evaluate
+        assert err == "invalid: email"
+        assert ret is None
 
-    def test_accept_subscription_for_requested_site(self):
+    def test_accept_subscription_with_invalid_tel(self):
         # Prepare
-        self.db.collection("subscribers").add({"site": "site_id"})
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2=None,
-            desc="Test description",
-            managerName=None,
-            managerEmail=None,
+            data={
+                **self.subscription,
+                "tel": "123@456789",
+            },
         )
 
-        assert ret == "duplicate: site"
+        # Evaluate
+        assert err == "invalid: tel"
+        assert ret is None
+
+    def test_accept_subscription_with_invalid_zip(self):
+        # Prepare
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "zip": "123@4567",
+            },
+        )
+
+        # Evaluate
+        assert err == "invalid: zip"
+        assert ret is None
+
+    def test_accept_subscription_with_short_desc(self):
+        # Prepare
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "desc": "t" * 199,
+            },
+        )
+
+        # Evaluate
+        assert err == "too short: desc"
+        assert ret is None
+
+    def test_accept_subscription_with_registered_site_id(self):
+        # Prepare
+        self.db.collection("sites").document("site09").set({"name": "Site name"})
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "siteId": "site09",
+            },
+        )
+
+        # Evaluate
+        assert err == "duplicated: siteId"
+        assert ret is None
+
+    def test_accept_subscription_with_requested_site_id(self):
+        # Prepare
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site08",
+                "siteName": "Site name",
+            }
+        )
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "siteId": "site08",
+            },
+        )
+
+        # Evaluate
+        assert err == "duplicated: siteId"
+        assert ret is None
+
+    def test_accept_subscription_with_requested_x2_email(self):
+        # Prepare
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site07a",
+                "siteName": "Site name",
+                "email": "test07@example.com",
+            }
+        )
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site07b",
+                "siteName": "Site name",
+                "email": "test07@example.com",
+            }
+        )
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "siteId": "site07c",
+                "email": "test07@example.com",
+            },
+        )
+
+        # Evaluate
+        assert err is None
+        assert ret is not None
+
+    def test_accept_subscription_with_requested_x3_email(self):
+        # Prepare
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site06a",
+                "siteName": "Site name",
+                "email": "test06@example.com",
+            }
+        )
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site06b",
+                "siteName": "Site name",
+                "email": "test06@example.com",
+            }
+        )
+        self.db.collection("subscribers").add(
+            {
+                "siteId": "site06c",
+                "siteName": "Site name",
+                "email": "test06@example.com",
+            }
+        )
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "siteId": "site06d",
+                "email": "test06@example.com",
+            },
+        )
+
+        # Evaluate
+        assert err == "too many request from: email"
+        assert ret is None
+
+    def test_accept_subscription_with_exception(self):
+        # Prepare
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=None,
+            data={
+                **self.subscription,
+            },
+        )
+
+        # Evaluate
+        assert err == "unknown"
+        assert ret is None
 
     def test_accept_subscription_with_valid_data(self):
         # Prepare
 
         # Run
-        ret = accept_subscription(
+        (err, ret) = accept_subscription(
             db=self.db,
-            site="site_id",
-            name="Test name",
-            email="test@example.com",
-            tel="090-1234-5678",
-            zip="123-4567",
-            prefecture="Tokyo",
-            city="Shinjuku",
-            address1="1-2-3 Nishi-Shinjuku",
-            address2="Shinjuku building 1F",
-            desc="Test description",
-            managerName="Manager name",
-            managerEmail="manager@example.com",
+            data={
+                **self.subscription,
+            },
         )
 
-        assert ret == "ok"
-        for sub_ref in (
-            self.db.collection("subscribers").where("site", "==", "site_id").stream()
-        ):
-            doc = sub_ref.to_dict()
-            assert doc["site"] == "site_id"
-            assert doc["name"] == "Test name"
-            assert doc["email"] == "test@example.com"
-            assert doc["tel"] == "090-1234-5678"
-            assert doc["zip"] == "123-4567"
-            assert doc["prefecture"] == "Tokyo"
-            assert doc["city"] == "Shinjuku"
-            assert doc["address1"] == "1-2-3 Nishi-Shinjuku"
-            assert doc["address2"] == "Shinjuku building 1F"
-            assert doc["desc"] == "Test description"
-            assert doc["managerName"] == "Manager name"
-            assert doc["managerEmail"] == "manager@example.com"
-            assert doc["createdAt"] is not None
-            assert doc["updatedAt"] is not None
+        # Evaluate
+        assert err is None
+        assert ret is not None
+        snap = self.db.collection("subscribers").document(ret).get()
+        doc = snap.to_dict()
+        assert doc["siteId"] == "site01"
+        assert doc["siteName"] == "Site name"
+        assert doc["name"] == "Name"
+        assert doc["email"] == "test@example.com"
+        assert doc["tel"] == "090-1234-5678"
+        assert doc["zip"] == "123-4567"
+        assert doc["pref"] == "Tokyo"
+        assert doc["city"] == "Shinjuku"
+        assert doc["addr"] == "1-2-3 Nishi-Shinjuku"
+        assert doc["bldg"] == "Shinjuku bldg. 1F"
+        assert doc["desc"] == "t" * 200
+        assert doc["createdAt"] is not None
+        assert doc["updatedAt"] is not None
+
+    def test_accept_subscription_without_optional_data(self):
+        # Prepare
+
+        # Run
+        (err, ret) = accept_subscription(
+            db=self.db,
+            data={
+                **self.subscription,
+                "tel": "",
+                "bldg": "",
+            },
+        )
+
+        # Evaluate
+        assert err is None
+        assert ret is not None
+        snap = self.db.collection("subscribers").document(ret).get()
+        doc = snap.to_dict()
+        assert doc["siteId"] == "site01"
+        assert doc["siteName"] == "Site name"
+        assert doc["name"] == "Name"
+        assert doc["email"] == "test@example.com"
+        assert doc["tel"] == ""
+        assert doc["zip"] == "123-4567"
+        assert doc["pref"] == "Tokyo"
+        assert doc["city"] == "Shinjuku"
+        assert doc["addr"] == "1-2-3 Nishi-Shinjuku"
+        assert doc["bldg"] == ""
+        assert doc["desc"] == "t" * 200
+        assert doc["createdAt"] is not None
+        assert doc["updatedAt"] is not None

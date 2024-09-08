@@ -16,34 +16,40 @@ class SubscribeRepository {
     required this.useState,
   }) : params = [
           (
-            key: 'site',
+            key: 'siteId',
             notifier: useState(emptyInputText()),
             label: t.siteId,
             helperText: '${t.required} ${t.lCasesAndNumerics}',
             maxLines: 1,
             validator: (String v) => validateLCasesAndNumerics(
-                  validateRequired(Either.of(v), t),
+                  validateRequired(Either.of(v.trim()), t),
                   t,
                 ),
+          ),
+          (
+            key: 'siteName',
+            notifier: useState(emptyInputText()),
+            label: t.siteName,
+            helperText: t.required,
+            maxLines: 1,
+            validator: (String v) => validateRequired(Either.of(v.trim()), t),
           ),
           (
             key: 'name',
             notifier: useState(emptyInputText()),
-            label: t.subscriberName,
+            label: t.fullName,
             helperText: t.required,
             maxLines: 1,
-            validator: (String v) => validateRequired(Either.of(v), t),
+            validator: (String v) => validateRequired(Either.of(v.trim()), t),
           ),
           (
             key: 'email',
             notifier: useState(emptyInputText()),
-            label: t.subscriberEmail,
+            label: t.email,
             helperText: '${t.required} ${t.emailFormat}',
             maxLines: 1,
-            validator: (String value) => validateEmail(
-                  validateRequired(Either.of(value), t),
-                  t,
-                ),
+            validator: (String v) =>
+                validateEmail(validateRequired(Either.of(v.trim()), t), t),
           ),
           (
             key: 'tel',
@@ -51,7 +57,7 @@ class SubscribeRepository {
             label: t.tel,
             helperText: t.telFormat,
             maxLines: 1,
-            validator: (String v) => validateTel(Either.of(v), t),
+            validator: (String v) => validateTel(Either.of(v.trim()), t),
           ),
           (
             key: 'zip',
@@ -59,18 +65,16 @@ class SubscribeRepository {
             label: t.zip,
             helperText: '${t.required} ${t.zipFormat}',
             maxLines: 1,
-            validator: (String v) => validateZip(
-                  validateRequired(Either.of(v), t),
-                  t,
-                ),
+            validator: (String v) =>
+                validateZip(validateRequired(Either.of(v.trim()), t), t),
           ),
           (
-            key: 'prefecture',
+            key: 'pref',
             notifier: useState(emptyInputText()),
             label: t.prefecture,
             helperText: t.required,
             maxLines: 1,
-            validator: (String v) => validateRequired(Either.of(v), t),
+            validator: (String v) => validateRequired(Either.of(v.trim()), t),
           ),
           (
             key: 'city',
@@ -78,23 +82,23 @@ class SubscribeRepository {
             label: t.city,
             helperText: t.required,
             maxLines: 1,
-            validator: (String v) => validateRequired(Either.of(v), t),
+            validator: (String v) => validateRequired(Either.of(v.trim()), t),
           ),
           (
-            key: 'address1',
+            key: 'addr',
             notifier: useState(emptyInputText()),
-            label: t.address1,
+            label: t.address,
             helperText: t.required,
             maxLines: 1,
-            validator: (String v) => validateRequired(Either.of(v), t),
+            validator: (String v) => validateRequired(Either.of(v.trim()), t),
           ),
           (
-            key: 'address2',
+            key: 'bldg',
             notifier: useState(emptyInputText()),
-            label: t.address2,
+            label: t.bldg,
             helperText: t.address2HelperText,
             maxLines: 1,
-            validator: (String v) => Either.of(v),
+            validator: (String v) => Either.of(v.trim()),
           ),
           (
             key: 'desc',
@@ -103,68 +107,59 @@ class SubscribeRepository {
             helperText: t.lengthNotLessThan(200),
             maxLines: 6,
             validator: (String v) => validateLengthNotLessThan(
-                  validateRequired(Either.of(v), t),
-                  t,
-                  200,
-                ),
-          ),
-          (
-            key: 'managerName',
-            notifier: useState(emptyInputText()),
-            label: '${t.manager} ${t.displayName}',
-            helperText: t.notForIndividualApplication,
-            maxLines: 1,
-            validator: (String v) => nullValidator(Either.right(v)),
-          ),
-          (
-            key: 'managerEmail',
-            notifier: useState(emptyInputText()),
-            label: '${t.manager} ${t.email}',
-            helperText: t.notForIndividualApplication,
-            maxLines: 1,
-            validator: (String v) => validateEmail(Either.of(v), t),
+                validateRequired(Either.of(v.trim()), t), t, 200),
           ),
         ];
 
-  Future<Either<String, void>> run() async {
+  Future<Either<String, String>> run() async {
     final Map<String, String?> data = {};
     for (final param in params) {
       data[param.key] = param.notifier.value.toNullable();
     }
-    return TaskEither<String, void>(
+    return TaskEither<String, String>(
       () async {
         try {
           final result = await FirebaseFunctions.instanceFor(
             region: functionsRegion,
           ).httpsCallable('subscribe').call(data);
-          switch (result.data as String) {
-            case 'ok':
-              return Either.right(null);
-            case 'required: site':
+          switch (result.data.err) {
+            case null:
+              // Receive the new subscriber ID
+              return Either.right(result.data.val as String);
+            case 'required: siteId':
               return Either.left(t.itemIsRequired(t.siteId));
+            case 'required: siteName':
+              return Either.left(t.itemIsRequired(t.siteName));
             case 'required: name':
-              return Either.left(t.itemIsRequired(t.subscriberName));
+              return Either.left(t.itemIsRequired(t.fullName));
             case 'required: email':
-              return Either.left(t.itemIsRequired(t.subscriberEmail));
+              return Either.left(t.itemIsRequired(t.email));
             case 'required: zip':
               return Either.left(t.itemIsRequired(t.zip));
-            case 'required: prefecture':
+            case 'required: pref':
               return Either.left(t.itemIsRequired(t.prefecture));
             case 'required: city':
               return Either.left(t.itemIsRequired(t.city));
-            case 'required: address1':
-              return Either.left(t.itemIsRequired(t.address1));
+            case 'required: addr':
+              return Either.left(t.itemIsRequired(t.address));
             case 'required: desc':
               return Either.left(t.itemIsRequired(t.purposeSubscription));
+            case 'too short: desc':
+              return Either.left(t.itemIsDuplicated(t.siteId));
+            case 'invalid: siteId':
+              return Either.left(t.itemIsInvalid(t.siteId));
+            case 'invalid: email':
+              return Either.left(t.itemIsInvalid(t.email));
+            case 'invalid: tel':
+              return Either.left(t.itemIsInvalid(t.tel));
+            case 'invalid: zip':
+              return Either.left(t.itemIsInvalid(t.zip));
             case 'duplicate: site':
               return Either.left(t.itemIsDuplicated(t.siteId));
+            case 'too many request from: email':
+              return Either.left(t.itemIsDuplicated(t.siteId));
             default:
-              if (result.data.toString().startsWith('too many requests')) {
-                final from = result.data.toString().split(':').last.trim();
-                return Either.left(t.tooManyRequestsFrom(from));
-              } else {
-                return Either.left(t.systemError(t.unknown));
-              }
+              return Either.left(t.systemError(t.unknown));
           }
         } on FirebaseFunctionsException catch (e, s) {
           debugPrint(e.code);

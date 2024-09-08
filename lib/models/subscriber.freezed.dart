@@ -17,18 +17,17 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Subscriber {
   String get id => throw _privateConstructorUsedError;
-  String get site => throw _privateConstructorUsedError;
+  String get siteId => throw _privateConstructorUsedError;
+  String get siteName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get tel => throw _privateConstructorUsedError;
   String get zip => throw _privateConstructorUsedError;
-  String get prefecture => throw _privateConstructorUsedError;
+  String get pref => throw _privateConstructorUsedError;
   String get city => throw _privateConstructorUsedError;
-  String get address1 => throw _privateConstructorUsedError;
-  String get address2 => throw _privateConstructorUsedError;
+  String get addr => throw _privateConstructorUsedError;
+  String get bldg => throw _privateConstructorUsedError;
   String get desc => throw _privateConstructorUsedError;
-  String get managerName => throw _privateConstructorUsedError;
-  String get managerEmail => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get createdBy => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
@@ -57,18 +56,17 @@ abstract class $SubscriberCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String site,
+      String siteId,
+      String siteName,
       String name,
       String email,
       String tel,
       String zip,
-      String prefecture,
+      String pref,
       String city,
-      String address1,
-      String address2,
+      String addr,
+      String bldg,
       String desc,
-      String managerName,
-      String managerEmail,
       DateTime createdAt,
       String createdBy,
       DateTime updatedAt,
@@ -99,18 +97,17 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
   @override
   $Res call({
     Object? id = null,
-    Object? site = null,
+    Object? siteId = null,
+    Object? siteName = null,
     Object? name = null,
     Object? email = null,
     Object? tel = null,
     Object? zip = null,
-    Object? prefecture = null,
+    Object? pref = null,
     Object? city = null,
-    Object? address1 = null,
-    Object? address2 = null,
+    Object? addr = null,
+    Object? bldg = null,
     Object? desc = null,
-    Object? managerName = null,
-    Object? managerEmail = null,
     Object? createdAt = null,
     Object? createdBy = null,
     Object? updatedAt = null,
@@ -129,9 +126,13 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      site: null == site
-          ? _value.site
-          : site // ignore: cast_nullable_to_non_nullable
+      siteId: null == siteId
+          ? _value.siteId
+          : siteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      siteName: null == siteName
+          ? _value.siteName
+          : siteName // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -149,33 +150,25 @@ class _$SubscriberCopyWithImpl<$Res, $Val extends Subscriber>
           ? _value.zip
           : zip // ignore: cast_nullable_to_non_nullable
               as String,
-      prefecture: null == prefecture
-          ? _value.prefecture
-          : prefecture // ignore: cast_nullable_to_non_nullable
+      pref: null == pref
+          ? _value.pref
+          : pref // ignore: cast_nullable_to_non_nullable
               as String,
       city: null == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      address1: null == address1
-          ? _value.address1
-          : address1 // ignore: cast_nullable_to_non_nullable
+      addr: null == addr
+          ? _value.addr
+          : addr // ignore: cast_nullable_to_non_nullable
               as String,
-      address2: null == address2
-          ? _value.address2
-          : address2 // ignore: cast_nullable_to_non_nullable
+      bldg: null == bldg
+          ? _value.bldg
+          : bldg // ignore: cast_nullable_to_non_nullable
               as String,
       desc: null == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
-              as String,
-      managerName: null == managerName
-          ? _value.managerName
-          : managerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      managerEmail: null == managerEmail
-          ? _value.managerEmail
-          : managerEmail // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -239,18 +232,17 @@ abstract class _$$SubscriberImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String site,
+      String siteId,
+      String siteName,
       String name,
       String email,
       String tel,
       String zip,
-      String prefecture,
+      String pref,
       String city,
-      String address1,
-      String address2,
+      String addr,
+      String bldg,
       String desc,
-      String managerName,
-      String managerEmail,
       DateTime createdAt,
       String createdBy,
       DateTime updatedAt,
@@ -279,18 +271,17 @@ class __$$SubscriberImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? site = null,
+    Object? siteId = null,
+    Object? siteName = null,
     Object? name = null,
     Object? email = null,
     Object? tel = null,
     Object? zip = null,
-    Object? prefecture = null,
+    Object? pref = null,
     Object? city = null,
-    Object? address1 = null,
-    Object? address2 = null,
+    Object? addr = null,
+    Object? bldg = null,
     Object? desc = null,
-    Object? managerName = null,
-    Object? managerEmail = null,
     Object? createdAt = null,
     Object? createdBy = null,
     Object? updatedAt = null,
@@ -309,9 +300,13 @@ class __$$SubscriberImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      site: null == site
-          ? _value.site
-          : site // ignore: cast_nullable_to_non_nullable
+      siteId: null == siteId
+          ? _value.siteId
+          : siteId // ignore: cast_nullable_to_non_nullable
+              as String,
+      siteName: null == siteName
+          ? _value.siteName
+          : siteName // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -329,33 +324,25 @@ class __$$SubscriberImplCopyWithImpl<$Res>
           ? _value.zip
           : zip // ignore: cast_nullable_to_non_nullable
               as String,
-      prefecture: null == prefecture
-          ? _value.prefecture
-          : prefecture // ignore: cast_nullable_to_non_nullable
+      pref: null == pref
+          ? _value.pref
+          : pref // ignore: cast_nullable_to_non_nullable
               as String,
       city: null == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
               as String,
-      address1: null == address1
-          ? _value.address1
-          : address1 // ignore: cast_nullable_to_non_nullable
+      addr: null == addr
+          ? _value.addr
+          : addr // ignore: cast_nullable_to_non_nullable
               as String,
-      address2: null == address2
-          ? _value.address2
-          : address2 // ignore: cast_nullable_to_non_nullable
+      bldg: null == bldg
+          ? _value.bldg
+          : bldg // ignore: cast_nullable_to_non_nullable
               as String,
       desc: null == desc
           ? _value.desc
           : desc // ignore: cast_nullable_to_non_nullable
-              as String,
-      managerName: null == managerName
-          ? _value.managerName
-          : managerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      managerEmail: null == managerEmail
-          ? _value.managerEmail
-          : managerEmail // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -414,18 +401,17 @@ class __$$SubscriberImplCopyWithImpl<$Res>
 class _$SubscriberImpl implements _Subscriber {
   const _$SubscriberImpl(
       {required this.id,
-      required this.site,
+      required this.siteId,
+      required this.siteName,
       required this.name,
       required this.email,
       required this.tel,
       required this.zip,
-      required this.prefecture,
+      required this.pref,
       required this.city,
-      required this.address1,
-      required this.address2,
+      required this.addr,
+      required this.bldg,
       required this.desc,
-      required this.managerName,
-      required this.managerEmail,
       required this.createdAt,
       required this.createdBy,
       required this.updatedAt,
@@ -442,7 +428,9 @@ class _$SubscriberImpl implements _Subscriber {
   @override
   final String id;
   @override
-  final String site;
+  final String siteId;
+  @override
+  final String siteName;
   @override
   final String name;
   @override
@@ -452,19 +440,15 @@ class _$SubscriberImpl implements _Subscriber {
   @override
   final String zip;
   @override
-  final String prefecture;
+  final String pref;
   @override
   final String city;
   @override
-  final String address1;
+  final String addr;
   @override
-  final String address2;
+  final String bldg;
   @override
   final String desc;
-  @override
-  final String managerName;
-  @override
-  final String managerEmail;
   @override
   final DateTime createdAt;
   @override
@@ -492,7 +476,7 @@ class _$SubscriberImpl implements _Subscriber {
 
   @override
   String toString() {
-    return 'Subscriber(id: $id, site: $site, name: $name, email: $email, tel: $tel, zip: $zip, prefecture: $prefecture, city: $city, address1: $address1, address2: $address2, desc: $desc, managerName: $managerName, managerEmail: $managerEmail, createdAt: $createdAt, createdBy: $createdBy, updatedAt: $updatedAt, updatedBy: $updatedBy, deletedAt: $deletedAt, deletedBy: $deletedBy, approvedAt: $approvedAt, approvedBy: $approvedBy, rejectedAt: $rejectedAt, rejectedBy: $rejectedBy, completedAt: $completedAt, completedBy: $completedBy)';
+    return 'Subscriber(id: $id, siteId: $siteId, siteName: $siteName, name: $name, email: $email, tel: $tel, zip: $zip, pref: $pref, city: $city, addr: $addr, bldg: $bldg, desc: $desc, createdAt: $createdAt, createdBy: $createdBy, updatedAt: $updatedAt, updatedBy: $updatedBy, deletedAt: $deletedAt, deletedBy: $deletedBy, approvedAt: $approvedAt, approvedBy: $approvedBy, rejectedAt: $rejectedAt, rejectedBy: $rejectedBy, completedAt: $completedAt, completedBy: $completedBy)';
   }
 
   @override
@@ -501,23 +485,18 @@ class _$SubscriberImpl implements _Subscriber {
         (other.runtimeType == runtimeType &&
             other is _$SubscriberImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.site, site) || other.site == site) &&
+            (identical(other.siteId, siteId) || other.siteId == siteId) &&
+            (identical(other.siteName, siteName) ||
+                other.siteName == siteName) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.tel, tel) || other.tel == tel) &&
             (identical(other.zip, zip) || other.zip == zip) &&
-            (identical(other.prefecture, prefecture) ||
-                other.prefecture == prefecture) &&
+            (identical(other.pref, pref) || other.pref == pref) &&
             (identical(other.city, city) || other.city == city) &&
-            (identical(other.address1, address1) ||
-                other.address1 == address1) &&
-            (identical(other.address2, address2) ||
-                other.address2 == address2) &&
+            (identical(other.addr, addr) || other.addr == addr) &&
+            (identical(other.bldg, bldg) || other.bldg == bldg) &&
             (identical(other.desc, desc) || other.desc == desc) &&
-            (identical(other.managerName, managerName) ||
-                other.managerName == managerName) &&
-            (identical(other.managerEmail, managerEmail) ||
-                other.managerEmail == managerEmail) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.createdBy, createdBy) ||
@@ -548,18 +527,17 @@ class _$SubscriberImpl implements _Subscriber {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
-        site,
+        siteId,
+        siteName,
         name,
         email,
         tel,
         zip,
-        prefecture,
+        pref,
         city,
-        address1,
-        address2,
+        addr,
+        bldg,
         desc,
-        managerName,
-        managerEmail,
         createdAt,
         createdBy,
         updatedAt,
@@ -586,18 +564,17 @@ class _$SubscriberImpl implements _Subscriber {
 abstract class _Subscriber implements Subscriber {
   const factory _Subscriber(
       {required final String id,
-      required final String site,
+      required final String siteId,
+      required final String siteName,
       required final String name,
       required final String email,
       required final String tel,
       required final String zip,
-      required final String prefecture,
+      required final String pref,
       required final String city,
-      required final String address1,
-      required final String address2,
+      required final String addr,
+      required final String bldg,
       required final String desc,
-      required final String managerName,
-      required final String managerEmail,
       required final DateTime createdAt,
       required final String createdBy,
       required final DateTime updatedAt,
@@ -614,7 +591,9 @@ abstract class _Subscriber implements Subscriber {
   @override
   String get id;
   @override
-  String get site;
+  String get siteId;
+  @override
+  String get siteName;
   @override
   String get name;
   @override
@@ -624,19 +603,15 @@ abstract class _Subscriber implements Subscriber {
   @override
   String get zip;
   @override
-  String get prefecture;
+  String get pref;
   @override
   String get city;
   @override
-  String get address1;
+  String get addr;
   @override
-  String get address2;
+  String get bldg;
   @override
   String get desc;
-  @override
-  String get managerName;
-  @override
-  String get managerEmail;
   @override
   DateTime get createdAt;
   @override
